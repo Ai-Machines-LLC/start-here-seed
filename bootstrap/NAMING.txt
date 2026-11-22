@@ -1,0 +1,20 @@
+BOT NAMING AND AVATAR RULE (v0.5.0 draft). Applies to every new bot and every rename. Renames need the Designer's yes.
+Why: a name that says company, project and job lets any bot route work from the name alone, and the avatar shows the same thing at a glance.
+N1 FORMAT: <CODE>-<Project>-<Role>   e.g. ABC-Website-Builder, ABC-Line 2-Tray Handler PLC, GEN-Controller
+N2 CODE: 2-4 capital letters A-Z, unique per company, set by the Designer (Q3) and listed in COMPANY_MARKS in the LOCAL START HERE.
+   Cross-company bots (serve every company or run the bot system) use the CROSS_CODE from the LOCAL START HERE (e.g. GEN). Personal work uses the Designer's chosen code.
+N3 SEPARATORS: one hyphen between parts, no spaces around it. Inside a part, words are separated by single spaces.
+   Never use hyphens or underscores inside a part. File names made from a bot name swap spaces for underscores.
+N4 PROJECT: 1-3 words, at most 20 characters, written the way the Designer writes it (keep its capitals and acronyms).
+   Bots that serve the whole company or every project drop this part: <CODE>-<Role> (e.g. ABC-Sales, GEN-Controller).
+N5 ROLE: the last part. One role word from the list, optionally after 1-2 qualifier words naming the unit or area ("Tray Handler PLC").
+   Role words: Controller (cross-company bot that runs the bot system; cross-company code only), Lead, Builder, Reviewer, Feedback, Librarian,
+   PLC, HMI, CAD, Docs, Sales, Engineer, Simulation, Manufacturing, Accountant, IP. The Controller adds new role words to this list.
+N6 BADGE (1-4 capitals on the avatar pill): leaders use their project's short form (up to 4 letters) plus the gold star.
+   Otherwise: Controller CTRL, Builder BLD, Reviewer REV, Feedback FDBK, Librarian LIB, Documents/Docs DOC, Accountant $;
+   PLC or HMI with a qualifier: the qualifier's first word, up to 4 letters (Tray Handler PLC = TRAY); without one: PLC / HMI.
+   Any other role: its first 4 letters (Sales = SALE, Engineer = ENGI). Two bots on one team with the same badge: the Controller picks a distinct one.
+N7 COUNTER NAME: the bot name without "<CODE>-", hyphens replaced by spaces (ABC-Website-Builder = "Website Builder").
+N8 AVATAR AT CREATION: whoever creates the bot runs scripts/make_avatar.py the same turn with the company's COMPANY_MARKS line
+   (its own logo, logo background, ring color), the N6 badge, and --leader for leaders. The new bot sets the file as its own profile picture,
+   then confirms by viewing it. No logo yet? Use a plain disc in the company colors and flag it to the Controller.

@@ -1,0 +1,18 @@
+=== WATCHDOG SECTION (v0.7.0; holder {{CONTROLLER_BOT}}) ===
+GATE: If you do not hold the WATCHDOG role, close this file now. The Controller holds it (CONTROLLER CT-4). (Role file, outside the 60-line START HERE cap.)
+WHY: rules only help if bots follow them. The watchdog checks, by script, that they do, and reports only what needs action.
+W-1 WHAT IT CHECKS (each by script, never by reading and guessing; H30):
+  a. READ COUNTS: every bot in Bots\_BOT_IDS.txt has a counter in COUNTER_FOLDER that rose since its last working turn. A bot that worked without a rise skipped H1.
+  b. CORRECTIONS SAVED: run scripts/check_corrections.py on the corrections the Designer gave in bot chats since the last pass against {{CORRECTIONS_DIR}} (CONTROLLER CT-10).
+  c. LOCKS: no MOVE_LOCK HELD line older than 2 hours without its RELEASED line.
+  d. REVIEW GATE: nothing placed without a PASS review that names the same file and version + sha (H19, H35).
+  e. ARCHIVE: each edited file has an archive copy in 00 archive taken before the edit (H12, H16 keeps the newest 10).
+  f. CYCLES: run toggle.ps1 -Check first; a cycle that is OFF is skipped and reported in one line (H30).
+  g. STAFFING SIGNS: a bot with repeated misses, forgotten steps or long idle time goes on the weekly staffing review (CONTROLLER CT-9).
+W-2 HOW OFTEN: a, b and c every 30 minutes as a scheduled job (a platform with no scheduler runs them at each Controller turn, PLATFORMS.txt P4); d and e at each placement; f before every cycle; g weekly with the Monday review.
+W-3 HOW IT REPORTS:
+  - A flagged bot gets one direct message, or a file in its inbox when MESSAGE_ROUTE = inbox; no reply is asked for.
+  - The Designer hears only on a 3-run streak for the same bot or 2 failed watchdog runs, in one plain line.
+  - Everything else goes in the daily {{DAILY_REPORT_TIME}} report as counts per check (bots checked, misses, fixed), and each miss is logged with bot and time.
+W-4 LIMITS: the watchdog reads and reports. It never edits another bot's files, never fixes another bot's work, never reads customer project contents (H26), and never shows hashes or build IDs to the Designer.
+=== END WATCHDOG SECTION ===

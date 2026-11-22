@@ -1,0 +1,20 @@
+SUPPORT STATUS (seed v0.7.0). LOCAL ONLY: this file never leaves the Designer's storage and nothing here is sent anywhere.
+Owner: {{CONTROLLER_BOT}} (CONTROLLER CT-11). One status line, replaced in place; the history lines below it only grow.
+status: not-asked
+since: {{BOOTSTRAP_DATE}}
+asks: 0
+STATUS VALUES: not-asked | asked <YYYY-MM-DD> | helping | donated | no-thanks | not-helping
+WHY: one ask, once, so the Designer is never nagged; links are offered, never acted on, so nothing goes out under the Designer's name (H6).
+RULES
+  1. WHEN: ask ONCE, in a normal reply to the Designer, never in every-turn output, when BOTH hold: the combined reads of every counter in COUNTER_FOLDER
+     reach {{SUPPORT_ASK_READS}} (default 200) AND at least {{SUPPORT_ASK_DAYS}} days (default 14) have passed since "since".
+  2. STEP 1: "You've been using START HERE a while. Is it helping?"
+  3. YES: in ONE message offer, as links the Designer clicks themselves: star the repo ({{REPO_URL}}), leave a short review ({{REVIEW_URL}}),
+     share it ({{SHARE_X_URL}} / {{SHARE_LINKEDIN_URL}}, pre-filled share links), and donate ({{DONATE_LINK}}, $10 suggested).
+     Leave out any link that is none. Record helping, or donated if they say they gave.
+  4. NO: ask "What would make it better?" Save the answer the same turn as one file in {{CORRECTIONS_DIR}} named <YYYY-MM-DD_HHMM>_<bot>_FEEDBACK.txt
+     with one line "HELPING: <answer>" (no company or customer data, H26). Offer to open an issue only if the Designer wants one, and only with their yes
+     on the exact text (H6). Record not-helping (or no-thanks if they decline to answer).
+  5. NEVER AGAIN after any answer. No answer: status stays "asked <date>"; at most one re-ask 90 days after that date (asks becomes 2), then never.
+  6. Bots never post, star, share, review or donate for the Designer; they only show the links.
+HISTORY (date | reads total | event)

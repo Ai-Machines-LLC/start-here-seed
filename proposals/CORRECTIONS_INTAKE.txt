@@ -1,0 +1,33 @@
+PROPOSAL - PENDING APPROVAL - OFF BY DEFAULT (rev 0.7.1 draft). P1-P7 run only after the Designer says yes; P8-P14 are APPROVED-DORMANT (see below).
+Private correction intake: users' bots may send generic corrections to the seed team so every user's seed improves.
+Why: the same missing rule bites every team; one scrubbed report fixes it for all of them, without exposing anyone's work.
+P1 READ-ONLY SEED, WRITE-ONLY INTAKE: the seed repo is read-only for users. Corrections go to a private intake (a private
+   repo or form) that only the seed's START HERE team can read. Senders can submit but cannot read the intake. Never public issues.
+P2 OPT-IN: each user turns it on in their LOCAL START HERE (UPSTREAM_CORRECTIONS on; default off; Q17). Off = nothing leaves.
+P3 LOCAL STAYS LOCAL: the user's own corrections log never leaves their storage. Only a rewritten, generic version is sent.
+P4 SCRUB FIRST: before sending, the bot saves the text to a file and runs scripts/scrub_check.sh on it with the user's denylist.
+   It removes names, companies, customers, secrets, IDs and paths. Any FAIL = do not send; log it locally instead.
+P5 RECORD: one entry per correction with: exact correction (scrubbed) | missing or unclear rule (file and line) | proposed fix | seed rev.
+P6 TRIAGE: the START HERE team owns the shared page and uses every correction to improve it; it marks each entry OPEN,
+   FIXED <version> or WONTFIX <why>, tests, reviews (H19) and commits. Users see only the fix notes in CHANGELOG.md.
+P7 No intake is created and nothing is sent anywhere without the Designer's yes.
+ACTIVE USERS CHECK-IN: APPROVED-DORMANT (the Designer, 2:06 PM: "Approve the active-users plan; keep it off until the repo is public under the new LLC"). No form, no ping and no install ID until the seed repo is public under the new LLC; switching it on still needs the Designer's yes on the exact form and wording (H6). (Asked for by the Designer 1:55 PM: "keep track of the number of active users of this platform"):
+P8 OPT-IN INSTALL ID: when a user turns on the check-in in their LOCAL START HERE (SEED_CHECKIN on; default off), their bot makes one random install ID
+   (a UUID, not tied to any name, email, account, company or machine) and keeps it in LOCAL. Off = no ID is made and nothing is sent.
+P9 WHAT IS SENT: only install ID | seed rev | date, once a week, plus the install ID on each scrubbed correction (P4) and feedback answer.
+   Never company, customer, project or personal data (H5, H26); the P4 scrub runs on every send.
+   Note: the ID links all of one install's corrections and answers together (pseudonymous, not anonymous). The team uses it only
+   for counting and duplicate merging, never to profile a sender; the user can reset the ID or turn the check-in off at any time.
+P10 ACTIVE USERS = distinct install IDs seen in the last 30 days. The START HERE team counts them by script and reports the number
+   with each seed rev. Counts only; no per-ID history is shown to anyone outside the team.
+P11 WRITE-ONLY INTAKE WE OWN, FREE TOOLS ONLY (H6): GitHub has no write-only role (every repo access level, even Read, can read),
+   so outside users cannot be given direct submit rights to a private repo. Option A (recommended): a free form endpoint we own
+   (e.g. Microsoft Forms on our account) where senders submit but cannot see responses; the team exports responses into a private
+   intake repo (or 04 Logs) for triage and counting. Option B: a private intake repo that only the team can read, filled by a
+   team-run script from Option A; senders never get repo access. Either way senders can write but never read.
+P12 WHY NOT PUBLIC ISSUES: anyone can read them, so corrections and install IDs would be public; that breaks the 1:42 PM
+   write-only rule and H26. Public Discussions have the same problem.
+P13 WHAT GITHUB TRAFFIC GIVES (free, needs push access): clones and views for the last 14 days only, total and unique, plus
+   top referrers and popular content. A clone is not an active user (CI, forks and one-time looks count; one user may clone many
+   times), so Traffic is a rough reach signal only, not the active-user count.
+P14 DORMANT: nothing in P8-P13 is built, no intake or form is created, and no ID is made or sent until the repo is public under the new LLC AND the Designer says yes to the exact form and wording.

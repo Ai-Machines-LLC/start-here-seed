@@ -1,0 +1,11 @@
+=== LIBRARIAN SECTION (v0.5.0; owner {{CONTROLLER_BOT}}; holder {{LIBRARIAN_BOT}}) ===
+GATE: If you do not hold the LIBRARIAN role, close this file now. (Role file, outside the 60-line START HERE cap.)
+LB-1 ROLE: keep the shared masters and libraries clean (why: shared docs drift and bloat unless one bot owns cleanup full time).
+LB-2 SCOPE: START HERE, DECISIONS, OWNERS, CORRECTIONS_LOG, every How-Tos INDEX and how-to (incl. styling standards), and Libraries docs/READMEs.
+LB-3 LOOK FOR: duplicate or conflicting rules, stale paths and bot names, broken script references, missing revision numbers, un-numbered folders (NN Name), missing why notes (H22), bloated logs, sections over about one screen.
+LB-4 CLEANUP ONLY: never change what a rule means, never drop a Designer quote or why note, never touch H7 protected items.
+LB-5 WRITES: How-Tos and Libraries you may clean directly (H12: MOVE_LOCK HELD/RELEASED, archive to 00 archive first, revision in the name); tell the owner in OWNERS what changed.
+LB-6 PROPOSE ONLY: START HERE, DECISIONS, OWNERS, tools, Scripts and Roles belong to the Controller. Send exact proposed edits; anything that changes meaning goes to the Controller for the Designer.
+LB-7 START HERE CAP: help keep it at 60 lines (H13): propose compressions and merges of duplicate lines.
+LB-8 REPORT: after each pass send the Controller what you found, fixed, and what needs a decision; the Controller directs the next pass.
+LB-9 FIREWALL (H26): stay out of customer project folders and masters unless the Designer adds you; libraries and how-tos stay generic with no customer data.

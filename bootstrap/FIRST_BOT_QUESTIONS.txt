@@ -1,0 +1,23 @@
+FIRST-BOT QUESTIONS (v0.7.0). The bootstrap bot asks these in order, ONE at a time, and writes each answer
+into DECISIONS.txt with the Designer's exact words and time. Skip a question only when an earlier answer settles it.
+SUPPORT: never asked during setup. The Controller asks once later, local only, per bootstrap/SUPPORT_STATUS.template.txt.
+Q0  Which AI platform(s) will run your bots, and can bots there message each other directly? (seed PLATFORMS.txt; no direct messages = shared inbox folder)  -> {{PLATFORM}}, MESSAGE_ROUTE (direct or inbox)
+Q1  What should I call you in the rules? (default: "the Designer")  -> fills nothing; rules always say "the Designer"
+Q2  What time zone do you work in?  -> {{TIMEZONE}}
+Q3  Which companies or areas must stay apart (one bot team or folder each)? Include "Personal" if wanted. Give each a 2-4 letter code, plus one code for cross-company bots (NAMING.txt N2).  -> {{COMPANIES}}, {{CROSS_CODE}}
+Q4  Where should shared files live: which cloud drive or folder per company, and which machine path is the working root?  -> {{STORAGE_MAP}}, {{WORKING_ROOT}}
+Q5  Where will your LOCAL START HERE live, so every bot can read it with no PC turned on?  -> {{START_HERE_LOCATION}}, {{COUNTER_FOLDER}}, {{ROLES_FOLDER}}
+Q6  Which file encoding do your shared text docs use? (default UTF-8)  -> {{ENCODING_RULE}}
+Q7  What are your first projects? For each: company, one-line goal, and who leads it.  -> project folders + Master docs
+Q8  Which bots exist now, and which should I create? For each: name (<CODE>-<Project>-<Role>, bootstrap/NAMING.txt), company, role (leader, worker, reviewer).  -> OWNERS.txt, counters, {{LEADER_LIST}}
+Q9  Which bot is the Controller (owns START HERE, DECISIONS, OWNERS, tools), and should there be a librarian (no = none)?  -> {{CONTROLLER_BOT}}, {{LIBRARIAN_BOT}}
+Q10 What must never be deleted or edited without your direct order (finance, legal, IP, signed deliverables, live data)?  -> {{PROTECTED_AREAS}}
+Q11 Do any apps own files the bots must never write (time clocks, accounting exports)?  -> {{APP_OWNED_FILES}}
+Q12 What time should the daily workflow report arrive, and are recurring scheduled jobs allowed to run? (they may cost usage; no scheduler on the platform = the Controller runs them at each turn, PLATFORMS.txt P4)  -> {{DAILY_REPORT_TIME}}, CYCLE_STATUS
+Q13 For each company: its logo file, the logo background color and the ring color (R,G,B) for bot avatars? (default rule: NAMING.txt N6-N8)  -> {{COMPANY_MARKS}}, {{AVATAR_RULE}}
+Q14 Do you want the weekly rule-feedback loop (no = "none" for all five; corrections then go to the Controller), and which bot owns it? (it runs only after you ask for it in your own words, F0)  -> {{FEEDBACK_BOT}}, {{FEEDBACK_TRACKER_PATH}}, {{FEEDBACK_CYCLES_PATH}}, {{FEEDBACK_STATE_PATH}}, {{FEEDBACK_SCORECARD_PATH}} (defaults in MANIFEST step 9); {{CONTROLLER_BOT}} from Q9
+Q15 Which names, companies, domains and bot names must never appear in anything published (the seed repo, shared templates)?  -> denylist file kept OUTSIDE any repo (MANIFEST step 10)
+Q16 Which seed repo do your bots read, and through which account or integration (git host login, file-store link or a local clone) do they get read access?  -> {{SEED_REPO}}
+Q17 PENDING APPROVAL (skip until the Designer approves proposals/CORRECTIONS_INTAKE.txt): send scrubbed, generic corrections to the seed team's private intake? Default no.  -> UPSTREAM_CORRECTIONS
+No question for {{CORRECTIONS_DIR}}: it defaults to "03 StartHere_Corrections" beside the LOCAL page (MANIFEST step 2); change it only if the Designer asks.
+After Q16: build MANIFEST steps 1-11, report what exists (verified) vs what's missing, then hand off to the Controller.

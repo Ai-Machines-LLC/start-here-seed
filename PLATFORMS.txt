@@ -1,0 +1,33 @@
+PLATFORMS (v0.7.0). This seed runs on any AI platform that meets P1. Platform names and features appear ONLY in this file.
+Why: the rules describe capabilities ("a shared file store", "message another bot", "a scheduled job"), so a team can move platforms by changing setup, not rules.
+P1 MINIMUM (all required)
+  a. READ AND WRITE SHARED FILES: every bot reads and writes the same folder tree (cloud drive, synced folder, git repo or local disk). Counters, DECISIONS, OWNERS and the LOCAL page live there.
+  b. STANDING INSTRUCTIONS PER BOT: a field the bot reads at the start of every turn (description, system prompt, custom or project instructions). It holds the BOT_DESCRIPTION block.
+  c. PERSISTENT NOTES PER BOT: something that survives between sessions (platform memory, or a notes file per bot in the shared store as the fallback).
+  d. READ THE SEED: a way to read this repo's latest files each turn (repo access, a synced copy, or the SEED_CACHE copy beside the LOCAL page).
+P2 STRONGLY WANTED
+  a. BOT-TO-BOT MESSAGES (MESSAGE_ROUTE = direct).  b. SCHEDULED JOBS (Controller CT-4 monitor, daily report).  c. Running scripts (Python, PowerShell or a shell) for the H9 "scripts when you can" rule.
+P3 NO BOT-TO-BOT MESSAGES (MESSAGE_ROUTE = inbox): one folder per bot under "04 Inbox" beside the LOCAL page. A message is one new file there named
+   <YYYY-MM-DD_HHMM>_<from bot>_TO_<to bot>.txt (_2, _3 when taken; never edited). The receiver reads new files at the start of every turn and answers the same way.
+   The Designer relays wake-ups by opening the bot's chat when the platform cannot wake a bot by itself.
+P4 NO SCHEDULER: the Controller runs each due job at the start of its next turn and logs the run time; the Designer may open the Controller once a day to drive the daily report.
+P5 NO FILE WRITES FROM THE CHAT (upload-only knowledge): pair the platform with a local agent or script runner that can write the shared store, or the platform fails P1a.
+SETUP NOTES (short and generic; check the vendor's current help page, features change. Each claim names its source page.)
+  GROK BOT: one bot per role. Standing instructions in the bot's description; bots share one persistent computer (files, browser logins) and keep separate memories;
+    bots can message each other, including asynchronously (P2a direct); routines run on a schedule or an event (P2b). Shared cloud storage through its connectors.
+    Sources: Grok Bot docs, "How Grok Bot works", "Message and collaborate", "Skills and routines".
+  CHATGPT: one Project (or custom GPT) per bot. Project instructions apply to every chat in the project; project files and chats inform later answers; project-only memory keeps context apart.
+    Scheduled tasks run one-time or recurring work (P2b), but a task made in a project cannot read that project's uploaded files: keep the LOCAL page in a connected source.
+    A project gives no direct access to a folder on your computer: use a connected drive or a local runner for P1a. No bot-to-bot messages: MESSAGE_ROUTE = inbox.
+    Sources: OpenAI Help Center "Projects in ChatGPT", "Memory in ChatGPT", "Scheduled tasks in ChatGPT"; ChatGPT Learn "Projects and chats".
+  CLAUDE: in the Claude apps, one Project per bot: project instructions apply to all chats in it and the project knowledge base is shared across them; context is not shared between chats
+    unless added to project knowledge. In Claude Code, CLAUDE.md is read at the start of every session (standing instructions) and the working folder is the shared store;
+    auto memory keeps notes across sessions (P1c). No bot-to-bot messages: MESSAGE_ROUTE = inbox.
+    Sources: Claude Help Center "How can I create and manage projects?", "Understanding Claude's personalization features"; Claude Code docs "How Claude remembers your project".
+  GEMINI: one skill per bot (a Gem only on work or school accounts until they move to skills); skills hold the instructions and up to 100 MB of files.
+    Scheduled actions run a prompt at a set time or on a daily, weekly or monthly repeat (P2b). No bot-to-bot messages: MESSAGE_ROUTE = inbox.
+    Sources: Gemini Apps Help "Use Gems in Gemini Apps", "About the transition from Gems to skills", "Schedules in Gemini Apps".
+  LOCAL MODEL WITH A FOLDER: a local model runner plus a small script per bot. Put the BOT_DESCRIPTION block in the model's system prompt (for example a Modelfile SYSTEM line),
+    have the script read the shared page, the LOCAL page and the bot's notes file into each turn and write results back to the folder. The operating system's scheduler
+    (cron or Task Scheduler) is P2b; MESSAGE_ROUTE = inbox. Sources: Ollama docs "Modelfile Reference".
+UNLISTED PLATFORM: check P1 a-d; if one is missing, say which in one line and stop before bootstrap.
