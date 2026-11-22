@@ -6,7 +6,7 @@ Q0  Which AI platform(s) will run your bots, and can bots there message each oth
 Q1  What should I call you in the rules? (default: "the Designer")  -> fills nothing; rules always say "the Designer"
 Q2  What time zone do you work in?  -> {{TIMEZONE}}
 Q3  Which companies or areas must stay apart (one bot team or folder each)? Include "Personal" if wanted. Give each a 2-4 letter code, plus one code for cross-company bots (NAMING.txt N2).  -> USER_CONFIG B (COMPANY rows), {{CROSS_CODE}}
-Q4  Where should shared files live: which cloud drive or folder per company, and which machine path is the working root?  -> {{STORAGE_MAP}}, {{WORKING_ROOT}}
+Q4  Where should shared files live: which cloud drive or folder per company, and which folder in that shared store is the working root (not a path on one machine)?  -> {{STORAGE_MAP}}, {{WORKING_ROOT}}
 Q5  Where will your LOCAL START HERE live, so every bot can read it with no PC turned on?  -> {{START_HERE_LOCATION}}, {{COUNTER_FOLDER}}, {{ROLES_FOLDER}}
 Q6  Which file encoding do your shared text docs use? (default UTF-8)  -> {{ENCODING_RULE}}
 Q7  What are your first projects? For each: company, one-line goal, and who leads it.  -> USER_CONFIG G (PROJECT rows); later project folders + Master docs

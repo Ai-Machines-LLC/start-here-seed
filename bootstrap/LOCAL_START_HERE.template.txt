@@ -2,7 +2,7 @@ LOCAL START HERE   (version 1.0.0; owner {{CONTROLLER_BOT}}; current cap 60 line
 WHY TWO LAYERS: the shared rules come from the seed repo every turn, so improvements arrive by themselves. This page holds only what is yours, and the seed never overwrites it.
 EVERY TURN: read the SHARED START HERE first (START_HERE.template.txt in {{SEED_REPO}}, latest version), then this page and USER_CONFIG.txt beside it.
   Repo unreachable? Use "SEED_CACHE START_HERE.txt" beside this page and say so in one line.
-  This page may add or tighten rules, never loosen the shared H1-H35.
+  This page may add or tighten rules, never loosen the shared H1-H41. Every local rule ends with its CHECK (shared H40).
 VALUES: every double-brace NAME placeholder on the shared page, this page and the seed role files means the same-named key in USER_CONFIG.txt beside this page,
   except the support links DONATE_LINK, REPO_URL, REVIEW_URL, SHARE_X_URL and SHARE_LINKEDIN_URL, which the seed owner sets in the repo (README)
   (the one source for this user: bot roster, names, badge look, START HERE and file locations, storage; a role nobody holds = none, and every bot

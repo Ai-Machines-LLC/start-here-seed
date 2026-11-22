@@ -16,7 +16,7 @@ B. COMPANIES AND STORAGE
   COMPANY = BFR | Brightfield Robotics | Brightfield cloud drive | 20 Brightfield
   COMPANY = PER | Personal | personal cloud drive | 90 Personal
   STORAGE_MAP = see COMPANY lines
-  WORKING_ROOT = D:\Work
+  WORKING_ROOT = Maple Lantern cloud drive, "Work"
 
 C. START HERE AND FILE LOCATIONS
   START_HERE_LOCATION = Maple Lantern cloud drive, "09 Bots/LOCAL START HERE.txt" (readable with no machine on)

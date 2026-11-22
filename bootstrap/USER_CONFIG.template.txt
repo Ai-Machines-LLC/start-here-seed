@@ -22,7 +22,7 @@ B. COMPANIES AND STORAGE (one line per company; CROSS_CODE is the code for bots 
   COMPANIES = {{COMPANIES}}                       [Q3; full names, comma-separated, in COMPANY-line order]
   COMPANY = CODE | full name | storage (drive or folder) | working folder under WORKING_ROOT   [Q3, Q4]
   STORAGE_MAP = {{STORAGE_MAP}}                   [Q4; one line per company, or "see COMPANY lines"]
-  WORKING_ROOT = {{WORKING_ROOT}}                 [Q4]
+  WORKING_ROOT = {{WORKING_ROOT}}                 [Q4; a folder in the shared store, never a machine path]
 
 C. START HERE AND FILE LOCATIONS
   START_HERE_LOCATION = {{START_HERE_LOCATION}}   [Q5: storage, path, and how a bot reads it with no machine on]

@@ -1,4 +1,4 @@
-# START HERE Seed (v0.8.0)
+# START HERE Seed (v0.9.3)
 This repository rebuilds a whole team of cooperating AI bots from nothing, on any AI platform that meets the minimum in `PLATFORMS.txt`. Its owner is called "the Designer" (the user).
 You are a bot that was pointed at this README. It is the only entry point: follow it in order.
 
@@ -30,7 +30,7 @@ Skip a question only when an earlier answer settles it. Every `{{PLACEHOLDER}}` 
 
 ## Step 3 - Build
 Do MANIFEST steps 0-11 in order (0 writes USER_CONFIG.txt): LOCAL START HERE, folders, roles, read counters (create YOUR counter first, value 0),
-then `scripts/bootstrap.ps1` for the working root (folders, DECISIONS, OWNERS, _BOT_IDS, MOVE_LOCK, CORRECTIONS_LOG, CHANGE_LOG, logs, scripts).
+then `python3 scripts/bootstrap.py` into a staging folder, uploaded to the working root in the shared store (folders, DECISIONS, OWNERS, _BOT_IDS, MOVE_LOCK, CORRECTIONS_LOG, CHANGE_LOG, logs, scripts).
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
 
 ## Step 4 - Leave BOOTSTRAP MODE
@@ -53,8 +53,8 @@ what exists (verified by reading it back) and what is missing. Then hand off to 
 - `START_HERE.template.txt` - every bot's per-turn page
 - `roles/` - CONTROLLER, WATCHDOG, LEADERS, LIBRARIAN, FEEDBACK role templates
 - `bootstrap/` - MANIFEST, FIRST_BOT_QUESTIONS, USER_CONFIG (template and made-up example), NAMING (bot names and badge pictures), LOCAL_START_HERE, BOT_DESCRIPTION and SUPPORT_STATUS templates
-- `scripts/bootstrap.ps1` - folder tree and control files (never overwrites)
-- `scripts/log_event.ps1`, `scripts/toggle.ps1` - event log and ON/OFF switch the rules call
+- `scripts/bootstrap.py` - folder tree and control files (never overwrites)
+- `scripts/log_event.py`, `scripts/toggle.py` - event log and ON/OFF switch the rules call (Python 3, standard library; run on a downloaded copy, then write back)
 - `proposals/` - ideas PENDING APPROVAL, off by default (private correction intake)
 - `CHANGELOG.md` - fix notes for each seed version (X.Y.Z) (what changed and which correction it closed)
 - `scripts/check_corrections.py` - lists Designer corrections no bot saved as a file (Controller CT-10)

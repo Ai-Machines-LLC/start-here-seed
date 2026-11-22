@@ -1,4 +1,4 @@
-BOOTSTRAP MANIFEST (v0.8.0). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS.
+BOOTSTRAP MANIFEST (v0.9.3). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS.
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
 0 USER_CONFIG: copy bootstrap/USER_CONFIG.template.txt to USER_CONFIG.txt in {{START_HERE_LOCATION}}'s folder and fill every key from the answers
     (blank = the template's default; a role nobody holds = none). Replace each format line (COMPANY, COMPANY_MARKS, BOT, PROJECT) with one filled line per item,
@@ -6,26 +6,26 @@ Each step: check the parent path exists, create, read back, log one line. Never 
 1 LOCAL START HERE: fill bootstrap/LOCAL_START_HERE.template.txt, write to {{START_HERE_LOCATION}}, confirm <= 60 lines. It starts at version 1.0.0; after that the Controller versions it per shared page H35 VERSIONS and archives each version first.
     Every role nobody holds (Q9 no librarian, Q14 no feedback loop, any other unheld role): write "none" for its bot and its paths; that ROLES line is then skipped and nothing is left unfilled.
     Beside it save "SEED_CACHE START_HERE.txt" (a copy of the repo's START_HERE.template.txt; refresh when the repo changes). Never fill or edit the shared page itself.
-2 FOLDERS at {{START_HERE_LOCATION}}'s folder: "00 archive", "01 Roles", "02 Read_Counts", "03 StartHere_Corrections" (= {{CORRECTIONS_DIR}}: one new file per correction, H13; read by the feedback role, audited by the Controller CT-10),
+2 FOLDERS at {{START_HERE_LOCATION}}'s folder: "00 archive", "01 Roles", "02 Read_Counts", "03 StartHere_Corrections" (= {{CORRECTIONS_DIR}}: one new file per correction, H13; read by the feedback role, audited by the Controller CT-10), "05 Badges" (one <bot>.txt per bot: name | avatar file sha256 | time | maker version, shared NAMES AND BADGES),
     and, only if MESSAGE_ROUTE = inbox (Q0), "04 Inbox" with one subfolder per bot (PLATFORMS.txt P3).
-3 ROLES: role text stays in the seed repo (roles/*.template.txt, read live: CONTROLLER, WATCHDOG, LEADERS, LIBRARIAN, FEEDBACK). "01 Roles" ({{ROLES_FOLDER}}) gets LEADER_STATUS.txt and CYCLE_STATUS.txt (empty = all ON) and any local role additions.
+3 ROLES: role text stays in the seed repo (roles/*.template.txt, read live: CONTROLLER, WATCHDOG, LEADERS, LIBRARIAN, FEEDBACK). "01 Roles" ({{ROLES_FOLDER}}) gets LEADER_STATUS.txt and CYCLE_STATUS.txt (empty = all ON), LEADER_PROMOTIONS.txt (header; each line: date time | bot | the Designer's words | ACK or VETO <why>, shared H41) and any local role additions.
 4 READ COUNTERS: one "<counter name>.txt" per bot in "02 Read_Counts", content "0". The bootstrap bot creates its own first and leaves BOOTSTRAP MODE.
-5 WORKING ROOT ({{WORKING_ROOT}}): run scripts/bootstrap.ps1 -Root "<root>" -Companies "<A>,<B>" -TimeZone "{{TIMEZONE}}" -Encoding "<Q6: UTF8 or 1252>". It creates:
+5 WORKING ROOT ({{WORKING_ROOT}}, in the shared store): on your own computer run python3 scripts/bootstrap.py --root "<empty staging folder>" --companies "<A>,<B>" --tz "{{TIMEZONE}}" --encoding "<Q6: UTF8 or 1252>",
+    then upload every "created" path to {{WORKING_ROOT}} through the shared store's file access, skipping any path that already exists there (never overwrite), and read each back. On a synced folder --root is that folder. It creates:
     Bots\00 archive, Bots\01 How-Tos (INDEX.txt), Bots\02 Libraries, Bots\03 tools (git init), Bots\04 Scripts, Bots\05 Logs, Bots\06 Lessons
     Bots\DECISIONS.txt     header; newest first; each line: date time TZ | Designer's exact words | what it decides
     Bots\OWNERS.txt        header; each line: route | owner bot | reviewer bot | leader
     Bots\_BOT_IDS.txt      header; each line: bot name (<CODE>-<Project>-<Role>, NAMING.txt) | bot id | counter name (N7) | company
     Bots\CHANGE_LOG.csv    header: date,bot,path,version,sha256,what,reviewer
-    Bots\05 Logs\EVENTS.csv + METRICS.txt; Bots\04 Scripts gets log_event.ps1 and toggle.ps1 copied from scripts/
+    Bots\05 Logs\EVENTS.csv + METRICS.txt + WATCHDOG_MISSES.csv (header: date,time,bot,rule,miss; WATCHDOG W-1h); Bots\04 Scripts gets log_event.py and toggle.py copied from scripts/
     Bots\MOVE_LOCK.txt     header; each line: date time | bot | HELD or RELEASED | path | reason
     Bots\CORRECTIONS_LOG.csv  header: date,bot,mistake,cause,fix,check_added
     <NN Company>\ per company, each with "00 archive" and "01 Projects"
-    Then on each machine that runs scripts: [Environment]::SetEnvironmentVariable("SEED_ROLES_FOLDER", "<local path of {{ROLES_FOLDER}}>", "User")
 5b SUPPORT: create SUPPORT_STATUS.txt beside the LOCAL page from bootstrap/SUPPORT_STATUS.template.txt (status not-asked, since = today). Local only; nothing is sent anywhere.
 6 PROJECTS: per project from Q7: "<NN Project>\00 archive, 01 Sources, 02 Docs (Master doc), 03 Deliverables, 04 Logs".
 7 BOTS: per USER_CONFIG F row marked planned (Q8), a checklist, then mark the row live: name per bootstrap/NAMING.txt; OWNERS line; _BOT_IDS line; counter file (N7 name); standing instructions (the platform's description,
-    system prompt or custom-instructions field, PLATFORMS.txt) filled from bootstrap/BOT_DESCRIPTION.template.txt (the every-turn H1 block); badge picture made the same turn with scripts/make_avatar.py (N8) and set by the new bot where the platform shows one; if MESSAGE_ROUTE = inbox, its inbox folder (step 2).
-8 SCRIPTS: log_event.ps1 and toggle.ps1 ship with this seed (step 5); make_avatar.py (Pillow) and check_corrections.py and feedback_scorecard.py (standard library) run wherever Python is installed. Not shipped yet: bot_metrics, route_check, confirm_change; rules that name them say "script missing: say so in one line and continue".
+    system prompt or custom-instructions field, PLATFORMS.txt) filled from bootstrap/BOT_DESCRIPTION.template.txt (the every-turn H1 block); badge picture made the same turn with scripts/make_avatar.py (N8) and set by the new bot where the platform shows one, which then writes its 05 Badges file; if MESSAGE_ROUTE = inbox, its inbox folder (step 2).
+8 SCRIPTS: all Python 3, run on the bot's own computer against files downloaded from the shared store and written back (no machine path, no environment variable): bootstrap.py, log_event.py and toggle.py (standard library, step 5), make_avatar.py (Pillow), check_corrections.py and feedback_scorecard.py (standard library). Not shipped yet: bot_metrics, route_check, confirm_change; rules that name them say "script missing: say so in one line and continue".
 9 FEEDBACK (only if Q14 is yes): create, if missing, the four files the FEEDBACK role uses. Defaults when Q14 names no paths:
     {{FEEDBACK_TRACKER_PATH}} = Bots\05 Logs\feedback_tracker.csv, header: id,date,bot,rule_ref,issue,proposal,test_result,status
     {{FEEDBACK_CYCLES_PATH}}  = Bots\05 Logs\feedback_cycles.csv, header: cycle_date,bot,answer

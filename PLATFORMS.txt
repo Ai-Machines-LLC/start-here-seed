@@ -6,7 +6,7 @@ P1 MINIMUM (all required)
   c. PERSISTENT NOTES PER BOT: something that survives between sessions (platform memory, or a notes file per bot in the shared store as the fallback).
   d. READ THE SEED: a way to read this repo's latest files each turn (repo access, a synced copy, or the SEED_CACHE copy beside the LOCAL page).
 P2 STRONGLY WANTED
-  a. BOT-TO-BOT MESSAGES (MESSAGE_ROUTE = direct).  b. SCHEDULED JOBS (Controller CT-4 monitor, daily report).  c. Running scripts (Python, PowerShell or a shell) for the H9 "scripts when you can" rule.
+  a. BOT-TO-BOT MESSAGES (MESSAGE_ROUTE = direct).  b. SCHEDULED JOBS (Controller CT-4 monitor, daily report).  c. Running Python scripts on the bot's own computer for the H9 "scripts when you can" rule (files come from and go back to the shared store; no machine is a source).
 P3 NO BOT-TO-BOT MESSAGES (MESSAGE_ROUTE = inbox): one folder per bot under "04 Inbox" beside the LOCAL page. A message is one new file there named
    <YYYY-MM-DD_HHMM>_<from bot>_TO_<to bot>.txt (_2, _3 when taken; never edited). The receiver reads new files at the start of every turn and answers the same way.
    The Designer relays wake-ups by opening the bot's chat when the platform cannot wake a bot by itself.
@@ -29,5 +29,5 @@ SETUP NOTES (short and generic; check the vendor's current help page, features c
     Sources: Gemini Apps Help "Use Gems in Gemini Apps", "About the transition from Gems to skills", "Schedules in Gemini Apps".
   LOCAL MODEL WITH A FOLDER: a local model runner plus a small script per bot. Put the BOT_DESCRIPTION block in the model's system prompt (for example a Modelfile SYSTEM line),
     have the script read the shared page, the LOCAL page and the bot's notes file into each turn and write results back to the folder. The operating system's scheduler
-    (cron or Task Scheduler) is P2b; MESSAGE_ROUTE = inbox. Sources: Ollama docs "Modelfile Reference".
+    is P2b; MESSAGE_ROUTE = inbox. Sources: Ollama docs "Modelfile Reference".
 UNLISTED PLATFORM: check P1 a-d; if one is missing, say which in one line and stop before bootstrap.
