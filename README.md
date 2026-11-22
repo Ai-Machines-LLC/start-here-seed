@@ -2,7 +2,7 @@
 This repository rebuilds a whole team of cooperating AI bots from nothing, on any AI platform that meets the minimum in `PLATFORMS.txt`. Its owner is called "the Designer" (the user).
 You are a bot that was pointed at this README. It is the only entry point: follow it in order.
 
-For people: you don't create any folders or files by hand. Tell your AI assistant "Read START HERE in this repository (this README) and follow it," then answer its questions: which projects you're working on, where project files get saved, and any project-specific setup. The first bot creates the folders, read counters, role files and everything else itself, and reads each one back.
+For people: you don't create any folders or files by hand. Tell your AI assistant "Read START HERE in this repository (this README) and follow it," then answer its questions: which projects you're working on, where project files get saved, and any project-specific setup. The first bot creates the folders, read counters, role files and everything else itself, and reads each one back. Where a platform can't set its own standing instruction, the bot gives you one short block to paste into its settings.
 
 ## Two layers
 - SHARED (this repo): `START_HERE.template.txt` and `roles/` are generic. Every bot reads the latest version each turn, so improvements reach every system by themselves.
