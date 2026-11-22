@@ -11,7 +11,7 @@ Q5  Where will your LOCAL START HERE live, so every bot can read it with no PC t
 Q6  Which file encoding do your shared text docs use? (default UTF-8)  -> {{ENCODING_RULE}}
 Q7  What are your first projects? For each: company, one-line goal, and who leads it.  -> USER_CONFIG G (PROJECT rows); later project folders + Master docs
 Q8  Which bots exist now, and which should I create? For each: name (<CODE>-<Project>-<Role>, bootstrap/NAMING.txt), company, role (leader, worker, reviewer), its leader and its reviewer.  -> USER_CONFIG F (BOT rows: live or planned), {{LEADER_LIST}}; later OWNERS.txt and counters (MANIFEST step 7)
-Q9  Which bot is the Controller (owns START HERE, DECISIONS, OWNERS, tools), and should there be a librarian (no = none)?  -> {{CONTROLLER_BOT}}, {{LIBRARIAN_BOT}}
+Q9  Which bot is the Controller (owns START HERE, DECISIONS, OWNERS, tools), and should there be a librarian (no = none; then the Controller keeps Libraries\LIBRARY_CHANGES.txt)?  -> {{CONTROLLER_BOT}}, {{LIBRARIAN_BOT}}
 Q10 What must never be deleted or edited without your direct order (finance, legal, IP, signed deliverables, live data)?  -> {{PROTECTED_AREAS}}
 Q11 Do any apps own files the bots must never write (time clocks, accounting exports)?  -> {{APP_OWNED_FILES}}
 Q12 What time should the daily workflow report arrive, and are recurring scheduled jobs allowed to run? (they may cost usage; no scheduler on the platform = the Controller runs them at each turn, PLATFORMS.txt P4)  -> {{DAILY_REPORT_TIME}}, CYCLE_STATUS

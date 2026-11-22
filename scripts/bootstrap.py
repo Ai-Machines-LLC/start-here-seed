@@ -31,9 +31,12 @@ def main():
 
     bots = os.path.join(a.root, "Bots")
     new_dir(bots)
-    for d in ["00 archive", "01 How-Tos", "02 Libraries", "03 tools", "04 Scripts", "05 Logs", "06 Lessons"]:
+    for d in ["00 archive", "01 How-Tos", "Libraries", "03 tools", "04 Scripts", "05 Logs", "06 Lessons"]:
         new_dir(os.path.join(bots, d))
     J = lambda *p: os.path.join(bots, *p)
+    new_dir(J("Libraries", "_suggested"))
+    new_file(J("Libraries", "LIBRARY_CHANGES.txt"), "LIBRARY_CHANGES (owner: the librarian, or the Controller when there is none). Only LIVE entries: non-author review PASS, X.Y.0, sha. Never STAGED, PENDING or LINK-TBD. Leaders work from this list.\n"
+             f"FORMAT: library | version | sha256 | Reviewer PASS | category | placed {a.tz} | what changed")
     new_file(J("01 How-Tos", "INDEX.txt"), "HOW-TOS INDEX (one line per how-to: file | what it covers | owner)")
     new_file(J("DECISIONS.txt"), f"DECISIONS (newest first). date time {a.tz} | Designer's exact words | what it decides")
     new_file(J("OWNERS.txt"), "OWNERS. route | owner bot | reviewer bot | leader")

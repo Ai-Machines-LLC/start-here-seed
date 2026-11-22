@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# scrub_check.sh (v0.7.0) - FAILS if the seed holds secrets or anything specific to one owner.
+# scrub_check.sh (v0.7.2) - FAILS if the seed holds secrets or anything specific to one owner.
 # Why: the seed must rebuild a bot system for anyone, so it may carry no names, companies, emails, domains,
 # user paths, IDs or customer terms. Owner-specific terms live in a denylist OUTSIDE the repo (one
 # case-sensitive regex per line), passed as $1. Usage: scripts/scrub_check.sh /path/to/denylist.txt [dir]
@@ -12,9 +12,13 @@ pat_domain='(https?://|www\.)[^[:space:]]+|\b[a-z0-9-]+(\.[a-z0-9-]+)*\.(com|net
 pat_path='[A-Za-z]:\\Users\\[^\\[:space:]]+|/(home|Users)/[A-Za-z0-9._-]+'
 pat_guid='\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b'
 pat_secret='(password|passwd|secret|api[_-]?key|token)[[:space:]]*[:=][[:space:]]*[^[:space:]{]|BEGIN [A-Z ]*PRIVATE KEY'
-for name in email domain path guid secret; do
+# repo-root libraries/ entries are link-out pages to public vendor manuals, so URLs/domains are allowed there only
+# (v0.7.2: the whole tree is scanned and only "$root/libraries/" hits are dropped; a nested libraries/ folder still fails)
+for name in email path guid secret; do
   var="pat_$name"; if scan -i "${!var}"; then echo "FAIL generic:$name"; fail=1; fi
 done
+out=$(scan -i "$pat_domain" | grep -v "^$root/libraries/")
+if [ -n "$out" ]; then printf '%s\n' "$out"; echo "FAIL generic:domain"; fail=1; fi
 # 2 denylist (names, companies, bot names, customer terms) kept outside the repo
 if [ -z "$deny" ] || [ ! -f "$deny" ]; then echo "FAIL denylist missing (pass its path as \$1)"; fail=1
 elif scan -f <(grep -v '^[[:space:]]*\(#\|$\)' "$deny"); then echo "FAIL denylist"; fail=1; fi
