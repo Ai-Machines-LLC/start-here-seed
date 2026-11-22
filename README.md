@@ -2,6 +2,8 @@
 This repository rebuilds a whole team of cooperating AI bots from nothing, on any AI platform that meets the minimum in `PLATFORMS.txt`. Its owner is called "the Designer" (the user).
 You are a bot that was pointed at this README. It is the only entry point: follow it in order.
 
+For people: you don't create any folders or files by hand. Tell your AI assistant "Read START HERE in this repository (this README) and follow it," then answer its questions: which projects you're working on, where project files get saved, and any project-specific setup. The first bot creates the folders, read counters, role files and everything else itself, and reads each one back.
+
 ## Two layers
 - SHARED (this repo): `START_HERE.template.txt` and `roles/` are generic. Every bot reads the latest version each turn, so improvements reach every system by themselves.
 - LOCAL (the user's own storage): a short LOCAL START HERE made from `bootstrap/LOCAL_START_HERE.template.txt`. It holds that user's values, owners, projects, counters and company rules. Bootstrap creates it; the seed never overwrites it.
@@ -44,7 +46,7 @@ what exists (verified by reading it back) and what is missing. Then hand off to 
 
 ## How to give this to a new person's bots
 1. The Designer gives the new person read access to this repository (they never get write access).
-2. The new person points their first bot at this README. It runs BOOTSTRAP MODE and builds their LOCAL layer in their own storage.
+2. The new person tells their first bot to read this README and answers its questions; they create nothing by hand. The bot runs BOOTSTRAP MODE and builds their LOCAL layer, folders, counters and files in their own storage.
 3. Their bots read the shared pages here every turn, so later improvements reach them by themselves. Their local page stays theirs.
 4. Their improvements come back as suggestions only (see CONTRIBUTING.md).
 

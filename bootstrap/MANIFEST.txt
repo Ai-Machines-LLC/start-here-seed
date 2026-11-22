@@ -1,4 +1,4 @@
-BOOTSTRAP MANIFEST (v0.9.3). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS.
+BOOTSTRAP MANIFEST (v0.9.3). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS; the Designer only answers the questions and creates nothing by hand.
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
 0 USER_CONFIG: copy bootstrap/USER_CONFIG.template.txt to USER_CONFIG.txt in {{START_HERE_LOCATION}}'s folder and fill every key from the answers
     (blank = the template's default; a role nobody holds = none). Replace each format line (COMPANY, COMPANY_MARKS, BOT, PROJECT) with one filled line per item,
@@ -10,7 +10,7 @@ Each step: check the parent path exists, create, read back, log one line. Never 
     and, only if MESSAGE_ROUTE = inbox (Q0), "04 Inbox" with one subfolder per bot (PLATFORMS.txt P3).
 3 ROLES: role text stays in the seed repo (roles/*.template.txt, read live: CONTROLLER, WATCHDOG, LEADERS, LIBRARIAN, FEEDBACK). "01 Roles" ({{ROLES_FOLDER}}) gets LEADER_STATUS.txt and CYCLE_STATUS.txt (empty = all ON), LEADER_PROMOTIONS.txt (header; each line: date time | bot | the Designer's words | ACK or VETO <why>, shared H41) and any local role additions.
 4 READ COUNTERS: one "<counter name>.txt" per bot in "02 Read_Counts", content "0". The bootstrap bot creates its own first and leaves BOOTSTRAP MODE.
-5 WORKING ROOT ({{WORKING_ROOT}}, in the shared store): on your own computer run python3 scripts/bootstrap.py --root "<empty staging folder>" --companies "<A>,<B>" --tz "{{TIMEZONE}}" --encoding "<Q6: UTF8 or 1252>",
+5 WORKING ROOT ({{WORKING_ROOT}}, in the shared store): the bootstrap bot (never the Designer) runs, on the bot's own computer, python3 scripts/bootstrap.py --root "<empty staging folder>" --companies "<A>,<B>" --tz "{{TIMEZONE}}" --encoding "<Q6: UTF8 or 1252>",
     then upload every "created" path to {{WORKING_ROOT}} through the shared store's file access, skipping any path that already exists there (never overwrite), and read each back. On a synced folder --root is that folder. It creates:
     Bots\00 archive, Bots\01 How-Tos (INDEX.txt), Bots\02 Libraries, Bots\03 tools (git init), Bots\04 Scripts, Bots\05 Logs, Bots\06 Lessons
     Bots\DECISIONS.txt     header; newest first; each line: date time TZ | Designer's exact words | what it decides
