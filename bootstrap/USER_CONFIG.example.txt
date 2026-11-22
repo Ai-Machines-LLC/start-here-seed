@@ -1,0 +1,68 @@
+USER_CONFIG EXAMPLE (v0.8.0). MADE-UP DATA ONLY: every person, company, path and bot below is invented to show the format.
+Copy bootstrap/USER_CONFIG.template.txt, never this file. Key meanings and rules: see the template.
+
+A. SETUP
+  CONFIG_VERSION = 1.0.0
+  PLATFORM = Example Platform (bots can message each other directly)
+  MESSAGE_ROUTE = direct
+  TIMEZONE = Central (UTC-6)
+  ENCODING_RULE = UTF-8 for every shared text file
+  SEED_REPO = example-org/start-here-seed (read through the platform's git-host login)
+
+B. COMPANIES AND STORAGE
+  CROSS_CODE = GEN
+  COMPANIES = Maple Lantern Studio, Brightfield Robotics, Personal
+  COMPANY = MLS | Maple Lantern Studio | Maple Lantern cloud drive | 10 Maple Lantern
+  COMPANY = BFR | Brightfield Robotics | Brightfield cloud drive | 20 Brightfield
+  COMPANY = PER | Personal | personal cloud drive | 90 Personal
+  STORAGE_MAP = see COMPANY lines
+  WORKING_ROOT = D:\Work
+
+C. START HERE AND FILE LOCATIONS
+  START_HERE_LOCATION = Maple Lantern cloud drive, "09 Bots/LOCAL START HERE.txt" (readable with no machine on)
+  COUNTER_FOLDER = Maple Lantern cloud drive, "09 Bots/02 Read_Counts"
+  ROLES_FOLDER = Maple Lantern cloud drive, "09 Bots/01 Roles"
+  CORRECTIONS_DIR = Maple Lantern cloud drive, "09 Bots/03 StartHere_Corrections"
+  DENYLIST_PATH = D:\Work\Bots\SCRUB_DENYLIST.txt
+  SCRIPTS_FOLDER = Maple Lantern cloud drive, "09 Bots/04 Scripts"
+
+D. BADGE LOOK AT CREATION
+  AVATAR_RULE = NAMING.txt N6-N8
+  COMPANY_MARKS = MLS | logos\maple_lantern.png | 250,245,235 | 200,90,40
+  COMPANY_MARKS = BFR | logos\brightfield.png | 255,255,255 | 30,110,200
+  COMPANY_MARKS = GEN | logos\general.png | 240,240,240 | 90,90,90
+
+E. ROLES
+  CONTROLLER_BOT = GEN-Controller
+  LIBRARIAN_BOT = none
+  FEEDBACK_BOT = GEN-Feedback
+  FEEDBACK_TRACKER_PATH = Bots\05 Logs\feedback_tracker.csv
+  FEEDBACK_CYCLES_PATH = Bots\05 Logs\feedback_cycles.csv
+  FEEDBACK_STATE_PATH = Bots\05 Logs\feedback_state.txt
+  FEEDBACK_SCORECARD_PATH = Bots\05 Logs\feedback_scorecard.csv
+  LEADER_LIST = MLS-Website-Lead, BFR-Arm 2-Lead
+
+F. BOT ROSTER
+  BOT = GEN-Controller | GEN | - | Controller | CTRL | - | GEN-Feedback | Controller | live
+  BOT = GEN-Feedback | GEN | - | Feedback | FDBK | GEN-Controller | GEN-Controller | Feedback | live
+  BOT = MLS-Website-Lead | MLS | Website | Lead | WEB + star | GEN-Controller | MLS-Website-Reviewer | Website Lead | live
+  BOT = MLS-Website-Builder | MLS | Website | Builder | BLD | MLS-Website-Lead | MLS-Website-Reviewer | Website Builder | planned
+  BOT = MLS-Website-Reviewer | MLS | Website | Reviewer | REV | MLS-Website-Lead | MLS-Website-Builder | Website Reviewer | planned
+  BOT = BFR-Arm 2-Lead | BFR | Arm 2 | Lead | ARM + star | GEN-Controller | BFR-Arm 2-Gripper PLC | Arm 2 Lead | planned
+  BOT = BFR-Arm 2-Gripper PLC | BFR | Arm 2 | Gripper PLC | GRIP | BFR-Arm 2-Lead | BFR-Arm 2-Lead | Arm 2 Gripper PLC | planned
+
+G. PROJECTS
+  PROJECT = MLS | Website | 10 Maple Lantern\01 Projects\01 Website | 02 Docs\Website Master.txt | MLS-Website-Lead | refresh the studio's booking site
+  PROJECT = BFR | Arm 2 | 20 Brightfield\01 Projects\01 Arm 2 | 02 Docs\Arm 2 Master.txt | BFR-Arm 2-Lead | second pick-and-place cell
+
+H. GUARDRAILS
+  PROTECTED_AREAS = finance and tax, contracts, signed deliverables, 90 Personal
+  APP_OWNED_FILES = the time-tracking app's export folder
+
+I. SCHEDULE AND SUPPORT
+  DAILY_REPORT_TIME = 5:00 PM Central
+  CYCLE_STATUS = OFF
+  UPSTREAM_CORRECTIONS = off
+  SUPPORT_ASK_READS = 200
+  SUPPORT_ASK_DAYS = 14
+END

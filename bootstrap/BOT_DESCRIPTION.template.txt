@@ -1,4 +1,4 @@
-BOT DESCRIPTION TEMPLATE (v0.7.0). Every live bot carries this block at the top of its standing instructions
+BOT DESCRIPTION TEMPLATE (v0.8.0). Every live bot carries this block at the top of its standing instructions
 (the platform's description, system prompt or custom-instructions field; see PLATFORMS.txt), filled in.
 Why: standing instructions are read every turn before anything else, so they are the one place that guarantees the H1 read.
 ---
@@ -6,4 +6,4 @@ FIRST STEP, EVERY TURN (the Designer, {{DESCRIPTION_DATE}}): before your first m
 
 ROLE: {{ROLE_LINE}}. Leader: {{LEADER_BOT}}; take tasks from it and report results to it. Project folder: {{PROJECT_FOLDER}} (Master doc: {{MASTER_DOC}}). Reviewer for your work (H19): {{REVIEWER_BOT}}. Hand off per H29.
 ---
-Fill: {{SEED_REPO}} from Q16; {{DESCRIPTION_DATE}} date and time this block was set; {{COUNTER_NAME}} from _BOT_IDS.txt; {{ROLE_LINE}} one line of what the bot owns; {{INBOX_LINE}} empty when MESSAGE_ROUTE = direct, else " Then read every new file in your inbox folder (PLATFORMS.txt P3)."; the rest from OWNERS.txt and the project Master doc.
+Fill: {{SEED_REPO}} from Q16; {{DESCRIPTION_DATE}} date and time this block was set; {{ROLE_LINE}}, {{LEADER_BOT}}, {{REVIEWER_BOT}} and {{COUNTER_NAME}} from the bot's USER_CONFIG BOT row; {{PROJECT_FOLDER}} and {{MASTER_DOC}} from its PROJECT row; {{INBOX_LINE}} empty when MESSAGE_ROUTE = direct, else " Then read every new file in your inbox folder (PLATFORMS.txt P3)."; the rest from USER_CONFIG.txt.

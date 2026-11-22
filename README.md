@@ -1,4 +1,4 @@
-# START HERE Seed (v0.7.0)
+# START HERE Seed (v0.8.0)
 This repository rebuilds a whole team of cooperating AI bots from nothing, on any AI platform that meets the minimum in `PLATFORMS.txt`. Its owner is called "the Designer" (the user).
 You are a bot that was pointed at this README. It is the only entry point: follow it in order.
 
@@ -17,7 +17,7 @@ In BOOTSTRAP MODE:
 ## Step 1 - Read (nothing else is required)
 0. `PLATFORMS.txt` - what your platform must be able to do, and where each piece goes on it.
 1. `START_HERE.template.txt` - the page every bot reads every turn (current cap 60 lines, H13).
-2. `bootstrap/FIRST_BOT_QUESTIONS.txt` - what to ask the Designer, in order.
+2. `bootstrap/FIRST_BOT_QUESTIONS.txt` - what to ask the Designer, in order; the answers fill `bootstrap/USER_CONFIG.template.txt` (made-up sample: `bootstrap/USER_CONFIG.example.txt`).
 3. `bootstrap/MANIFEST.txt` - what to build, in order.
 4. `bootstrap/LOCAL_START_HERE.template.txt` - the user's own page (values, projects, company rules).
 4b. `bootstrap/SUPPORT_STATUS.template.txt` - the local-only record of the one "Is it helping?" ask (never sent anywhere).
@@ -29,7 +29,7 @@ Ask the questions ONE at a time. Keep each answer with the Designer's exact word
 Skip a question only when an earlier answer settles it. Every `{{PLACEHOLDER}}` must come from an answer; never guess one. The exceptions are the support links `{{DONATE_LINK}}`, `{{REPO_URL}}`, `{{REVIEW_URL}}`, `{{SHARE_X_URL}}` and `{{SHARE_LINKEDIN_URL}}`: the seed owner sets each in this repo at publish time (none until then), never the Designer's answers. Before publishing, the seed owner sets {{DONATE_LINK}} or deletes the Support sentence on START_HERE's END line; the raw placeholder is never published.
 
 ## Step 3 - Build
-Do MANIFEST steps 1-11 in order: LOCAL START HERE, folders, roles, read counters (create YOUR counter first, value 0),
+Do MANIFEST steps 0-11 in order (0 writes USER_CONFIG.txt): LOCAL START HERE, folders, roles, read counters (create YOUR counter first, value 0),
 then `scripts/bootstrap.ps1` for the working root (folders, DECISIONS, OWNERS, _BOT_IDS, MOVE_LOCK, CORRECTIONS_LOG, CHANGE_LOG, logs, scripts).
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
 
@@ -52,7 +52,7 @@ what exists (verified by reading it back) and what is missing. Then hand off to 
 - `PLATFORMS.txt` - minimum platform capabilities and setup notes per platform
 - `START_HERE.template.txt` - every bot's per-turn page
 - `roles/` - CONTROLLER, WATCHDOG, LEADERS, LIBRARIAN, FEEDBACK role templates
-- `bootstrap/` - MANIFEST, FIRST_BOT_QUESTIONS, NAMING (bot names and badge pictures), LOCAL_START_HERE, BOT_DESCRIPTION and SUPPORT_STATUS templates
+- `bootstrap/` - MANIFEST, FIRST_BOT_QUESTIONS, USER_CONFIG (template and made-up example), NAMING (bot names and badge pictures), LOCAL_START_HERE, BOT_DESCRIPTION and SUPPORT_STATUS templates
 - `scripts/bootstrap.ps1` - folder tree and control files (never overwrites)
 - `scripts/log_event.ps1`, `scripts/toggle.ps1` - event log and ON/OFF switch the rules call
 - `proposals/` - ideas PENDING APPROVAL, off by default (private correction intake)

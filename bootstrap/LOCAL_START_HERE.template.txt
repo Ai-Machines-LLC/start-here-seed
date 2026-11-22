@@ -1,40 +1,14 @@
 LOCAL START HERE   (version 1.0.0; owner {{CONTROLLER_BOT}}; current cap 60 lines, set by the Controller, H13). Seed version read: (the Controller writes the seed version it last read here)
 WHY TWO LAYERS: the shared rules come from the seed repo every turn, so improvements arrive by themselves. This page holds only what is yours, and the seed never overwrites it.
-EVERY TURN: read the SHARED START HERE first (START_HERE.template.txt in {{SEED_REPO}}, latest version), then this page.
+EVERY TURN: read the SHARED START HERE first (START_HERE.template.txt in {{SEED_REPO}}, latest version), then this page and USER_CONFIG.txt beside it.
   Repo unreachable? Use "SEED_CACHE START_HERE.txt" beside this page and say so in one line.
   This page may add or tighten rules, never loosen the shared H1-H35.
-VALUES (every {{NAME}} on the shared page and in the seed role files means the value here; a role nobody holds = none, and every bot skips that role line)
-  PLATFORM             {{PLATFORM}}   (Q0; setup notes in seed PLATFORMS.txt)
-  MESSAGE_ROUTE        {{MESSAGE_ROUTE}}   (Q0: direct = the platform's bot-to-bot messages; inbox = files in "04 Inbox", PLATFORMS.txt P3)
-  START_HERE_LOCATION  {{START_HERE_LOCATION}}
-  COUNTER_FOLDER       {{COUNTER_FOLDER}}
-  ROLES_FOLDER         {{ROLES_FOLDER}}   (status files and local role additions only)
-  WORKING_ROOT         {{WORKING_ROOT}}
-  STORAGE_MAP          {{STORAGE_MAP}}
-  TIMEZONE             {{TIMEZONE}}
-  ENCODING_RULE        {{ENCODING_RULE}}
-  COMPANIES            {{COMPANIES}}
-  PROTECTED_AREAS      {{PROTECTED_AREAS}}
-  APP_OWNED_FILES      {{APP_OWNED_FILES}}
-  CONTROLLER_BOT       {{CONTROLLER_BOT}}
-  LIBRARIAN_BOT        {{LIBRARIAN_BOT}}
-  FEEDBACK_BOT         {{FEEDBACK_BOT}}
-  FEEDBACK_TRACKER_PATH {{FEEDBACK_TRACKER_PATH}}
-  FEEDBACK_CYCLES_PATH {{FEEDBACK_CYCLES_PATH}}
-  FEEDBACK_STATE_PATH  {{FEEDBACK_STATE_PATH}}
-  FEEDBACK_SCORECARD_PATH {{FEEDBACK_SCORECARD_PATH}}
-  CORRECTIONS_DIR      {{CORRECTIONS_DIR}}   (default: "03 StartHere_Corrections" beside this page; one file per correction)
-  LEADER_LIST          {{LEADER_LIST}}
-  DAILY_REPORT_TIME    {{DAILY_REPORT_TIME}}
-  AVATAR_RULE          {{AVATAR_RULE}}
-  CROSS_CODE           {{CROSS_CODE}}   (code for cross-company bots, NAMING.txt N2)
-  UPSTREAM_CORRECTIONS off   (PENDING APPROVAL: see seed proposals/; stays off until the Designer says yes, Q17)
-  SUPPORT_ASK_READS    200   (combined reads of all counters before the one support ask; SUPPORT_STATUS.txt, local only)
-  SUPPORT_ASK_DAYS     14    (and at least this many days after bootstrap)
-  COMPANY_MARKS        {{COMPANY_MARKS}}   (one per company: CODE | logo file | logo background R,G,B | ring R,G,B)
+VALUES: every double-brace NAME placeholder on the shared page, this page and the seed role files means the same-named key in USER_CONFIG.txt beside this page,
+  except the support links DONATE_LINK, REPO_URL, REVIEW_URL, SHARE_X_URL and SHARE_LINKEDIN_URL, which the seed owner sets in the repo (README)
+  (the one source for this user: bot roster, names, badge look, START HERE and file locations, storage; a role nobody holds = none, and every bot
+  skips that role line). Only the Controller edits it (H35 version, archive first, the Designer's words from DECISIONS). Missing key: say so in one line.
 OWNERS, BOTS AND COUNTERS: Bots\OWNERS.txt (routes), Bots\_BOT_IDS.txt (bot, id, counter name), counters in COUNTER_FOLDER.
-PROJECTS: one line each: company | project | folder | Master doc | leader
-  (filled from Q7)
+PROJECTS AND BOTS: USER_CONFIG.txt sections F (BOT ROSTER) and G (PROJECTS).
 COMPANY RULES (local additions; each line: rule | why | the Designer's words and time from DECISIONS)
   (none yet)
 UPDATES: when the seed version read above changes, the Controller refreshes SEED_CACHE, reads the changed lines, and flags any conflict with this page to the Designer.

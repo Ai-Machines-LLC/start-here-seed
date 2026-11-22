@@ -1,5 +1,8 @@
-BOOTSTRAP MANIFEST (v0.7.0). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS.
+BOOTSTRAP MANIFEST (v0.8.0). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS.
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
+0 USER_CONFIG: copy bootstrap/USER_CONFIG.template.txt to USER_CONFIG.txt in {{START_HERE_LOCATION}}'s folder and fill every key from the answers
+    (blank = the template's default; a role nobody holds = none). Replace each format line (COMPANY, COMPANY_MARKS, BOT, PROJECT) with one filled line per item,
+    then delete the format lines and every [bracket] note. Read it back, confirm no {{ is left and no secret is in it (H5). Every later step reads its values here.
 1 LOCAL START HERE: fill bootstrap/LOCAL_START_HERE.template.txt, write to {{START_HERE_LOCATION}}, confirm <= 60 lines. It starts at version 1.0.0; after that the Controller versions it per shared page H35 VERSIONS and archives each version first.
     Every role nobody holds (Q9 no librarian, Q14 no feedback loop, any other unheld role): write "none" for its bot and its paths; that ROLES line is then skipped and nothing is left unfilled.
     Beside it save "SEED_CACHE START_HERE.txt" (a copy of the repo's START_HERE.template.txt; refresh when the repo changes). Never fill or edit the shared page itself.
@@ -20,7 +23,7 @@ Each step: check the parent path exists, create, read back, log one line. Never 
     Then on each machine that runs scripts: [Environment]::SetEnvironmentVariable("SEED_ROLES_FOLDER", "<local path of {{ROLES_FOLDER}}>", "User")
 5b SUPPORT: create SUPPORT_STATUS.txt beside the LOCAL page from bootstrap/SUPPORT_STATUS.template.txt (status not-asked, since = today). Local only; nothing is sent anywhere.
 6 PROJECTS: per project from Q7: "<NN Project>\00 archive, 01 Sources, 02 Docs (Master doc), 03 Deliverables, 04 Logs".
-7 BOTS: per bot from Q8, a checklist: name per bootstrap/NAMING.txt; OWNERS line; _BOT_IDS line; counter file (N7 name); standing instructions (the platform's description,
+7 BOTS: per USER_CONFIG F row marked planned (Q8), a checklist, then mark the row live: name per bootstrap/NAMING.txt; OWNERS line; _BOT_IDS line; counter file (N7 name); standing instructions (the platform's description,
     system prompt or custom-instructions field, PLATFORMS.txt) filled from bootstrap/BOT_DESCRIPTION.template.txt (the every-turn H1 block); badge picture made the same turn with scripts/make_avatar.py (N8) and set by the new bot where the platform shows one; if MESSAGE_ROUTE = inbox, its inbox folder (step 2).
 8 SCRIPTS: log_event.ps1 and toggle.ps1 ship with this seed (step 5); make_avatar.py (Pillow) and check_corrections.py and feedback_scorecard.py (standard library) run wherever Python is installed. Not shipped yet: bot_metrics, route_check, confirm_change; rules that name them say "script missing: say so in one line and continue".
 9 FEEDBACK (only if Q14 is yes): create, if missing, the four files the FEEDBACK role uses. Defaults when Q14 names no paths:
@@ -29,6 +32,6 @@ Each step: check the parent path exists, create, read back, log one line. Never 
     {{FEEDBACK_STATE_PATH}}   = Bots\05 Logs\feedback_state.txt, one "path,version" line per START HERE and role file
     {{FEEDBACK_SCORECARD_PATH}} = Bots\05 Logs\feedback_scorecard.csv, columns per roles/FEEDBACK.template.txt F4C
     Add OWNERS route FEEDBACK -> {{FEEDBACK_BOT}}. No cycle runs until the Designer asks for it in their own words (F0).
-10 DENYLIST: write the Q15 answers, one case-sensitive regex per line ("#" comments allowed), to Bots\SCRUB_DENYLIST.txt (outside any repo; never commit it).
-    Then run scripts/scrub_check.sh Bots/SCRUB_DENYLIST.txt <seed copy> and confirm PASS before anything is published.
+10 DENYLIST: write the Q15 answers, one case-sensitive regex per line ("#" comments allowed), to {{DENYLIST_PATH}} (outside any repo; never commit it).
+    Then run scripts/scrub_check.sh {{DENYLIST_PATH}} <seed copy> and confirm PASS before anything is published.
 11 VERIFY: list every path created with size; confirm LOCAL START HERE and the shared page are each <= 60 lines; hand the list to the Controller.

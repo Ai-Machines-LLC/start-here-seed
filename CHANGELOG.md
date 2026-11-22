@@ -2,6 +2,16 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.8.0 (passed review as build 0.8.4; 0.8.1 FAIL 3, 0.8.2 FAIL 2, 0.8.3 superseded before review)
+- CONTRIBUTING (passed as the v0.7.1 draft): one path for everyone outside the maintaining team, the seed owner's own bots included: a pull request into branch `suggested` (private intake while the repo is private); only the maintaining team's designated member merges into `main`.
+- USER_CONFIG template RULES and LOCAL VALUES no longer contain double braces (they name placeholders in words), so the step-0 "no {{ left" check and a filled LOCAL page can pass.
+- New USER_CONFIG key SCRIPTS_FOLDER (section C, default "04 Scripts" beside the LOCAL page), per the reviewer's ruling on the first filled config.
+- USER_CONFIG (the Designer, 3:04 PM): one per-user config file holds the bot roster, names, badge look, START HERE and file locations and storage. New bootstrap/USER_CONFIG.template.txt (blank schema) and USER_CONFIG.example.txt (made-up data). FIRST_BOT_QUESTIONS answers fill it; MANIFEST step 0 writes it; the LOCAL page's values block now points to it; START_HERE.template and README mention it.
+- Support links ({{DONATE_LINK}}, {{REPO_URL}}, {{REVIEW_URL}}, {{SHARE_X_URL}}, {{SHARE_LINKEDIN_URL}}) stay set by the seed owner, not USER_CONFIG: DONATE_LINK key removed; template RULES and LOCAL VALUES name the exception.
+- MANIFEST step 10 uses {{DENYLIST_PATH}} instead of a fixed path.
+- Step 0 and template FORMAT: format lines (COMPANY, COMPANY_MARKS, BOT, PROJECT) are replaced by filled lines, then the format lines and [bracket] notes are deleted.
+- BOT_DESCRIPTION fields come from the USER_CONFIG BOT and PROJECT rows (template F and the BOT_DESCRIPTION Fill line).
+
 ## 0.7.0 (passed review as build 0.7.5; 0.7.4 FAIL 1)
 - SUPPORT_STATUS NO path: the saved FEEDBACK file line is now "HELPING: <answer>" (was "Q7: <answer>", which clashed with FIRST_BOT_QUESTIONS Q7 and was read by no role).
 - FEEDBACK F4A: the feedback owner also reads *_FEEDBACK.txt HELPING lines in {{CORRECTIONS_DIR}} as improvement input; the scorecard ignores them.

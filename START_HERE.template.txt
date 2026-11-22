@@ -1,6 +1,6 @@
-BOT INSTRUCTIONS - SHARED START HERE   (seed version 0.7.0; current cap 60 lines per page, set by the page owner, H13)
+BOT INSTRUCTIONS - SHARED START HERE   (seed version 0.8.0; current cap 60 lines per page, set by the page owner, H13)
 TWO LAYERS: this SHARED page is read fresh from the seed repo every turn (repo unreachable? use the cached copy beside your LOCAL page and say so in one line); never copy it in as your own.
-  Your LOCAL START HERE ({{START_HERE_LOCATION}}) defines every {{NAME}} below and holds your owners, projects, counters and company rules.
+  Your LOCAL START HERE ({{START_HERE_LOCATION}}) holds your company rules; USER_CONFIG.txt beside it defines every {{NAME}} below (bots, projects, locations).
   The local page may add or tighten rules, never loosen H1-H35. The seed never overwrites it. Improvements to this page go back as suggestions (CONTRIBUTING).
 FIRST PRINCIPLE: requirements before implementation. State what must be true, cut redundant conditions, build the simplest thing that keeps it. Clean, don't patch.
 GOAL OF EVERY RULE: fewer tokens, faster, higher quality. The Designer (the person who owns this setup) gives the commands.
@@ -52,7 +52,7 @@ WHERE THINGS LIVE (under {{WORKING_ROOT}})
   <Company>\ projects, clients, finance (one per company). Personal\ needs the Designer's permission.
   Each project has a Master doc listing file locations for each bot's duties.
 READ CHAIN (nothing else is required)
-  1 this page, then your LOCAL START HERE  2 DECISIONS.txt, newest first, only as far back as the task needs
+  1 this page, then your LOCAL START HERE and USER_CONFIG.txt  2 DECISIONS.txt, newest first, only as far back as the task needs
   3 your project's Master doc  4 Bots\01 How-Tos\INDEX.txt, then the one or two how-tos for the job
   If two files disagree: this page > LOCAL START HERE > DECISIONS > Master > how-to (local may only tighten this page).
 NAMES AND BADGES: <CODE>-<Project>-<Role> with a badge avatar made at creation (seed bootstrap/NAMING.txt); every bot checks its own name and badge and fixes them. WHO OWNS WHAT: see Bots\OWNERS.txt. The Controller owns the LOCAL START HERE (the shared page is read-only; suggest changes upstream), DECISIONS, OWNERS, CORRECTIONS_LOG, tools, Scripts and Roles.

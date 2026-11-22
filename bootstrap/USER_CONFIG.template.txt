@@ -1,0 +1,66 @@
+USER_CONFIG (v0.8.0; schema for the seed; blank). One file per setup: everything that is about this user and nowhere else.
+Why: the Designer: the configuration file holds "the individual things about that user": all the bots, how they look when
+generated, the START HERE file locations, etc. The shared rules stay generic; only this file and the LOCAL page are the user's own.
+WHO WRITES IT: the bootstrap bot, from bootstrap/FIRST_BOT_QUESTIONS.txt (MANIFEST step 0). After setup only the Controller edits it
+  (versions per H35, archive first, H12); every change cites the Designer's words and time from DECISIONS.txt (H2).
+WHERE: beside the LOCAL START HERE, named USER_CONFIG.txt. Never in a repo or shared template; this schema is the only part published.
+RULES: no secrets (H5): name where a login lives, never the value. A role nobody holds = none. One value per key; lists one item per line.
+  Every double-brace NAME placeholder on the shared page, the LOCAL page and the seed role files means the key NAME here, except the support links DONATE_LINK, REPO_URL, REVIEW_URL, SHARE_X_URL and SHARE_LINKEDIN_URL, which the seed owner sets in the repo (README). Keys stay in this order.
+FORMAT: KEY = value   (source question in brackets; "default" means used when the answer is blank)
+  Filling: replace each format line (COMPANY, COMPANY_MARKS, BOT, PROJECT) with one filled line per item, then delete the format lines and every [bracket] note.
+
+A. SETUP
+  CONFIG_VERSION = 1.0.0                          (bumped per H35 on every change)
+  PLATFORM = {{PLATFORM}}                         [Q0; setup notes in PLATFORMS.txt]
+  MESSAGE_ROUTE = {{MESSAGE_ROUTE}}               [Q0: direct or inbox]
+  TIMEZONE = {{TIMEZONE}}                         [Q2]
+  ENCODING_RULE = {{ENCODING_RULE}}               [Q6; default UTF-8]
+  SEED_REPO = {{SEED_REPO}}                       [Q16: repo, and the account or link bots read it through]
+
+B. COMPANIES AND STORAGE (one line per company; CROSS_CODE is the code for bots that serve every company)
+  CROSS_CODE = {{CROSS_CODE}}                     [Q3]
+  COMPANIES = {{COMPANIES}}                       [Q3; full names, comma-separated, in COMPANY-line order]
+  COMPANY = CODE | full name | storage (drive or folder) | working folder under WORKING_ROOT   [Q3, Q4]
+  STORAGE_MAP = {{STORAGE_MAP}}                   [Q4; one line per company, or "see COMPANY lines"]
+  WORKING_ROOT = {{WORKING_ROOT}}                 [Q4]
+
+C. START HERE AND FILE LOCATIONS
+  START_HERE_LOCATION = {{START_HERE_LOCATION}}   [Q5: storage, path, and how a bot reads it with no machine on]
+  COUNTER_FOLDER = {{COUNTER_FOLDER}}             [Q5]
+  ROLES_FOLDER = {{ROLES_FOLDER}}                 [Q5]
+  CORRECTIONS_DIR = {{CORRECTIONS_DIR}}           [default "03 StartHere_Corrections" beside the LOCAL page]
+  DENYLIST_PATH = {{DENYLIST_PATH}}               [default Bots\SCRUB_DENYLIST.txt, outside any repo; Q15 fills the list itself]
+  SCRIPTS_FOLDER = {{SCRIPTS_FOLDER}}             [default "04 Scripts" beside the LOCAL page; make_avatar.py and local scripts]
+
+D. BADGE LOOK AT CREATION (NAMING.txt N6-N8; scripts/make_avatar.py reads these)
+  AVATAR_RULE = {{AVATAR_RULE}}                   [Q13; default "NAMING.txt N6-N8"]
+  COMPANY_MARKS = CODE | logo file | logo background R,G,B | ring R,G,B   [Q13; one line per company and one for CROSS_CODE]
+
+E. ROLES
+  CONTROLLER_BOT = {{CONTROLLER_BOT}}             [Q9]
+  LIBRARIAN_BOT = {{LIBRARIAN_BOT}}               [Q9; none allowed]
+  FEEDBACK_BOT = {{FEEDBACK_BOT}}                 [Q14; none allowed]
+  FEEDBACK_TRACKER_PATH = {{FEEDBACK_TRACKER_PATH}}   [Q14; defaults MANIFEST step 9]
+  FEEDBACK_CYCLES_PATH = {{FEEDBACK_CYCLES_PATH}}
+  FEEDBACK_STATE_PATH = {{FEEDBACK_STATE_PATH}}
+  FEEDBACK_SCORECARD_PATH = {{FEEDBACK_SCORECARD_PATH}}
+  LEADER_LIST = {{LEADER_LIST}}                   [Q8; leaders only by the Designer's naming]
+
+F. BOT ROSTER (every bot, planned or live; MANIFEST step 7 builds each "planned" row and sets it "live")
+  BOT_DESCRIPTION.template fields come from here: ROLE_LINE, LEADER_BOT, REVIEWER_BOT, COUNTER_NAME from the bot's BOT row; PROJECT_FOLDER, MASTER_DOC from its PROJECT row.
+  BOT = name (<CODE>-<Project>-<Role>, NAMING.txt) | company code | project or "-" | role | badge (N6) | leader bot | reviewer bot | counter name (N7) | planned or live   [Q8]
+
+G. PROJECTS
+  PROJECT = company code | project | folder | Master doc | leader bot | one-line goal   [Q7]
+
+H. GUARDRAILS
+  PROTECTED_AREAS = {{PROTECTED_AREAS}}           [Q10]
+  APP_OWNED_FILES = {{APP_OWNED_FILES}}           [Q11; none allowed]
+
+I. SCHEDULE AND SUPPORT
+  DAILY_REPORT_TIME = {{DAILY_REPORT_TIME}}       [Q12]
+  CYCLE_STATUS = {{CYCLE_STATUS}}                 [Q12: ON or OFF]
+  UPSTREAM_CORRECTIONS = off                      [Q17; stays off until the Designer approves proposals/CORRECTIONS_INTAKE.txt]
+  SUPPORT_ASK_READS = 200                         [fixed default]
+  SUPPORT_ASK_DAYS = 14                           [fixed default]
+END
