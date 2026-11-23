@@ -1,5 +1,6 @@
-BOOTSTRAP MANIFEST (v0.9.3). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS; the Designer only answers the questions and creates nothing by hand.
+BOOTSTRAP MANIFEST (v0.9.4). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS; the Designer only answers the questions and creates nothing by hand.
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
+Before step 0 the bootstrap bot reads bootstrap/FIRST_SETUP_TRAINING.txt once (worked examples; never every turn) and does its drill 0.
 0 USER_CONFIG: copy bootstrap/USER_CONFIG.template.txt to USER_CONFIG.txt in {{START_HERE_LOCATION}}'s folder and fill every key from the answers
     (blank = the template's default; a role nobody holds = none). Replace each format line (COMPANY, COMPANY_MARKS, BOT, PROJECT) with one filled line per item,
     then delete the format lines and every [bracket] note. Read it back, confirm no {{ is left and no secret is in it (H5). Every later step reads its values here.
@@ -27,6 +28,7 @@ Each step: check the parent path exists, create, read back, log one line. Never 
 6 PROJECTS: per project from Q7: "<NN Project>\00 archive, 01 Sources, 02 Docs (Master doc), 03 Deliverables, 04 Logs".
 7 BOTS: per USER_CONFIG F row marked planned (Q8), a checklist, then mark the row live: name per bootstrap/NAMING.txt; OWNERS line; _BOT_IDS line; counter file (N7 name); standing instructions (the platform's description,
     system prompt or custom-instructions field, PLATFORMS.txt) filled from bootstrap/BOT_DESCRIPTION.template.txt (the every-turn H1 block); badge picture made the same turn with scripts/make_avatar.py (N8) and set by the new bot where the platform shows one, which then writes its 05 Badges file; if MESSAGE_ROUTE = inbox, its inbox folder (step 2).
+    The creating bot hands the new bot bootstrap/FIRST_SETUP_TRAINING.txt in its first message; the new bot's first turn names that file and its version.
 8 SCRIPTS: all Python 3, run on the bot's own computer against files downloaded from the shared store and written back (no machine path, no environment variable): bootstrap.py, log_event.py and toggle.py (standard library, step 5), make_avatar.py (Pillow), check_corrections.py and feedback_scorecard.py (standard library). Planned, not shipped yet: bot_metrics, route_check, confirm_change, leak_check, heartbeat, check_heartbeats; rules that name them say to do the step by hand ("script missing: say so in one line and continue").
 9 FEEDBACK (only if Q14 is yes): create, if missing, the four files the FEEDBACK role uses. Defaults when Q14 names no paths:
     {{FEEDBACK_TRACKER_PATH}} = Bots\05 Logs\feedback_tracker.csv, header: id,date,bot,rule_ref,issue,proposal,test_result,status

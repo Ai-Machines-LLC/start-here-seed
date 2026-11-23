@@ -2,6 +2,12 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.10 (review build, on top of 0.10.9 e038b3d; first-setup training file, mirrored from the START HERE team's file 0.2.0 after its non-author review PASS)
+- New bootstrap/FIRST_SETUP_TRAINING.txt 0.2.0: ten worked examples (situation, wrong, right, rule) and drill 0, read only when a new system is bootstrapped or a new bot is created, never every turn.
+- bootstrap/LOCAL_START_HERE.template.txt: new FIRST SETUP line pointing to it, with its CHECK (a new bot's first turn names the file and its version).
+- bootstrap/MANIFEST.txt v0.9.4: the bootstrap bot reads the training file once before step 0; step 7 has the creating bot hand it to each new bot in its first message.
+- README: the bootstrap/ folder list names the training file.
+
 ## 0.10.9 (review build, on top of 0.10.8, pushed as main 55be8bf; the START HERE lead's layout decision: the seed follows the live system)
 - bootstrap.py 0.5.3: the How-Tos INDEX.txt it creates uses the live layout, one line per how-to "folder | open it when", with a title line naming it the one how-to library (structure owner: the Controller) and the rule that Libraries hold code and config only and project notes live in the project's Master doc. The old header was "file | what it covers | owner".
 
