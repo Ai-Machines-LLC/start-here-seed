@@ -2,6 +2,10 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.14 (review build, on top of 0.10.13 1baee95; the START HERE team's script after its non-author review PASS, handed over by the team's builder on the lead's go)
+- scripts/sheet_coverage.py 0.1.1: flags any START HERE rule or CHECK with no answer-sheet item, an edited rule (CHANGED), a stale row or an undefined item (exit 1), so a new rule can't go untested; ERROR_CODES v0.1.4 adds its probes.
+- scripts/SCRIPTS.txt: new sheet_coverage.py line.
+
 ## 0.10.13 (review build, on top of 0.10.12 bce63ec; the START HERE team's script after its non-author review PASS, handed over by the team's builder on the lead's go)
 - score_rebuild.py 0.2.3: finds the rebuilt Bots and roles folders up to 2 levels below --root (a tie = ERROR 30); new GATE G1 checks every own-chat turn opens with the H1 line, N rises with no reuse, and the last N equals the counter (--replies, --counter, --h1-regex); a G1 FAIL exits 1. Why: RUN-02 scored 33/38 while its tester skipped the H1 line and counter.
 - scripts/SCRIPTS.txt: the score_rebuild.py line names GATE G1.
