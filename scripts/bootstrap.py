@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""bootstrap.py (v0.5.1 draft) - builds the generic bot-system folder tree and empty control files.
+"""bootstrap.py (v0.5.2 draft) - builds the generic bot-system folder tree and empty control files.
 Why: one script makes the layout identical on every new system and never overwrites existing work.
 Why Python and a staging folder: no bot depends on one machine. A bot with only file access to the store runs this on
 its own computer into an empty staging folder, then uploads every "created" path to WORKING_ROOT in the shared
@@ -10,6 +10,7 @@ Exit codes (scripts/ERROR_CODES.txt): 0 done, 2 usage, 12 root missing, 24 log_e
 v0.5.0: startup path checks with ERROR_CODES codes; every check runs before anything is created.
 v0.5.1: the move/edit lock log is a folder, Bots/MOVE_LOCK/, one file per writer bot (written with move_lock.py), not one
 shared MOVE_LOCK.txt that bots overwrite; bootstrap creates the folder and its README and copies move_lock.py.
+v0.5.2: CHANGE_LOG.csv header column is "version" (H35 word; score_rebuild S6 expects it), not "revision".
 """
 import argparse, os, shutil, sys
 
@@ -57,7 +58,7 @@ def main():
     new_file(J("MOVE_LOCK", "README.txt"), "MOVE_LOCK (H12): one file per writer bot, <bot>.txt; a bot appends only to its own file, never another's.\n"
              "LINE: HELD or RELEASED | YYYY-MM-DD HH:MM +HHMM | bot | path | what. Write lines with 04 Scripts/move_lock.py (add, open, view, verify).")
     new_file(J("CORRECTIONS_LOG.csv"), "date,bot,mistake,cause,fix,check_added")
-    new_file(J("CHANGE_LOG.csv"), "date,bot,path,revision,sha256,what,reviewer")
+    new_file(J("CHANGE_LOG.csv"), "date,bot,path,version,sha256,what,reviewer")
     new_file(J("05 Logs", "EVENTS.csv"), "time,bot,event,detail")
     new_file(J("05 Logs", "METRICS.txt"), "METRICS (one line per bot, written by bot_metrics; empty until it exists)")
     new_file(J("05 Logs", "WATCHDOG_MISSES.csv"), "date,time,bot,rule,miss")

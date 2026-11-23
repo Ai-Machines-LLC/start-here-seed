@@ -20,14 +20,14 @@ Each step: check the parent path exists, create, read back, log one line. Never 
     Bots\_BOT_IDS.txt      header; each line: bot name (<CODE>-<Project>-<Role>, NAMING.txt) | bot id | counter name (N7) | company
     Bots\CHANGE_LOG.csv    header: date,bot,path,version,sha256,what,reviewer
     Bots\05 Logs\EVENTS.csv + METRICS.txt + WATCHDOG_MISSES.csv (header: date,time,bot,rule,miss; WATCHDOG W-1h); Bots\04 Scripts gets log_event.py and toggle.py copied from scripts/
-    Bots\MOVE_LOCK.txt     header; each line: date time | bot | HELD or RELEASED | path | reason
+    Bots\MOVE_LOCK\        README.txt; one <bot>.txt per writer bot, written only with move_lock.py; each line: HELD or RELEASED | date time | bot | path | what
     Bots\CORRECTIONS_LOG.csv  header: date,bot,mistake,cause,fix,check_added
     <NN Company>\ per company, each with "00 archive" and "01 Projects"
 5b SUPPORT: create SUPPORT_STATUS.txt beside the LOCAL page from bootstrap/SUPPORT_STATUS.template.txt (status not-asked, since = today). Local only; nothing is sent anywhere.
 6 PROJECTS: per project from Q7: "<NN Project>\00 archive, 01 Sources, 02 Docs (Master doc), 03 Deliverables, 04 Logs".
 7 BOTS: per USER_CONFIG F row marked planned (Q8), a checklist, then mark the row live: name per bootstrap/NAMING.txt; OWNERS line; _BOT_IDS line; counter file (N7 name); standing instructions (the platform's description,
     system prompt or custom-instructions field, PLATFORMS.txt) filled from bootstrap/BOT_DESCRIPTION.template.txt (the every-turn H1 block); badge picture made the same turn with scripts/make_avatar.py (N8) and set by the new bot where the platform shows one, which then writes its 05 Badges file; if MESSAGE_ROUTE = inbox, its inbox folder (step 2).
-8 SCRIPTS: all Python 3, run on the bot's own computer against files downloaded from the shared store and written back (no machine path, no environment variable): bootstrap.py, log_event.py and toggle.py (standard library, step 5), make_avatar.py (Pillow), check_corrections.py and feedback_scorecard.py (standard library). Not shipped yet: bot_metrics, route_check, confirm_change; rules that name them say "script missing: say so in one line and continue".
+8 SCRIPTS: all Python 3, run on the bot's own computer against files downloaded from the shared store and written back (no machine path, no environment variable): bootstrap.py, log_event.py and toggle.py (standard library, step 5), make_avatar.py (Pillow), check_corrections.py and feedback_scorecard.py (standard library). Planned, not shipped yet: bot_metrics, route_check, confirm_change, leak_check, heartbeat, check_heartbeats; rules that name them say to do the step by hand ("script missing: say so in one line and continue").
 9 FEEDBACK (only if Q14 is yes): create, if missing, the four files the FEEDBACK role uses. Defaults when Q14 names no paths:
     {{FEEDBACK_TRACKER_PATH}} = Bots\05 Logs\feedback_tracker.csv, header: id,date,bot,rule_ref,issue,proposal,test_result,status
     {{FEEDBACK_CYCLES_PATH}}  = Bots\05 Logs\feedback_cycles.csv, header: cycle_date,bot,answer

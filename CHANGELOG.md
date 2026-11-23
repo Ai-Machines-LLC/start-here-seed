@@ -2,6 +2,13 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.3 (review build PRE-T6 0.1.0, from main 78ae0f1; fixes found by the T6 mechanical pre-check and review #216, on the START HERE lead's go)
+- bootstrap.py 0.5.2: the CHANGE_LOG.csv header column is "version" (the H35 word), not "revision", so a rebuilt system can pass the scorecard's S6 header check.
+- LICENSE: an all-rights-reserved notice for the public repo (the Designer's decision: no license); README no longer says the repo stays private.
+- Planned scripts (bot_metrics, route_check, confirm_change, leak_check, heartbeat, check_heartbeats) are marked "planned, not shipped yet: do this step by hand" wherever role, template or manifest text names them; run_team_checks says they SKIP until shipped.
+- MOVE_LOCK is a folder with one file per bot, written with move_lock.py: MANIFEST, the START HERE template's H12 and its folder list now say so (the old text named one shared MOVE_LOCK.txt).
+- score_rebuild.py 0.2.2: S18 scores 2 when every named planned script is marked planned or by hand; S14 accepts bootstrap.py's own ROOT_MISSING error as the missing-root refusal (the old pattern never matched it).
+
 ## 0.10.0 (placed from review build 0.10.2: CHANGES a6870144, DIFF 64d516cc, non-author review PASS; from main after 0.9.3; 0.10.1 FAIL 1, not reused, H35; seed library update per the START HERE team's LIBRARY_UPDATE_PLAN 0.1.6, which passed non-author review)
 - First library entry: `libraries/robot/kuka/kuka-manuals.md` 0.3.0 (sha256 first 8 = 162de766), a byte-exact copy of the LIVE entry, as listed in the store's LIBRARY_CHANGES 1.1.0 (sha256 first 8 = befabf4d). Link-out only: no vendor manual is copied. Why: the library ships where-to-get-it pages, never vendor documents.
 - Libraries folder: bootstrap.py and MANIFEST create `Bots\Libraries\LIBRARY_CHANGES.txt` (header: only LIVE entries; library | version | sha256 | Reviewer PASS | category | placed time | what changed) and `Bots\Libraries\_suggested\`. The folder is now "Libraries" (was "02 Libraries") until the Designer decides the layout. Why: leaders update projects only from LIVE entries, and need one list to work from.

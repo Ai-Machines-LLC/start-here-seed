@@ -28,7 +28,7 @@ FRESH_CLONE FAILs if: the proof is missing or not mode=test; prior_checkout is n
   link pointing outside the clone; or the clone's git folder is older than clone_started (a reused copy).
 Checks, in order (each PASS, FAIL or SKIP with a reason):
   FRESH_CLONE (test) or PIN_CHECK (normal); BOOTSTRAP_VERIFY (bootstrap.py --verify; SKIP while bootstrap.py lacks an option it needs); SCRUB_CHECK (scrub_check.sh);
-  LEAK_CHECK (leak_check.py --dir <seed>, plus --history inside a git clone); CHECK_HEARTBEATS (check_heartbeats.py);
+  LEAK_CHECK (leak_check.py --dir <seed>, plus --history inside a git clone; planned, SKIP until shipped); CHECK_HEARTBEATS (check_heartbeats.py; planned, SKIP until shipped);
   CHECK_SCRIPTS (check_scripts.py); SCORE_REBUILD (score_rebuild.py, the T5/T6 scorecard; its MANUAL items are listed, not scored).
 v0.1.2 GATES (Reviewer #186): --pin is required. FRESH_CLONE (test) or PIN_CHECK (normal) always runs, whatever --only says.
   --only and --require take check names from the list above; an unknown name is a usage error (exit 2). A required check

@@ -71,7 +71,7 @@ Fully generic and platform-neutral: platform names and features appear only in P
 Run `scripts/scrub_check.sh <denylist> . <owner-allowlist>` (both lists are kept outside the repo; MANIFEST step 10) before every commit; leave out the allow list if this README has no owner links block.
 Commit only reviewed, scrubbed revisions, under a generic identity (see CONTRIBUTING.md).
 The first commit is the scrubbed tree only, with no draft history.
-Private until the rebuild test and scrub pass; public only on the Designer's yes.
+Public on the Designer's decision; no license is granted, all rights reserved (see LICENSE).
 
 <!-- OWNER-LINKS BEGIN (the only place owner names and domains are allowed; scrub_check enforces this) -->
 ## Links

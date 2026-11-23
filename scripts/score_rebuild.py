@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""score_rebuild.py 0.2.1 (review build) - scripted checks for a START HERE rebuild test (stdlib only).
+"""score_rebuild.py 0.2.2 (review build) - scripted checks for a START HERE rebuild test (stdlib only).
 Usage: python3 score_rebuild.py --root <rebuilt working root> --seed <seed repo checkout> [--log <bot log>] [--pin <sha>] [--proof <CLONE_PROOF.txt>]
                               [--direct-msg <regex>]
 Prints one line per item: ITEM | SCORE(2/1/0 or MANUAL) | evidence. Exit 0 if every scripted item is 2, else 1.
@@ -11,7 +11,10 @@ clone_finished that parses, is not before clone_started and is not in the future
 0.2.0 startup path checks (scripts/ERROR_CODES.txt): 12 --root or --seed folder missing; 20 --log or --proof given but missing.
 Before 0.2.0 a missing folder scored zeros silently.
 0.2.1: MOVE_LOCK is a folder (Bots/MOVE_LOCK/, one file per writer bot): S6 needs its README.txt, S10 counts the lines of
-every file in it (plus a legacy Bots/MOVE_LOCK.txt when one exists)."""
+every file in it (plus a legacy Bots/MOVE_LOCK.txt when one exists).
+0.2.2: S18 scores 2 when every planned script the seed names is marked "planned" or "by hand" on each .txt/.md line
+that names it (launch call: planned scripts are done by hand until built).
+       S14 also accepts bootstrap.py's own "ERROR 12 ROOT_MISSING" line as the missing-root refusal."""
 import argparse, datetime, os, re, sys, glob, subprocess
 ap = argparse.ArgumentParser()
 ap.add_argument("--root", required=True); ap.add_argument("--seed", required=True); ap.add_argument("--log", default=None); ap.add_argument("--pin", default=None, help="seed commit sha the live START HERE pins")
@@ -88,7 +91,7 @@ if os.path.isfile(sc) and os.path.isfile(deny):
     r = subprocess.run(["bash", sc, deny, S], capture_output=True, text=True, cwd=S); r12 = "seed scrub " + ("PASS" if r.returncode == 0 else "FAIL")
 out("S12 scrub", 2 if r12.endswith("PASS") and ran_on_own else 1 if "scrub_check" in LOG else 0, f"{r12}; bot scrubbed its own outgoing text: {ran_on_own}")
 # S14 bootstrap second run
-out("S14 bootstrap.py", 2 if "bootstrap.py: exists" in LOG and re.search(r"refus|no such root|missing root", LOG, re.I) else 1 if "bootstrap.py: created" in LOG else 0,
+out("S14 bootstrap.py", 2 if "bootstrap.py: exists" in LOG and re.search(r"refus|no such root|missing root|ROOT_MISSING", LOG, re.I) else 1 if "bootstrap.py: created" in LOG else 0,
     f"created lines {LOG.count('bootstrap.py: created')}; exists lines {LOG.count('bootstrap.py: exists')}")
 # S15 log_event
 ev = rd(p("Bots", "05 Logs", "EVENTS.csv")).splitlines()
@@ -111,7 +114,11 @@ if os.path.isfile(cs_py) and os.path.isfile(man):
              and f.endswith((".txt", ".md", ".py", ".sh")) and os.path.abspath(f) not in (os.path.abspath(man), SELF) and os.path.basename(f) != "score_rebuild.py" and not os.path.basename(f).upper().startswith("CHANGELOG")]
     planned = [l.split("|")[0].strip() for l in rd(man).splitlines() if l.count("|") == 3 and l.split("|")[3].strip().lower() == "planned"]
     named = sorted(n for n in planned if not os.path.isfile(os.path.join(S, "scripts", n)) and any(re.search(r"\b" + re.escape(os.path.splitext(n)[0]) + r"\b", t) for t in texts))
-    out("S18 referenced scripts ship", 0 if r.returncode else 1 if named else 2, f"check_scripts: {last}; missing {bad18 or 'none'}; named by the seed but only planned {named or 'none'}")
+    # 0.2.2: a planned script is fine when every .txt/.md line naming it also says "planned" or "by hand" (the Lead's launch call, checklist C4)
+    doc_lines = [l for f2 in glob.glob(os.path.join(S, "**", "*"), recursive=True) if os.path.isfile(f2) and "/.git/" not in f2 and f2.endswith((".txt", ".md"))
+                 and os.path.abspath(f2) != os.path.abspath(man) and not os.path.basename(f2).upper().startswith("CHANGELOG") for l in rd(f2).splitlines()]
+    unmarked = sorted(n for n in named if any(re.search(r"\b" + re.escape(os.path.splitext(n)[0]) + r"\b", l) and not re.search(r"planned|by hand", l, re.I) for l in doc_lines))
+    out("S18 referenced scripts ship", 0 if r.returncode else 1 if unmarked else 2, f"check_scripts: {last}; missing {bad18 or 'none'}; named by the seed but only planned {named or 'none'}; named without 'planned'/'by hand' {unmarked or 'none'}")
 else:
     shipped = {os.path.splitext(f)[0] for f in os.listdir(os.path.join(S, "scripts"))} if os.path.isdir(os.path.join(S, "scripts")) else set()
     refs = set()
