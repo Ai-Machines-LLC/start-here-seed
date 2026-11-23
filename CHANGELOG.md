@@ -2,6 +2,10 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.5 (review build, from main 30b3f57; 0.10.4 is not used because a 0.10.4 package name already exists, H35)
+- CONTRIBUTING v0.8.1: step 2 drops the "while the repo is private" private-intake detour (the repo is public now); pull requests into `suggested` are the one path, and proposals are still never posted as public issues.
+- SCRIPTS.txt: check_scripts.py, run_team_checks.py, score_rebuild.py, read_check.py, path_patterns.py and library_intake_scan.py are present in scripts/ and now listed as shipped, not planned (check_scripts.py reported FLIP=6).
+
 ## 0.10.3 (review build PRE-T6 0.1.0, from main 78ae0f1; fixes found by the T6 mechanical pre-check and review #216, on the START HERE lead's go)
 - bootstrap.py 0.5.2: the CHANGE_LOG.csv header column is "version" (the H35 word), not "revision", so a rebuilt system can pass the scorecard's S6 header check.
 - LICENSE: an all-rights-reserved notice for the public repo (the Designer's decision: no license); README no longer says the repo stays private.
