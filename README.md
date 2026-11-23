@@ -10,7 +10,8 @@ For people: you don't create any folders or files by hand. Tell your AI assistan
 
 ## BOOTSTRAP MODE (use it when no system exists yet)
 You are in BOOTSTRAP MODE if the Designer cannot name an existing START HERE file or working root. Ask once:
-"Is there an existing START HERE file or bot working folder I should use?" If yes, read that START HERE and follow it instead; stop here.
+"Is there an existing START HERE file or bot working folder I should use?" If yes, open that START HERE: if it exists, follow it instead and stop here.
+If the named START HERE file does not exist yet, do not ask again: you are in BOOTSTRAP MODE, and you build it at that location in Step 3.
 In BOOTSTRAP MODE:
 - Open every message with: `Reading instructions from the START HERE seed README (don't use sub agents use scripts when you can) [read #bootstrap]`
   (no read counter exists yet; never invent a number).
@@ -32,7 +33,8 @@ Skip a question only when an earlier answer settles it. Every `{{PLACEHOLDER}}` 
 
 ## Step 3 - Build
 Do MANIFEST steps 0-11 in order (0 writes USER_CONFIG.txt): LOCAL START HERE, folders, roles, read counters (create YOUR counter first, value 0),
-then `python3 scripts/bootstrap.py` into a staging folder, uploaded to the working root in the shared store (folders, DECISIONS, OWNERS, _BOT_IDS, MOVE_LOCK, CORRECTIONS_LOG, CHANGE_LOG, logs, scripts).
+then `python3 scripts/bootstrap.py` into a staging folder, uploaded to the working root in the shared store (folders, DECISIONS, OWNERS, _BOT_IDS, MOVE_LOCK, CORRECTIONS_LOG, CHANGE_LOG, logs, scripts);
+after bootstrap.py, in MANIFEST step 7 register yourself like any other bot (your own row, with name, role and counter, in USER_CONFIG BOT and _BOT_IDS; the Designer or your leader may overrule).
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
 
 ## Step 4 - Leave BOOTSTRAP MODE

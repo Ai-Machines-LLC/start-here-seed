@@ -2,6 +2,13 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.7 (review build, from 0.10.6 d8ad2a6, which failed review with 1 finding and is not reused, H35)
+- README Step 3: self-registration moves after bootstrap.py (MANIFEST step 7), because bootstrap.py creates _BOT_IDS.txt and no script or step may recreate a missing target before it (H24).
+
+## 0.10.6 (review build, on top of 0.10.5; RUN-01 gaps, the Designer's "go ahead and fix the gaps")
+- README BOOTSTRAP MODE: when the named START HERE file does not exist yet, the bot decides BOOTSTRAP MODE itself and builds it there, without asking the Designer again.
+- README Step 3: the setup bot registers itself like any other bot (its own row, with name, role and counter, in USER_CONFIG BOT and _BOT_IDS); the Designer or its leader may overrule.
+
 ## 0.10.5 (review build, from main 30b3f57; 0.10.4 is not used because a 0.10.4 package name already exists, H35)
 - CONTRIBUTING v0.8.1: step 2 drops the "while the repo is private" private-intake detour (the repo is public now); pull requests into `suggested` are the one path, and proposals are still never posted as public issues.
 - SCRIPTS.txt: check_scripts.py, run_team_checks.py, score_rebuild.py, read_check.py, path_patterns.py and library_intake_scan.py are present in scripts/ and now listed as shipped, not planned (check_scripts.py reported FLIP=6).
