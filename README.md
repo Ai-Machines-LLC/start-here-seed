@@ -63,12 +63,20 @@ what exists (verified by reading it back) and what is missing. Then hand off to 
 - `scripts/check_corrections.py` - lists Designer corrections no bot saved as a file (Controller CT-10)
 - `scripts/make_avatar.py` - draws a bot's badge avatar from the company's logo and colors (kept in the local layer)
 - `scripts/feedback_scorecard.py` - the FEEDBACK role's scorecard: one row per live START HERE version (corrections, repeats, saved-check misses)
-- `scripts/scrub_check.sh <denylist>` - FAILS on emails, domains, user paths, GUIDs, secrets, commit identities, any denylist term, or platform-specific terms outside PLATFORMS.txt
+- `scripts/scrub_check.sh <denylist>` - FAILS on emails, domains, user paths, GUIDs, secrets, commit identities, any denylist term, or platform-specific terms outside PLATFORMS.txt (the README owner links block, checked against an allow list, is the one exception)
 - `CONTRIBUTING.md` - how other users send improvements back; `LICENSE` - to be decided by the Designer
 
 ## Repo rules
-Fully generic and platform-neutral: platform names and features appear only in PLATFORMS.txt. No person names, companies, emails, domains, user paths, IDs, customer terms or secrets. Use "the Designer" / "the user".
-Run `scripts/scrub_check.sh <denylist>` (the denylist is kept outside the repo; MANIFEST step 10) before every commit.
+Fully generic and platform-neutral: platform names and features appear only in PLATFORMS.txt. No person names, companies, emails, domains, user paths, IDs, customer terms or secrets. Use "the Designer" / "the user". One exception: the marked owner links block at the end of this README may name the maintaining owner and link to its public pages. `scripts/scrub_check.sh` allows there only the exact terms and links listed (a link passes only where it ends exactly as listed) in an owner allow list kept outside the repo (like the denylist; passed as its third argument), in root README.md between the OWNER-LINKS markers, at most 8 lines; anything else in the block, and the same terms in any other file, still fail. If you reuse this seed, replace or delete that block and supply your own allow list.
+Run `scripts/scrub_check.sh <denylist> . <owner-allowlist>` (both lists are kept outside the repo; MANIFEST step 10) before every commit; leave out the allow list if this README has no owner links block.
 Commit only reviewed, scrubbed revisions, under a generic identity (see CONTRIBUTING.md).
 The first commit is the scrubbed tree only, with no draft history.
 Private until the rebuild test and scrub pass; public only on the Designer's yes.
+
+<!-- OWNER-LINKS BEGIN (the only place owner names and domains are allowed; scrub_check enforces this) -->
+## Links
+Maintained by Ai Machines.
+- Website: [Ai Machines](https://aimachinesllc.com)
+- YouTube: [Ai Machines channel](https://www.youtube.com/@AiMachinesLLC)
+- How-to videos: approved video links are added here once they are uploaded.
+<!-- OWNER-LINKS END -->
