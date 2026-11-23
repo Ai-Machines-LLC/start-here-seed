@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""score_rebuild.py 0.2.0 (review build) - scripted checks for a START HERE rebuild test (stdlib only).
+"""score_rebuild.py 0.2.1 (review build) - scripted checks for a START HERE rebuild test (stdlib only).
 Usage: python3 score_rebuild.py --root <rebuilt working root> --seed <seed repo checkout> [--log <bot log>] [--pin <sha>] [--proof <CLONE_PROOF.txt>]
                               [--direct-msg <regex>]
 Prints one line per item: ITEM | SCORE(2/1/0 or MANUAL) | evidence. Exit 0 if every scripted item is 2, else 1.
@@ -9,7 +9,9 @@ manifest when both exist; S20 reads the librarian's CLONE_PROOF.txt when --proof
 0.1.3 (Reviewer #189): S20 needs a full 40-hex proof commit that equals --pin (or starts with a --pin of 7+ hex), and a
 clone_finished that parses, is not before clone_started and is not in the future; S18 never counts this script's own text.
 0.2.0 startup path checks (scripts/ERROR_CODES.txt): 12 --root or --seed folder missing; 20 --log or --proof given but missing.
-Before 0.2.0 a missing folder scored zeros silently."""
+Before 0.2.0 a missing folder scored zeros silently.
+0.2.1: MOVE_LOCK is a folder (Bots/MOVE_LOCK/, one file per writer bot): S6 needs its README.txt, S10 counts the lines of
+every file in it (plus a legacy Bots/MOVE_LOCK.txt when one exists)."""
 import argparse, datetime, os, re, sys, glob, subprocess
 ap = argparse.ArgumentParser()
 ap.add_argument("--root", required=True); ap.add_argument("--seed", required=True); ap.add_argument("--log", default=None); ap.add_argument("--pin", default=None, help="seed commit sha the live START HERE pins")
@@ -57,7 +59,7 @@ ids = [l for l in rd(p("Bots", "_BOT_IDS.txt")).splitlines() if "|" in l and not
 cnt = glob.glob(p("02 Read_Counts", "*.txt")); bad = [c for c in cnt if not re.fullmatch(r"\s*\d+\s*", rd(c))]
 out("S5 counters", 2 if cnt and len(cnt) >= len(ids) and not bad else 1 if cnt else 0, f"{len(cnt)} counter files for {len(ids)} _BOT_IDS rows; non-numeric {len(bad)}")
 # S6 Bots files + headers
-files = {"DECISIONS.txt": None, "OWNERS.txt": None, "_BOT_IDS.txt": None, "MOVE_LOCK.txt": None, "CORRECTIONS_LOG.csv": None,
+files = {"DECISIONS.txt": None, "OWNERS.txt": None, "_BOT_IDS.txt": None, "MOVE_LOCK/README.txt": None, "CORRECTIONS_LOG.csv": None,
          "CHANGE_LOG.csv": "version", "05 Logs/EVENTS.csv": None, "05 Logs/METRICS.txt": None, "05 Logs/WATCHDOG_MISSES.csv": None}
 m6 = [f for f in files if not nonempty(p("Bots", f))]
 hdr = [f for f, k in files.items() if k and rd(p("Bots", f)) and k not in rd(p("Bots", f)).splitlines()[0]]  # 0.1.2: no crash when the file is missing
@@ -74,7 +76,7 @@ projs = [d for d in glob.glob(p("[0-9][0-9] *", "01 Projects", "*")) if os.path.
 okp = [d for d in projs if all(glob.glob(os.path.join(d, f"{k:02d} *")) for k in range(5)) and glob.glob(os.path.join(d, "02 Docs", "*Master*"))]
 out("S9 projects", 2 if projs and len(okp) == len(projs) else 1 if projs else 0, f"{len(projs)} project folders; {len(okp)} with 00-04 + Master")
 # S10/S11/S13 manual evidence
-out("S10 drills", "MANUAL", f"CORRECTIONS_LOG rows {max(0, len(rd(p('Bots','CORRECTIONS_LOG.csv')).splitlines())-1)}; MOVE_LOCK lines {len(rd(p('Bots','MOVE_LOCK.txt')).splitlines())}; archive files {len(glob.glob(p('**','00 archive','*'), recursive=True))}")
+out("S10 drills", "MANUAL", f"CORRECTIONS_LOG rows {max(0, len(rd(p('Bots','CORRECTIONS_LOG.csv')).splitlines())-1)}; MOVE_LOCK lines {sum(len(rd(f).splitlines()) for f in glob.glob(p('Bots','MOVE_LOCK','*.txt')) + glob.glob(p('Bots','MOVE_LOCK.txt')) if not f.endswith('README.txt'))}; archive files {len(glob.glob(p('**','00 archive','*'), recursive=True))}")
 out("S11 isolation", "MANUAL", f"log lines naming another bot message: {len(re.findall('(?i)' + a.direct_msg, LOG))}")
 t = re.findall(r"\b(\d{2}:\d{2}):\d{2}\b|\b(\d{2}:\d{2}) E[SD]T", LOG); tt = [x or y for x, y in t]
 out("S13 cost", "MANUAL", f"log first {tt[0] if tt else '?'} last {tt[-1] if tt else '?'}; log lines {len(LOG.splitlines())}")

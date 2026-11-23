@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# scrub_check.sh (v0.8.2) - FAILS if the seed holds secrets or anything specific to one owner.
+# scrub_check.sh (v0.8.3) - FAILS if the seed holds secrets or anything specific to one owner.
 # Why: the seed must rebuild a bot system for anyone, so it may carry no names, companies, emails, domains,
 # user paths, IDs or customer terms. Owner-specific terms live in a denylist OUTSIDE the repo (one
 # case-sensitive regex per line), passed as $1. Usage: scripts/scrub_check.sh /path/to/denylist.txt [dir] [owner-allowlist]
+# v0.8.3 (built on v0.8.2): "routine" in its machine-control sense is not a platform term, but only when the
+# phrase names ladder, robot or PLC (e.g. "PLC fault routine", "robot routine", "a routine in the PLC"); those
+# phrases are removed from a hit line before it is judged. A bare "main/event/periodic routine" still FAILS.
 # Exit codes (scripts/ERROR_CODES.txt): 0 PASS, 1 findings, 2 usage, 12 the folder to scan is missing, 20 denylist missing,
 # 23 grep missing. v0.8.0 (on v0.7.3): startup checks run before any scan; a missing denylist stops the run (was a FAIL line).
 # The default folder is the one above this script (relative, never a fixed path).
@@ -71,7 +74,11 @@ if git -C "$root" rev-parse --git-dir >/dev/null 2>&1; then
 fi
 # 5 platform-neutral: platform names, tool names and platform features appear only in PLATFORMS.txt
 pat_platform='\b(grok|x\.?ai|cursor|chatgpt|openai|gpts?|claude|anthropic|gemini|bard|copilot|ollama|llama|mistral|mcp|connectors?|routines?|subagent_type|sendtoagent|updateavatar|updateprofile|updateroutine|calldynamictool|getdynamictools|the box)\b'
-if grep -rInE -i --exclude-dir=.git --exclude=scrub_check.sh --exclude=PLATFORMS.txt "$pat_platform" "$root"; then echo "FAIL platform-specific term (move it to PLATFORMS.txt or say it generically)"; fail=1; fi
+pat_plc_a='\b(ladder|robot|plc)( (logic|program|fault|main|power[- ]?up|startup|motion|homing|home|recovery|interrupt|event|periodic))?[ -]routines?\b'
+pat_plc_b='\broutines? (in|of|inside|within) (the |a |an |this |that )?(ladder|robot|plc)\b'
+out=$(grep -rInE -i --exclude-dir=.git --exclude=scrub_check.sh --exclude=PLATFORMS.txt "$pat_platform" "$root" | while IFS= read -r hit; do
+  rest=$(printf '%s\n' "$hit" | sed -E "s/$pat_plc_a/ /Ig; s/$pat_plc_b/ /Ig"); printf '%s\n' "$rest" | grep -qiE "$pat_platform" && printf '%s\n' "$hit"; done)
+if [ -n "$out" ]; then printf '%s\n' "$out"; echo "FAIL platform-specific term (move it to PLATFORMS.txt or say it generically)"; fail=1; fi
 # 4 START HERE template cap
 f="$root/START_HERE.template.txt"; if [ -f "$f" ]; then n=$(wc -l < "$f"); [ "$n" -le 60 ] || { echo "FAIL START HERE $n lines > 60"; fail=1; }; fi
 [ $fail -eq 0 ] && echo "PASS scrub_check ($(find "$root" -type f -not -path '*/.git/*' | wc -l) files)"; exit $fail
