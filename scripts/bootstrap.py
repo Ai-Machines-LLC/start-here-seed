@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""bootstrap.py (v0.5.2 draft) - builds the generic bot-system folder tree and empty control files.
+"""bootstrap.py (v0.5.3 draft) - builds the generic bot-system folder tree and empty control files.
 Why: one script makes the layout identical on every new system and never overwrites existing work.
 Why Python and a staging folder: no bot depends on one machine. A bot with only file access to the store runs this on
 its own computer into an empty staging folder, then uploads every "created" path to WORKING_ROOT in the shared
@@ -11,6 +11,7 @@ v0.5.0: startup path checks with ERROR_CODES codes; every check runs before anyt
 v0.5.1: the move/edit lock log is a folder, Bots/MOVE_LOCK/, one file per writer bot (written with move_lock.py), not one
 shared MOVE_LOCK.txt that bots overwrite; bootstrap creates the folder and its README and copies move_lock.py.
 v0.5.2: CHANGE_LOG.csv header column is "version" (H35 word; score_rebuild S6 expects it), not "revision".
+v0.5.3: How-Tos INDEX.txt header follows the live system layout, one line per how-to "folder | open it when" (not "file | what it covers | owner").
 """
 import argparse, os, shutil, sys
 
@@ -50,7 +51,9 @@ def main():
     new_dir(J("Libraries", "_suggested"))
     new_file(J("Libraries", "LIBRARY_CHANGES.txt"), "LIBRARY_CHANGES (owner: the librarian, or the Controller when there is none). Only LIVE entries: non-author review PASS, X.Y.0, sha. Never STAGED, PENDING or LINK-TBD. Leaders work from this list.\n"
              f"FORMAT: library | version | sha256 | Reviewer PASS | category | placed {a.tz} | what changed")
-    new_file(J("01 How-Tos", "INDEX.txt"), "HOW-TOS INDEX (one line per how-to: file | what it covers | owner)")
+    new_file(J("01 How-Tos", "INDEX.txt"), "HOW-TOS INDEX (the ONE how-to library; owner of structure: the Controller)\n"
+             "One line per how-to: folder | open it when. Open only the line that matches your work. Each folder has its own short INDEX.txt.\n"
+             "Bots\\Libraries\\ holds code and config only. Project-specific notes live in that project's 02 Docs Master doc, not here.")
     new_file(J("DECISIONS.txt"), f"DECISIONS (newest first). date time {a.tz} | Designer's exact words | what it decides")
     new_file(J("OWNERS.txt"), "OWNERS. route | owner bot | reviewer bot | leader")
     new_file(J("_BOT_IDS.txt"), "_BOT_IDS. bot name (<CODE>-<Project>-<Role>, bootstrap/NAMING.txt) | bot id | counter name | company")
