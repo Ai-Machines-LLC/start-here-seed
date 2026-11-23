@@ -2,6 +2,9 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.8 (review build, on top of 0.10.7 8a084b2; RUN-01 gap 3, mirrored from the START HERE team's page after its non-author review PASS)
+- START_HERE template H19: CORRECTION EDITS TOO. An edit made from a correction is reviewed by one non-author team bot before it is placed, and the placer appends one CORRECTIONS_LOG row (what went wrong, cause, change made, check added) and reads it back. This append is allowed even though the Controller owns the file; other rows are never edited or removed. The CHECK adds the CORRECTIONS_LOG row.
+
 ## 0.10.7 (review build, from 0.10.6 d8ad2a6, which failed review with 1 finding and is not reused, H35)
 - README Step 3: self-registration moves after bootstrap.py (MANIFEST step 7), because bootstrap.py creates _BOT_IDS.txt and no script or step may recreate a missing target before it (H24).
 
