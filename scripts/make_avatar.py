@@ -1,13 +1,24 @@
 #!/usr/bin/env python3
-# make_avatar.py (v0.5.0 draft) - draws one bot badge avatar (512x512 round PNG).
+# make_avatar.py (v0.6.0 draft) - draws one bot badge avatar (512x512 round PNG).
 # Why: every bot gets its avatar at creation, so the whole team looks consistent with no hand work (MANIFEST step 7).
 # Nothing company-specific lives here: the logo file and colors come from the COMPANY_MARKS line in the LOCAL START HERE.
 # Usage: python3 make_avatar.py [--logo <logo.png>] --bg R,G,B --ring R,G,B --badge TEXT [--leader] --out <file.png>
 #   No --logo: a plain disc in the company colors (NAMING.txt N8; flag it to the Controller).
 #   --badge: 1-4 characters from bootstrap/NAMING.txt (N6). --leader adds the gold star in a dark disc.
+#   --font: a .ttf file or a font name the system can find; default tries the names DejaVuSans-Bold.ttf and arialbd.ttf,
+#   then Pillow's built-in font. No font folder is written in this script (v0.6.0: no exact paths).
 # Needs Pillow (pip install pillow). Prints the output path on success.
-import argparse, math, sys
-from PIL import Image, ImageDraw, ImageFont
+# Exit codes (scripts/ERROR_CODES.txt): 0 drawn, 2 usage (bad color or badge), 20 --logo or --font file missing,
+#   22 the --out folder missing, 23 Pillow not installed, 30 --logo is not an image. v0.6.0: startup checks, no exact paths.
+import argparse, math, os, sys
+
+def fail(code, name, path, what):
+    print(f"ERROR {code} {name} | {path} | {what}", file=sys.stderr); sys.exit(code)
+try:
+    from PIL import Image, ImageDraw, ImageFont
+except ImportError:
+    fail(23, "TOOL_MISSING", "Pillow", "install it: pip install pillow")
+FONT = None   # set from --font
 S = 512  # final size in pixels
 
 def rgb(text):
@@ -17,11 +28,10 @@ def rgb(text):
     return tuple(parts)
 
 def font(size):
-    # Why a fallback chain: bots run on different machines; any bold sans works.
-    for path in ("DejaVuSans-Bold.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-                 "arialbd.ttf", "C:/Windows/Fonts/arialbd.ttf", "/Library/Fonts/Arial Bold.ttf"):
+    # Why a fallback chain of names: bots run on different machines; any bold sans works. --font wins when given.
+    for name in ((FONT,) if FONT else ()) + ("DejaVuSans-Bold.ttf", "DejaVuSans-Bold", "arialbd.ttf", "Arial Bold.ttf"):
         try:
-            return ImageFont.truetype(path, size)
+            return ImageFont.truetype(name, size)
         except OSError:
             pass
     return ImageFont.load_default()
@@ -36,12 +46,13 @@ def star(cx, cy, outer, inner):
 
 def draw(logo_path, bg, ring, badge, leader, out):
     if not 1 <= len(badge) <= 4:
-        sys.exit("badge must be 1-4 characters (NAMING.txt N6)")
+        print("badge must be 1-4 characters (NAMING.txt N6)", file=sys.stderr); sys.exit(2)
     im = Image.new("RGBA", (S, S), ring + (255,))
     d = ImageDraw.Draw(im)
     d.ellipse([22, 22, S - 22, S - 22], fill=bg + (255,))           # ring = company color, disc = logo background
     # Why optional: a new company may have no logo yet (N8); the disc and badge still identify the bot.
-    logo = Image.open(logo_path).convert("RGBA") if logo_path else Image.new("RGBA", (1, 1), (0, 0, 0, 0))
+    try: logo = Image.open(logo_path).convert("RGBA") if logo_path else Image.new("RGBA", (1, 1), (0, 0, 0, 0))
+    except OSError: fail(30, "BAD_FORMAT", logo_path, "the logo is not an image Pillow can open")
     bbox = logo.getbbox()
     if bbox:
         logo = logo.crop(bbox)                                        # trim empty margins so every logo sits the same
@@ -73,6 +84,10 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description="Draw one bot badge avatar.")
     p.add_argument("--logo", default=None); p.add_argument("--bg", type=rgb, required=True)
     p.add_argument("--ring", type=rgb, required=True); p.add_argument("--badge", required=True)
-    p.add_argument("--leader", action="store_true"); p.add_argument("--out", required=True)
+    p.add_argument("--leader", action="store_true"); p.add_argument("--out", required=True); p.add_argument("--font", default=None)
     a = p.parse_args()
+    if a.logo and not os.path.isfile(a.logo): fail(20, "FILE_MISSING", a.logo, "logo file not found; leave --logo out for a plain disc (N8)")
+    if a.font and os.sep in a.font.replace("/", os.sep) and not os.path.isfile(a.font): fail(20, "FILE_MISSING", a.font, "font file not found")
+    if not os.path.isdir(os.path.dirname(os.path.abspath(a.out))): fail(22, "OUTPUT_PARENT_MISSING", a.out, "create the output folder first")
+    FONT = a.font
     draw(a.logo, a.bg, a.ring, a.badge.upper(), a.leader, a.out)

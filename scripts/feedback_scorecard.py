@@ -1,21 +1,40 @@
 #!/usr/bin/env python3
-"""START HERE scorecard (one row per live START HERE rev). Writer: the feedback role only.
+"""feedback_scorecard.py (v0.2.0) - START HERE scorecard (one row per live START HERE rev). Writer: the feedback role only.
 Usage: feedback_scorecard.py LISTING.json REVS.csv TRACKER.csv OUT.csv [CONTROLLER.csv]
  LISTING.json   folder listing of the corrections drop folder (Graph JSON: value[].name, optional value[].text)
  REVS.csv       rev,live_from  (YYYY-MM-DD HH:MM ET, oldest first; a rev ends when the next starts)
  TRACKER.csv    feedback_tracker.csv (source=correction rows; rule_ref used for repeats; date = YYYY-MM-DD HH:MM)
  CONTROLLER.csv optional: rev,found  (corrections the Controller's check found in bot chats)
 Files: <YYYY-MM-DD_HHMM>_<bot>_CORRECTION.txt = correction; <YYYY-MM-DD_HHMM>_<bot>_FEEDBACK.txt = cycle answer (the agreed names, Lead 2:09 PM); optional _2/_3 before .txt; for safety the time may also be HHMMSS or absent (no time = 23:59 that day).
-Q2/Q4 counts come from FEEDBACK files whose text was saved next to the listing as <name> (non-'none' answer = 1)."""
+Q2/Q4 counts come from FEEDBACK files whose text was saved next to the listing as <name> (non-'none' answer = 1).
+Exit codes (scripts/ERROR_CODES.txt): 0 written, 2 wrong number of arguments, 20 an input file missing, 22 OUT.csv's folder
+missing, 30 an input lacks its columns or is not JSON, 31 a date is not YYYY-MM-DD HH:MM.
+v0.2.0: startup path and header checks before anything is read; each failure names the path."""
 import csv, json, re, sys, os
 from datetime import datetime
 F = "%Y-%m-%d %H:%M"
 def t(s): return datetime.strptime(s.strip(), F)
+def fail(code, name, path, what):
+    print(f"ERROR {code} {name} | {path} | {what}", file=sys.stderr); sys.exit(code)
+if len(sys.argv) not in (5, 6):
+    print("usage: feedback_scorecard.py LISTING.json REVS.csv TRACKER.csv OUT.csv [CONTROLLER.csv]", file=sys.stderr); sys.exit(2)
 lst, revs_p, trk_p, out_p = sys.argv[1:5]
+for p_ in sys.argv[1:4] + sys.argv[5:6]:
+    if not os.path.isfile(p_): fail(20, "FILE_MISSING", p_, "input file not found (missing, renamed or moved)")
+if not os.path.isdir(os.path.dirname(os.path.abspath(out_p))): fail(22, "OUTPUT_PARENT_MISSING", out_p, "create the output folder first")
+def cols_of(p_, need):
+    with open(p_, newline="") as fh: head = next(csv.reader(fh), [])
+    if not set(need) <= {h.strip() for h in head}: fail(30, "BAD_FORMAT", p_, f"header must include {','.join(need)}")
+cols_of(revs_p, ["rev", "live_from"]); cols_of(trk_p, ["source", "rule_ref", "date"])
 ctl = {}
 if len(sys.argv) > 5:
-    ctl = {r["rev"]: int(r["found"]) for r in csv.DictReader(open(sys.argv[5]))}
-revs = [(r["rev"], t(r["live_from"])) for r in csv.DictReader(open(revs_p))]
+    cols_of(sys.argv[5], ["rev", "found"])
+    try: ctl = {r["rev"]: int(r["found"]) for r in csv.DictReader(open(sys.argv[5]))}
+    except ValueError: fail(31, "BAD_VALUE", sys.argv[5], "found must be a whole number")
+try: revs = [(r["rev"], t(r["live_from"])) for r in csv.DictReader(open(revs_p))]
+except ValueError: fail(31, "BAD_VALUE", revs_p, "live_from must be YYYY-MM-DD HH:MM")
+try: listing = json.load(open(lst))
+except ValueError: fail(30, "BAD_FORMAT", lst, "not a JSON folder listing")
 now = datetime.now()
 def rev_of(ts):
     cur = None
@@ -25,7 +44,7 @@ def rev_of(ts):
 pat = re.compile(r"^(\d{4}-\d{2}-\d{2})_(?:(\d{2})(\d{2})(?:\d{2})?_)?(.+?)_(CORRECTION|FEEDBACK)(?:_\d+)?\.txt$")
 stat = {n: dict(files=0, q2=0, q4=0) for n, _ in revs}
 base = os.path.dirname(os.path.abspath(lst))
-for it in json.load(open(lst)).get("value", []):
+for it in listing.get("value", []):
     m = pat.match(it["name"])
     if not m: continue
     r = rev_of(datetime.strptime(f"{m.group(1)} {m.group(2) or '23'}:{m.group(3) or '59'}", F))

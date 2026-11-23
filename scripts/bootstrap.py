@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-"""bootstrap.py (v0.4.0 draft) - builds the generic bot-system folder tree and empty control files.
+"""bootstrap.py (v0.5.0 draft) - builds the generic bot-system folder tree and empty control files.
 Why: one script makes the layout identical on every new system and never overwrites existing work.
 Why Python and a staging folder: no bot depends on one machine. A bot with only file access to the store runs this on
 its own computer into an empty staging folder, then uploads every "created" path to WORKING_ROOT in the shared
 store, skipping any path that already exists there (never overwrite, H24). On a synced folder, --root is the folder.
 Usage: bootstrap.py --root <folder> --companies "A,B" [--tz UTC] [--encoding UTF8|1252]
 --encoding: answer to FIRST_BOT_QUESTIONS Q6; control files are written in it (H27). Standard library only.
+Exit codes (scripts/ERROR_CODES.txt): 0 done, 2 usage, 12 root missing, 24 log_event.py or toggle.py not beside this script.
+v0.5.0: startup path checks with ERROR_CODES codes; every check runs before anything is created.
 """
 import argparse, os, shutil, sys
+
+def fail(code, name, path, what):
+    # One line on standard error, then the ERROR_CODES.txt exit code (path = what the caller gave, never a secret).
+    print(f"ERROR {code} {name} | {path} | {what}", file=sys.stderr); sys.exit(code)
 
 def main():
     ap = argparse.ArgumentParser()
@@ -17,7 +23,11 @@ def main():
     ap.add_argument("--encoding", choices=["UTF8", "1252"], default="UTF8")
     a = ap.parse_args()
     if not os.path.isdir(a.root):
-        sys.exit(f"Root '{a.root}' does not exist. Create it yourself, then rerun (H24: never recreate a missing target).")
+        fail(12, "ROOT_MISSING", a.root, "create the root folder yourself, then rerun (H24: never recreate a missing target)")
+    here = os.path.dirname(os.path.abspath(__file__))   # the scripts folder this copy runs from (no fixed path)
+    for s in ["log_event.py", "toggle.py"]:
+        if not os.path.isfile(os.path.join(here, s)):
+            fail(24, "SCRIPT_MISSING", os.path.join(here, s), "run bootstrap.py from the seed's scripts folder")
     enc = "cp1252" if a.encoding == "1252" else "utf-8"
 
     def new_dir(p):
@@ -47,7 +57,6 @@ def main():
     new_file(J("05 Logs", "EVENTS.csv"), "time,bot,event,detail")
     new_file(J("05 Logs", "METRICS.txt"), "METRICS (one line per bot, written by bot_metrics; empty until it exists)")
     new_file(J("05 Logs", "WATCHDOG_MISSES.csv"), "date,time,bot,rule,miss")
-    here = os.path.dirname(os.path.abspath(__file__))
     for s in ["log_event.py", "toggle.py"]:
         dst = J("04 Scripts", s)
         if os.path.exists(dst): print(f"exists   {dst} (left as is)")

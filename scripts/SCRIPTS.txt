@@ -1,0 +1,21 @@
+name | job | path | status
+bootstrap.py | builds the generic bot-system folder tree and empty control files; never overwrites existing work | scripts/bootstrap.py | shipped
+check_corrections.py | lists Designer corrections that no bot saved as a file | scripts/check_corrections.py | shipped
+feedback_scorecard.py | writes one scorecard row per live START HERE revision from the corrections and tracker files | scripts/feedback_scorecard.py | shipped
+log_event.py | appends one work event to EVENTS.csv so metrics come from a log, not memory | scripts/log_event.py | shipped
+make_avatar.py | draws one bot badge avatar (round PNG) from the company marks in the local START HERE | scripts/make_avatar.py | shipped
+toggle.py | turns a leader or a recurring cycle ON or OFF in a status file, or checks it; exit 50 (WARN_ASSUMED_ON) means no status file, so the item is ON with a warning: callers must treat 50 as ON, never as a failure | scripts/toggle.py | shipped
+scrub_check.sh | FAILS if the seed holds secrets, emails, domains, user paths, IDs, platform words or denylisted owner terms | scripts/scrub_check.sh | shipped
+leak_check.py | personal and customer data gate before any commit, push or public upload; --history scans past commits | scripts/leak_check.py | planned
+heartbeat.py | writes one bot's heartbeat line (WORKING, WAITING or IDLE, with request, step and blocker) | scripts/heartbeat.py | planned
+check_heartbeats.py | watchdog check: flags stale heartbeats and requests waiting too long | scripts/check_heartbeats.py | planned
+check_open_requests.py | completion check before a bot says done: every open request has status and proof | scripts/check_open_requests.py | planned
+check_scripts.py | compares scripts named in the seed with this manifest and the files present; prints OK, MISSING or UNLISTED; flags hardcoded paths in scripts; --probes checks each script fails with its ERROR_CODES code when a path is missing | scripts/check_scripts.py | planned
+run_team_checks.py | runs every check above plus the rebuild score and writes one dated PASS, FAIL or SKIP results file; test mode proves a fresh clone at the pin, normal mode flags a STALE copy | scripts/run_team_checks.py | planned
+score_rebuild.py | scores a rebuild test item by item (2, 1, 0 or MANUAL) from the rebuilt tree, the seed and the bot log | scripts/score_rebuild.py | planned
+bot_metrics.py | reads EVENTS.csv and writes one staffing metrics line per bot to METRICS.txt (leaders L-15/L-16, Controller staffing review) | scripts/bot_metrics.py | planned
+read_check.py | checks each bot's own openings record holds its read line and its read counter rises by exactly 1 per read (no repeat, no skip); lists flagged bots and logs each run; paths from --config or flags | scripts/read_check.py | planned
+route_check.py | finds the one owner for an ask from OWNERS (leaders L-1) | scripts/route_check.py | planned
+confirm_change.py | records a working change, only on the Designer's own words (Controller edit protocol) | scripts/confirm_change.py | planned
+path_patterns.py | the one list of hardcoded-path patterns shared by check_scripts.py and library_intake_scan.py; import only, ships beside them | scripts/path_patterns.py | planned
+library_intake_scan.py | the librarian runs it on every incoming library: flags paths, emails, denylisted names (from the config), machine data and secret patterns by file and line, never printing the match | scripts/library_intake_scan.py | planned
