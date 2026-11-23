@@ -2,6 +2,10 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.13 (review build, on top of 0.10.12 bce63ec; the START HERE team's script after its non-author review PASS, handed over by the team's builder on the lead's go)
+- score_rebuild.py 0.2.3: finds the rebuilt Bots and roles folders up to 2 levels below --root (a tie = ERROR 30); new GATE G1 checks every own-chat turn opens with the H1 line, N rises with no reuse, and the last N equals the counter (--replies, --counter, --h1-regex); a G1 FAIL exits 1. Why: RUN-02 scored 33/38 while its tester skipped the H1 line and counter.
+- scripts/SCRIPTS.txt: the score_rebuild.py line names GATE G1.
+
 ## 0.10.12 (review build, on top of 0.10.10 6ec8e22; 0.10.11 d240e60 failed review with 1 finding and is not reused, H35; mirrored from the START HERE team's page 1.22.0 after its non-author review PASS, from the Designer's correction that bots sent a quick reply before the read)
 - START_HERE template H1: ORDER. Filling out the header (read the page, count, then the H1 line) comes first every turn, before any ack, reaction or quick reply, and messages to the Designer in the bot's own chat count too. The CHECK now names the first message of every turn.
 - H1 BOOTSTRAP MODE uses a real number: the bootstrap bot keeps a scratch counter before the counters folder exists, and its real counter file starts from that number instead of 0. The "[read #bootstrap]" opening is gone (README BOOTSTRAP MODE, Steps 3 and 4, including the missing-counter line; MANIFEST v0.9.5 step 4).
