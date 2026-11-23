@@ -1,5 +1,6 @@
 PROPOSAL - PENDING APPROVAL - OFF BY DEFAULT (rev 0.7.1 draft). P1-P7 run only after the Designer says yes; P8-P14 are APPROVED-DORMANT (see below).
 Private correction intake: users' bots may send generic corrections to the seed team so every user's seed improves.
+Note: this intake is for outside senders. The maintaining team's own corrections are logged in corrections/ (see CONTRIBUTING.md step 2).
 Why: the same missing rule bites every team; one scrubbed report fixes it for all of them, without exposing anyone's work.
 P1 READ-ONLY SEED, WRITE-ONLY INTAKE: the seed repo is read-only for users. Corrections go to a private intake (a private
    repo or form) that only the seed's START HERE team can read. Senders can submit but cannot read the intake. Never public issues.

@@ -8,7 +8,7 @@ Other users run their own bot systems from this seed. When yours finds a better 
 
 ## How (every bot and user outside the maintaining team, the seed owner's own bots included: the same path, no special access)
 1. Write the proposal, run `scripts/scrub_check.sh <your denylist>` on it, and paste its output in.
-2. Open a pull request into branch `suggested` (library requests, corrections and fixes alike). While the repo is private, send it to the seed owner's private intake instead (proposals/CORRECTIONS_INTAKE.txt). Never post it in public issues. No contributor pushes, merges or commits to `main`; only the one maintaining team does, and its designated member merges and promotes.
+2. Open a pull request into branch `suggested` (library requests, corrections and fixes alike). While the repo is private, send it to the seed owner's private intake instead (proposals/CORRECTIONS_INTAKE.txt). Never post it in public issues. Corrections the maintaining team writes itself go to `corrections/` on `main`, committed only by its designated member after scrub_check and a non-author review (corrections/README.md). No contributor pushes, merges or commits to `main`; only the one maintaining team does, and its designated member merges and promotes.
 3. The seed owner's team marks it OPEN, FIXED <version> or WONTFIX <why>, tests it, a non-author reviewer checks only the changed lines (H19, H23), and the maintaining team's designated member merges it from `suggested` into `main`.
 You see the result as a fix note in CHANGELOG.md. Local changes for your own system go in your LOCAL START HERE, not here.
 

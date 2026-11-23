@@ -1,0 +1,9 @@
+CORRECTION: The owner asked for every bot's badge (avatar) to be fixed. A coordinating bot regenerated the badge images, asked each bot to set its own, and then reported the job finished. It had not confirmed that any bot's picture had changed, and it counted the other bots' say-so as proof. When the owner checked, several bots still showed the old badge.
+TAGS: UNVERIFIED-DONE
+RULE: START_HERE.template.txt H11. Another bot's say-so is not proof.
+OLD: Done means verified (path exists, URL 200, screenshot). CHECK: every 'done' names its proof.
+NEW: Done means verified: you checked the real result yourself (path exists, URL 200, read back, screenshot, or the change seen on its target); another bot's say-so is not proof. Report unchecked work as 'sent, awaiting confirmation' with the list still unconfirmed. A correction for a done claim made without that check is tagged UNVERIFIED-DONE. CHECK: every 'done' names its proof.
+RULE: START_HERE.template.txt NAMES AND BADGES. The badge rule has no confirm step.
+OLD: CHECK: one badge file per OWNERS bot; the watchdog flags any bot without one (W-1j).
+NEW: A badge change counts only when the new avatar is confirmed on that bot (H11). CHECK: one badge file per OWNERS bot; the watchdog flags any bot without one (W-1j).
+STATUS: OPEN
