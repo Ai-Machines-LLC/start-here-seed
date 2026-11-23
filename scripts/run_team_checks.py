@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""run_team_checks.py v0.2.0 (review build) - one runner for the START HERE team's own checks; writes one dated results file.
+"""run_team_checks.py v0.2.1 (review build) - one runner for the START HERE team's own checks; writes one dated results file.
 Why: testing and verification are script-driven wherever possible, not manual steps. Each check reports PASS, FAIL or SKIP
 with its reason, so a reader sees at once what ran, what failed and what could not run.
 Usage:
@@ -27,7 +27,7 @@ FRESH_CLONE FAILs if: the proof is missing or not mode=test; prior_checkout is n
   reflog has anything besides the single 'clone' entry; the clone has tracked changes or untracked files; any file is a
   link pointing outside the clone; or the clone's git folder is older than clone_started (a reused copy).
 Checks, in order (each PASS, FAIL or SKIP with a reason):
-  FRESH_CLONE (test) or PIN_CHECK (normal); BOOTSTRAP_VERIFY (bootstrap.py --verify); SCRUB_CHECK (scrub_check.sh);
+  FRESH_CLONE (test) or PIN_CHECK (normal); BOOTSTRAP_VERIFY (bootstrap.py --verify; SKIP while bootstrap.py lacks an option it needs); SCRUB_CHECK (scrub_check.sh);
   LEAK_CHECK (leak_check.py --dir <seed>, plus --history inside a git clone); CHECK_HEARTBEATS (check_heartbeats.py);
   CHECK_SCRIPTS (check_scripts.py); SCORE_REBUILD (score_rebuild.py, the T5/T6 scorecard; its MANUAL items are listed, not scored).
 v0.1.2 GATES (Reviewer #186): --pin is required. FRESH_CLONE (test) or PIN_CHECK (normal) always runs, whatever --only says.
@@ -37,6 +37,9 @@ v0.1.2 GATES (Reviewer #186): --pin is required. FRESH_CLONE (test) or PIN_CHECK
 Scripts are found in --scripts-dir (normal mode only), else <seed>/scripts. Missing inputs give SKIP with the option needed.
 Results: <out>/TEAM_CHECKS_<YYYY-MM-DD_HHMM>.txt (never overwritten: a second run in the same minute adds _2, _3).
 Last line: TEAM_CHECKS PASS|FAIL | pass=N fail=N skip=N. Exit 0 when nothing FAILs, 1 if any FAIL, 2 on a usage error.
+v0.2.1 (Lead #242): BOOTSTRAP_VERIFY never calls bootstrap.py with an option bootstrap.py does not define. It reads the
+  add_argument("--...") names in bootstrap.py first; any missing one gives SKIP 'bootstrap verify not built yet' naming it
+  (bootstrap.py 0.5.0 has no --verify mode, so this SKIPs until one is built).
 v0.2.0 startup path checks (scripts/ERROR_CODES.txt), before any check runs: 12 --seed missing; 22 --out folder missing (it is
   no longer created); 20 a file option given but missing (--proof --deny --allow --log --config --bots --manifest; --hb and --req
   may be a file or a folder);
@@ -69,6 +72,11 @@ def git(seed, *args):
     if args[0] not in LOCAL_GIT: raise SystemExit(f"REFUSED git {args[0]}: the runner reads local git state only")
     r = subprocess.run(["git", "-C", seed, *args], capture_output=True, text=True)
     return r.returncode, r.stdout.strip(), r.stderr.strip()
+
+def defined_opts(script):
+    """Option names a script defines (its add_argument("--x") calls), read as text; nothing is run."""
+    try: return set(re.findall(r"""add_argument\(\s*["'](--[A-Za-z0-9][A-Za-z0-9-]*)["']""", open(script, encoding="utf-8", errors="replace").read()))
+    except OSError: return set()
 
 class Run:
     def __init__(s): s.rows, s.detail = [], []
@@ -184,12 +192,16 @@ def main():
         if not inside(os.path.abspath(__file__), seed): R.add("RUNNER_IN_CLONE", "FAIL", f"the runner {os.path.abspath(__file__)} is outside the fresh clone")
     if a.mode == "normal" and want("PIN_CHECK"): pin_check(R, a, seed)
     if want("BOOTSTRAP_VERIFY"):
-        if not (a.verify_tier and a.rebuild_root and a.counters and a.heartbeats): R.add("BOOTSTRAP_VERIFY", "SKIP", "needs --verify-tier, --rebuild-root, --counters and --heartbeats")
+        bs = sc("bootstrap.py")
+        opts = ["--verify", "--root", "--counters", "--heartbeats"] + (["--project"] if a.project else []) + (["--config"] if a.config else [])
+        gone = [o for o in opts if o not in defined_opts(bs)] if os.path.isfile(bs) else []
+        if gone: R.add("BOOTSTRAP_VERIFY", "SKIP", f"bootstrap verify not built yet: bootstrap.py has no {', '.join(gone)}")
+        elif not (a.verify_tier and a.rebuild_root and a.counters and a.heartbeats): R.add("BOOTSTRAP_VERIFY", "SKIP", "needs --verify-tier, --rebuild-root, --counters and --heartbeats")
         else:
             argv = ["--verify", a.verify_tier, "--root", a.rebuild_root, "--counters", a.counters, "--heartbeats", a.heartbeats]
             if a.project: argv += ["--project", a.project]
             if a.config: argv += ["--config", a.config]
-            run_script(R, "BOOTSTRAP_VERIFY", sc("bootstrap.py"), argv, seed, a.mode)
+            run_script(R, "BOOTSTRAP_VERIFY", bs, argv, seed, a.mode)
     if want("SCRUB_CHECK"):
         if not a.deny: R.add("SCRUB_CHECK", "SKIP", "needs --deny (denylist kept outside the seed)")
         else: run_script(R, "SCRUB_CHECK", sc("scrub_check.sh"), [a.deny, seed], seed, a.mode)

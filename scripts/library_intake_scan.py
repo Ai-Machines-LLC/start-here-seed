@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""library_intake_scan.py v0.1.0 (review build) - the librarian runs this on every incoming library before it is accepted.
+"""library_intake_scan.py v0.1.1 (review build) - the librarian runs this on every incoming library before it is accepted.
 Why: a library must carry no paths, personal data, machine data or secrets (H5, H26), so a new system can use it as is.
 Usage: library_intake_scan.py --dir <incoming library folder> --config <USER_CONFIG file> [--max-mb 20]
   --config  a "KEY = value" file (USER_CONFIG, or a .conf it names). Keys read:
@@ -19,7 +19,7 @@ Files that are not text (a zero byte in the first 4 KB) or larger than --max-mb 
 and count as hits, so nothing unread is accepted.
 Last line: INTAKE PASS|FAIL | files=N hits=N skipped=N
 Exit (scripts/ERROR_CODES.txt): 0 clean, 40 SCAN_HITS, 2 usage, 10 config missing, 11 INTAKE_DENY and INTAKE_DENY_FILE both
-  missing from the config, 20 INTAKE_DENY_FILE missing, 21 --dir missing, 24 path_patterns.py not beside this script.
+  missing from the config, or either one still '?' (the template's UNFILLED mark; v0.1.1, Lead #242), 20 INTAKE_DENY_FILE missing, 21 --dir missing, 24 path_patterns.py not beside this script.
 Read-only. Standard library only. Text read as UTF-8, else cp1252."""
 import argparse, os, re, sys
 
@@ -67,6 +67,8 @@ def main():
     cfg = read_cfg(a.config)
     if "INTAKE_DENY" not in cfg and "INTAKE_DENY_FILE" not in cfg:
         fail(11, "CONFIG_KEY_MISSING", "INTAKE_DENY", f"add INTAKE_DENY (and/or INTAKE_DENY_FILE) to {a.config}")
+    for k in ("INTAKE_DENY", "INTAKE_DENY_FILE"):   # '?' is the template's UNFILLED mark, never a deny term or a file name
+        if cfg.get(k) == "?": fail(11, "CONFIG_KEY_MISSING", k, f"{k} not filled (still '?') in {a.config}")
     terms = [t.strip() for t in cfg.get("INTAKE_DENY", "").split(",") if t.strip()]
     if cfg.get("INTAKE_DENY_FILE"):
         df = cfg["INTAKE_DENY_FILE"]

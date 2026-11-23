@@ -1,4 +1,4 @@
-ERROR_CODES (v0.1.0) - one exit-code table for every seed script. Owner: the Builder role; changes go through review (H19).
+ERROR_CODES (v0.1.1) - one exit-code table for every seed script. Owner: the Builder role; changes go through review (H19).
 Why: a missing, renamed or moved file or folder must fail loudly with a clear code, never guess or carry on. Every script
 checks the paths it needs at startup, before it reads or writes anything, and stops at the first missing one.
 Rule for messages: one line on standard error, "ERROR <code> <NAME> | <path or key> | <what to do>". The path printed is the
@@ -22,7 +22,8 @@ code | NAME                  | meaning
 31   | BAD_VALUE             | a value inside a file cannot be used (not a number, not a date)
 40   | SCAN_HITS             | library_intake_scan.py: the library holds paths, personal data or secret patterns
 50   | WARN_ASSUMED_ON       | toggle.py: status file missing, treated as ON so work is not blocked (warning; the Designer
-     |                       | 2026-11-22 8:54 PM ET: "just fix it", option B). Callers decide whether to stop.
+     |                       | 2026-11-22 8:54 PM ET: "just fix it", option B). Callers decide whether to stop. Only a check or read:
+     |                       | toggle.py --set on a missing file is 20 FILE_MISSING (not applied), never 50 (v0.1.1).
 
 PROBES - check_scripts.py --probes runs each line in an empty temporary folder and expects the exit code.
 {MISSING} is a path that does not exist; {EMPTY} is an empty folder; {SCRIPTS} is the scripts folder under test.
@@ -38,6 +39,7 @@ make_avatar.py | --bg 1,2,3 --ring 1,2,3 --badge AB --out {MISSING}/out.png | 22
 scrub_check.sh | {MISSING} {EMPTY} | 20
 scrub_check.sh | {SCRIPTS}/ERROR_CODES.txt {MISSING} | 12
 toggle.py | --file {MISSING} --name L1 | 50
+toggle.py | --file {MISSING} --name L1 --set OFF | 20
 run_team_checks.py | --mode normal --seed {MISSING} --pin 0000000 --out {EMPTY} | 12
 run_team_checks.py | --mode normal --seed {EMPTY} --pin 0000000 --out {MISSING} | 22
 check_scripts.py | --seed {MISSING} | 12
