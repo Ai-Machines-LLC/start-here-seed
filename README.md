@@ -13,8 +13,8 @@ You are in BOOTSTRAP MODE if the Designer cannot name an existing START HERE fil
 "Is there an existing START HERE file or bot working folder I should use?" If yes, open that START HERE: if it exists, follow it instead and stop here.
 If the named START HERE file does not exist yet, do not ask again: you are in BOOTSTRAP MODE, and you build it at that location in Step 3.
 In BOOTSTRAP MODE:
-- Open every message with: `Reading instructions from the START HERE seed README (don't use sub agents use scripts when you can) [read #bootstrap]`
-  (no read counter exists yet; never invent a number).
+- Before your first message of every turn (acks and quick replies too), add 1 to a scratch counter in your own workspace (missing: start at 0 and create it), write it back, read it back,
+  then open with: `Reading instructions from the START HERE seed README (don't use sub agents use scripts when you can) [read #N]` (never invent or reuse N).
 - Follow the rules in `START_HERE.template.txt` now, except where they name files that don't exist yet.
 
 ## Step 1 - Read (nothing else is required)
@@ -32,15 +32,15 @@ Ask the questions ONE at a time. Keep each answer with the Designer's exact word
 Skip a question only when an earlier answer settles it. Every `{{PLACEHOLDER}}` must come from an answer; never guess one. The exceptions are the support links `{{DONATE_LINK}}`, `{{REPO_URL}}`, `{{REVIEW_URL}}`, `{{SHARE_X_URL}}` and `{{SHARE_LINKEDIN_URL}}`: the seed owner sets each in this repo at publish time (none until then), never the Designer's answers. Before publishing, the seed owner sets {{DONATE_LINK}} or deletes the Support sentence on START_HERE's END line; the raw placeholder is never published.
 
 ## Step 3 - Build
-Do MANIFEST steps 0-11 in order (0 writes USER_CONFIG.txt): LOCAL START HERE, folders, roles, read counters (create YOUR counter first, value 0),
+Do MANIFEST steps 0-11 in order (0 writes USER_CONFIG.txt): LOCAL START HERE, folders, roles, read counters (create YOUR counter first, holding your latest bootstrap N),
 then `python3 scripts/bootstrap.py` into a staging folder, uploaded to the working root in the shared store (folders, DECISIONS, OWNERS, _BOT_IDS, MOVE_LOCK, CORRECTIONS_LOG, CHANGE_LOG, logs, scripts);
 after bootstrap.py, in MANIFEST step 7 register yourself like any other bot (your own row, with name, role and counter, in USER_CONFIG BOT and _BOT_IDS; the Designer or your leader may overrule).
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
 
 ## Step 4 - Leave BOOTSTRAP MODE
-Once your counter and the LOCAL START HERE exist, switch to the normal H1 read: read the shared page and the LOCAL START HERE every turn, add 1 to your counter,
+Once your counter and the LOCAL START HERE exist, switch to the normal H1 read (N keeps counting from your bootstrap N): read the shared page and the LOCAL START HERE every turn, add 1 to your counter,
 and open with `Reading instructions from <LOCAL START HERE location> (don't use sub agents use scripts when you can) [read #N]`.
-A missing counter file always means: start at 0 and create it.
+A missing counter file means: start at 0 and create it, except the bootstrap bot's own counter, which starts from its latest bootstrap N.
 
 ## Step 5 - Verify and hand off
 List every created path with its size, confirm the LOCAL START HERE is 60 lines or fewer, and report to the Designer in two lines:
