@@ -1,0 +1,8 @@
+{
+  "live_client_file": "Path/To/LiveAPIClient.swift",
+  "live_client_type": "LiveAPIClient",
+  "live_route_pattern": "\\brest\\.(send|call)\\b",
+  "stub_arg": "restFetch:",
+  "banned_words": ["word1", "word2s?"],
+  "type_suffixes": ["API", "Client", "Store", "Service"]
+}

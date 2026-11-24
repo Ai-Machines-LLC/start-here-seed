@@ -2,6 +2,12 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.18 (review build, on top of 0.10.15 5cc653d; 0.10.16 2b2a554 and 0.10.17 217135e failed review with 1 finding each and are not reused, H35; two new LIVE library entries after their non-author review PASS)
+- New library entry: `libraries/software/ci/check_patch.py` 2.1.0 (sha256 first 8 = d38acbc4), a byte-exact copy of the LIVE entry, as listed in the store's LIBRARY_CHANGES 1.3.0 (sha256 first 8 = e7cc53ef). It is a generic pre-push check: each failure library row gets a check that FAILs on the broken commit and PASSes on the fix, plus a self-test case (`--self-test`). Every project detail comes from a JSON config. Why: failures should be caught before CI, not after.
+- New library entry: `libraries/software/ci/check_patch.example.json` 2.1.0 (sha256 first 8 = d884def2), the example config with placeholders only, listed in the same LIBRARY_CHANGES 1.3.0.
+- README: the `libraries/` line names the new entries.
+- scripts/SCRIPTS.txt: lists the check_patch.py library entry so check_scripts stays clean.
+
 ## 0.10.15 (review build, on top of 0.10.14 9100a9a; a new LIVE library entry after its non-author review PASS)
 - New library entry: `libraries/software/ci/failure-library.md` 0.1.0 (sha256 first 8 = 65834499), a byte-exact copy of the LIVE entry, as listed in the store's LIBRARY_CHANGES 1.2.0 (sha256 first 8 = 6e97aa27). It holds a generic rule (every build failure that reaches CI gets a row and a check that FAILs on the old commit and PASSes on the fix), the row format and 6 Swift starter rows, with no project data. Why: the Designer wants failure knowledge to reach the shared seed, not stay with one bot.
 - README: the `libraries/` line names both entries.
