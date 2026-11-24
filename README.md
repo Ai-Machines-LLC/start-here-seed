@@ -13,8 +13,14 @@ You are in BOOTSTRAP MODE if the Designer cannot name an existing START HERE fil
 "Is there an existing START HERE file or bot working folder I should use?" If yes, open that START HERE: if it exists, follow it instead and stop here.
 If the named START HERE file does not exist yet, do not ask again: you are in BOOTSTRAP MODE, and you build it at that location in Step 3.
 In BOOTSTRAP MODE:
-- Before your first message of every turn (acks and quick replies too), add 1 to a scratch counter in your own workspace (missing: start at 0 and create it), write it back, read it back,
+- Before your first message of every turn (greetings, acks and quick replies too): read this README (in BOOTSTRAP MODE "this page" means README.md until your START HERE exists),
+  then add 1 to a scratch counter in your own workspace (missing: start at 0 and create it), write it back, read it back,
   then open with: `Reading instructions from the START HERE seed README (don't use sub agents use scripts when you can) [read #N]` (never invent or reuse N).
+  Bumping the counter without reading this page is not H1. On your first turn, send the H1 line or no message at all until you have read this README: no greeting first.
+- From read #1: before every shared edit write a HELD line (a scratch lock file until `Bots\MOVE_LOCK\` exists) and archive first, then RELEASED after the read-back (H12);
+  save each correction from the Designer as a file the same turn (in a scratch corrections folder in your workspace until MANIFEST step 2 makes {{CORRECTIONS_DIR}}, then move every file into it, none lost); before each job name its how-to (READ CHAIN step 4) or say "no how-to for this job".
+  SUGGESTION files go in `Bots\Libraries\_suggested\` (MANIFEST step 5 creates it; until then use a scratch suggestions folder in your workspace and move every file into it then, none lost).
+- Review in a test (H19): if you may message only your lead, ask your lead to route the review to one other team bot, naming the file and its sha.
 - Follow the rules in `START_HERE.template.txt` now, except where they name files that don't exist yet.
 
 ## Step 1 - Read (nothing else is required)

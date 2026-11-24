@@ -1,4 +1,4 @@
-FIRST SETUP TRAINING - worked examples for new bots   (version 0.3.1, 2026-11-24, adds example 11; published with seed 0.10.23 after non-author review PASS and the page owner's written OK; drafted by the seed exporter; seed path bootstrap/FIRST_SETUP_TRAINING.txt)
+FIRST SETUP TRAINING - worked examples for new bots   (version 0.4.3, 2026-11-24, adds example 12 and the project-wide X in example 8's RIGHT line; 0.4.1 and 0.4.2 not reused; published with seed 0.10.26 after non-author review PASS and the page owner's written OK; example 11 drafted by the seed exporter, example 12 by the page owner; seed path bootstrap/FIRST_SETUP_TRAINING.txt)
 WHEN TO READ: only (a) when a new system is bootstrapped and (b) when a new bot is created; the creating bot hands this file to the new bot in its first message. Never every turn. Not a rule source: START HERE and the seed page win. Each example names the rule it trains by NAME; the number in brackets is where a full install's START HERE carries it. If your page has no such number, or a different one, go by the name and your own page's wording.
 HOW TO USE: read each example once, then do drill 0 before your first real task. Each example is SITUATION / WRONG / RIGHT / RULE.
 
@@ -47,7 +47,7 @@ HOW TO USE: read each example once, then do drill 0 before your first real task.
 8 VERSION, FREEZE, AND GET A NON-AUTHOR REVIEW
   SITUATION: your build is ready.
   WRONG: you review it yourself, or keep editing the copy the reviewer has.
-  RIGHT: number it X.Y.1+, freeze it at handoff, send it with path, version and sha to one other team bot; a fix is a new number.
+  RIGHT: number it X.Y.1+ with the same X as every other program and file in the project, freeze it at handoff, send it with path, version and sha to one other team bot; a fix is a new number.
   RULE: REVIEW GATE [H19]; VERSIONS [H35].
 
 9 DO THE BOT'S WORK, NOT THE DESIGNER'S
@@ -68,6 +68,12 @@ HOW TO USE: read each example once, then do drill 0 before your first real task.
   RIGHT: you are the Controller unless the Designer named another bot at Q9; you build the librarian (and that Controller) and hold their duties until they exist, then hand each the verified list. A tester answers only as the user.
   RULE: CONTROLLER AND LIBRARIAN FROM THE START [MANIFEST, CONTROLLER CT-0]; HANDOFFS say verified vs assumed and what is open [H29].
 
-DRILL 0 (new bot, first turn): restate your role and your creator's exact instruction in one line each, name your owner and reviewer, and list which of examples 1-11 your role will hit first.
+12 FIRST TURNS ON A FRESH INSTALL
+  SITUATION: no START HERE, counter or Libraries exists yet; you want to greet, research fast and fill obvious defaults.
+  WRONG: a greeting before the H1 line; only bumping a scratch counter; a sub-agent for research; defaults written into USER_CONFIG and confirmed later; work called done on the user's "Correct."; shared edits with no MOVE_LOCK until late; jobs with no how-to named.
+  RIGHT: every turn read the page (README.md until START HERE exists), bump and read back the counter, then send; scripts, not sub-agents; name the how-to or say 'no how-to for this job'; ask before writing any default; MOVE_LOCK and archive-first from read #1; save each correction the same turn (a scratch corrections folder until {{CORRECTIONS_DIR}} exists, then moved in); before done, ask one other team bot (through your lead in a test) for review naming file and sha; when an order conflicts with a file's format, stop and ask first.
+  RULE: OPENING LINE [H1]; NO SUB-AGENTS [H9]; READ CHAIN step 4 (how-tos); ONE WRITER [H12]; REVIEW GATE [H19]; CORRECTIONS [H32]; ASK, DON'T GUESS [H2] [README BOOTSTRAP MODE, FIRST_BOT_QUESTIONS].
+
+DRILL 0 (new bot, first turn): restate your role and your creator's exact instruction in one line each, name your owner and reviewer, and list which of examples 1-12 your role will hit first.
 NEW LESSONS: the page owner adds one example per repeated pattern found in CORRECTIONS_DIR and CORRECTIONS_LOG, generic only, as a new reviewed version.
 END
