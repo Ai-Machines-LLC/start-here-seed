@@ -2,6 +2,10 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.31 (review build, on top of 0.10.30 06bbb5f4; the Designer's correction of the opener wording)
+- START_HERE.template.txt H1: the opener now ends "and report user corrections to librarian" instead of "and report error to librarian", because the clause only ever meant corrections from the Designer. The Designer (2026-11-24): "insted of erros lets say user corections". The REPORT CORRECTIONS clause says the same, and TRANSITION also covers openers with the earlier "report error" text.
+- START_HERE.template.txt L1: the page's own version is now 0.9.7. The page is still 59 lines (cap 60).
+
 ## 0.10.30 (review build, on top of 0.10.29 a29c97d4; the Designer's correction after a review passed without testing the empty case, and a reported build folder that was empty)
 - START_HERE.template.txt H19 REVIEW GATE: new EMPTY CASE CHECK. A review of status, permission or alarm logic also tests the empty or no-data case and shows that with no record no bit claims a part, a record or an action that needs one, and that each emptiness or part-request bit reads the designed value; a review that does not run and report this test is a FAIL. CHECK: the report names the test, the bits checked, and each bit's expected and seen value.
 - START_HERE.template.txt H29 HANDOFFS: new REPORTED PATH CHECK. Before reporting a file or build path as built, delivered or ready, the bot lists that location where it lives and confirms each named file is there with the stated size or sha; it never reports a path it has not listed. CHECK: every reported path comes with that listing, taken in the same turn.
