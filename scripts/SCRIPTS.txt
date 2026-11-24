@@ -21,4 +21,4 @@ route_check.py | finds the one owner for an ask from OWNERS (leaders L-1) | scri
 confirm_change.py | records a working change, only on the Designer's own words (Controller edit protocol) | scripts/confirm_change.py | planned
 path_patterns.py | the one list of hardcoded-path patterns shared by check_scripts.py and library_intake_scan.py; import only, ships beside them | scripts/path_patterns.py | shipped
 library_intake_scan.py | the librarian runs it on every incoming library: flags paths, emails, denylisted names (from the config), machine data and secret patterns by file and line, never printing the match | scripts/library_intake_scan.py | shipped
-check_patch.py | library entry 2.2.1 (libraries/software/ci): generic pre-push check for the failure library rows, config from check_patch.example.json | libraries/software/ci/check_patch.py | shipped
+check_patch.py | library entry 2.3.1 (libraries/software/ci): generic pre-push check for the failure library rows, config from check_patch.example.json | libraries/software/ci/check_patch.py | shipped

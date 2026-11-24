@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""check_patch 2.2.1 - generic pre-push check: catch known CI failures before CI runs.
+"""check_patch 2.3.1 - generic pre-push check: catch known CI failures before CI runs.
 Project-free. Every project detail comes from a JSON config (see check_patch.example.json).
 Rule (libraries/software/ci/failure-library.md): every CI failure adds a library row plus a check here
 that FAILS on the broken commit and PASSES on the fix, and a self-test case for it.
@@ -26,6 +26,8 @@ Checks (Swift compile traps; network-in-tests; words; secrets), each with its fa
   C5 (SW5) using a type named *<suffix> (configured suffixes) that nothing in the tree declares
   C6 (SW6) await inside an XCTAssert* call (await is not allowed in that autoclosure)
   C7 (SW7) a test uses a type declared in a Sources module that the test file does not import
+  C9 (SW9) any `d[k] = x` on a [K: V?] dictionary: a nil x removes the key (use updateValue(x, forKey:)); 2.3.1 also fixes C8 type_body (brace counting, member depth 1)
+  C8 (SW8) a SwiftUI binding $a.b.c... through a property b that the tree declares only as `let`
 """
 import json, os, re, subprocess, sys, tempfile
 
@@ -109,6 +111,31 @@ def run(cfg, repo, commit, base):
         tm = re.search(r"\b(?:struct|class|enum|protocol|actor|typealias)\s+([A-Za-z_]\w*)", text)
         if mm and tm:
             type_mods.setdefault(tm.group(1), set()).add(mm.group(1))
+    lets = set(re.findall(r"\blet\s+([A-Za-z_]\w*)\s*[:=]", tree_grep(r"\blet\s+[A-Za-z_]")))
+    vars_ = set(re.findall(r"\bvar\s+([A-Za-z_]\w*)\b", tree_grep(r"\bvar\s+[A-Za-z_]")))
+    def strip_code(src):
+        # blank out strings and comments so their braces/words are not counted
+        src = re.sub(r'#+"""[\s\S]*?"""#+|"""[\s\S]*?"""', lambda m: re.sub(r"[^\n]", " ", m.group(0)), src)
+        src = re.sub(r'#+".*?"#+|"(?:\\.|[^"\\\n])*"', lambda m: " " * len(m.group(0)), src)
+        src = re.sub(r"/\*[\s\S]*?\*/", lambda m: re.sub(r"[^\n]", " ", m.group(0)), src)
+        return re.sub(r"//[^\n]*", "", src)
+    def type_body(t):
+        # 2.3.1: the type's own body found by counting braces; returns only member-level (depth 1) text,
+        # so method locals and nested/sibling types are not counted (Reviewer #288 cases a, b, c)
+        hit = subprocess.run(["git", "-C", repo, "grep", "-l", "-E", r"(class|struct|actor) " + t + r"\b", commit, "--", "*.swift"], capture_output=True).stdout.decode().split()
+        for h in hit:
+            src = strip_code(show(h.split(":", 1)[1]))
+            for m in re.finditer(r"\b(class|struct|actor)\s+" + t + r"\b[^{;]*\{", src):
+                depth, out, i = 1, [], m.end()
+                while i < len(src) and depth > 0:
+                    c = src[i]
+                    if c == "{": depth += 1
+                    elif c == "}": depth -= 1
+                    elif depth == 1: out.append(c)
+                    if depth == 1 and c in "{}": out.append(" ")
+                    i += 1
+                return "".join(out)
+        return None
     KW = set("if guard switch while for return catch try await some any init super self Self in where let var case func set get as is do else repeat defer".split())
     suf = "|".join(map(re.escape, cfg["type_suffixes"]))
     hexh = cfg["hex_helper"]
@@ -130,6 +157,15 @@ def run(cfg, repo, commit, base):
                 if t not in declared: fails.append(f"C5 {fname}: uses type {t} that nothing declares (missing commit?)")
         if re.search(r"\bXCTAssert\w*\s*\(.*\bawait\b", code):
             fails.append(f"C6 {fname}: await inside XCTAssert is not allowed in that autoclosure; await first, then assert. Line: {short}")
+        for v, b in set(re.findall(r"\$([A-Za-z_]\w*)\.([A-Za-z_]\w*)\.", code)):
+            tm = re.search(r"\b" + re.escape(v) + r"\s*:\s*([A-Z]\w*)", fsrc)
+            body = type_body(tm.group(1)) if tm else None
+            bad = bool(re.search(r"\blet\s+" + re.escape(b) + r"\b", body)) if body else (b in lets and b not in vars_)
+            if bad:
+                fails.append(f"C8 {fname}: binding through `{b}`, which is declared `let`, so it cannot be written; make it `var` or bind a local copy. Line: {short}")
+        for d in set(re.findall(r"(?<![.\w])([A-Za-z_]\w*)\s*\[[^\]]+\]\s*=(?!=)", code)):
+            if re.search(r"\b(?:var|let)\s+" + re.escape(d) + r"\s*(?::\s*\[[^\]:]+:[^\]]*\?\s*\]|=\s*\[[^\]:]+:[^\]]*\?\s*\]\s*\(\))", fsrc):
+                fails.append(f"C9 {fname}: `{d}[key] = ...` on a dictionary whose values are optional: a nil (even from .map or ??) removes the key instead of storing nil; use {d}.updateValue(value, forKey:). Line: {short}")
         is_test = any(m in (fname or "") for m in cfg["test_path_markers"]) and (fname or "").endswith(".swift")
         if is_test:
             imports = set(re.findall(r"^(?:@testable\s+)?import\s+([A-Za-z_]\w*)", fsrc, re.M))
@@ -173,6 +209,16 @@ CASES = {  # name: (path, content, expected check id or None for PASS)
     "C6fix": ("App/Tests/AwaitTests.swift", "let v = await api.saved()\nXCTAssertNil(v)\n", None),
     "C7": ("App/Tests/ImportTests.swift", "func session() -> TicketSession { TicketSession() }\n", "C7"),
     "C7fix": ("App/Tests/ImportTests.swift", "@testable import Models\nfunc session() -> TicketSession { TicketSession() }\n", None),
+    "C8": ("Src/H.swift", "final class VM { let tree = Tree() }\nlet f = TextField(\"\", text: $vm.tree.query)\n", "C8"),
+    "C8t": ("Src/H.swift", "final class VM { let tree = Tree() }\nfinal class Other { var tree = Tree() }\nstruct V { @State var vm: VM\n var b: some View { TextField(\"\", text: $vm.tree.query) } }\n", "C8"),
+    "C8fix": ("Src/H.swift", "final class VM { var tree = Tree() }\nlet f = TextField(\"\", text: $vm.tree.query)\n", None),
+    "C8a": ("Src/H.swift", "final class VM {\n var tree = Tree()\n func f() { let tree = 1; _ = tree }\n}\nstruct V { @Bindable var vm: VM\n var b: some View { TextField(\"\", text: $vm.tree.query) } }\n", None),
+    "C8b": ("Src/H.swift", "final class VM { var tree = Tree() }\nfinal class Other {\n let tree = Tree()\n}\nstruct V { @Bindable var vm: VM\n var b: some View { TextField(\"\", text: $vm.tree.query) } }\n", None),
+    "C8c": ("Src/H.swift", "enum NS {\n    final class VM {\n        var tree = Tree()\n    }\n    final class Sib {\n        let tree = Tree()\n    }\n}\nstruct V { @Bindable var vm: VM\n var b: some View { TextField(\"\", text: $vm.tree.query) } }\n", None),
+    "C9": ("Src/I.swift", "final class M {\n private var pending: [String: Int?] = [:]\n func skip(_ id: String) { pending[id] = nil }\n}\n", "C9"),
+    "C9m": ("Src/I.swift", "final class M {\n private var pending: [String: Int?] = [:]\n func set(_ id: String, _ v: Int?) { pending[id] = v.map { max(0, $0) } }\n}\n", "C9"),
+    "C9p": ("Src/I.swift", "struct A { var answers: [String: Int] = [:] }\nfinal class M {\n var about = A()\n func save(_ answers: [String: Int?]) { for (k, _) in answers { about.answers[k] = nil } }\n}\n", None),
+    "C9fix": ("Src/I.swift", "final class M {\n private var pending: [String: Int?] = [:]\n func skip(_ id: String) { pending.updateValue(nil, forKey: id) }\n}\n", None),
 }
 
 def self_test():
