@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""check_patch 2.1.0 - generic pre-push check: catch known CI failures before CI runs.
+"""check_patch 2.2.1 - generic pre-push check: catch known CI failures before CI runs.
 Project-free. Every project detail comes from a JSON config (see check_patch.example.json).
 Rule (libraries/software/ci/failure-library.md): every CI failure adds a library row plus a check here
 that FAILS on the broken commit and PASSES on the fix, and a self-test case for it.
@@ -24,6 +24,8 @@ Checks (Swift compile traps; network-in-tests; words; secrets), each with its fa
   C3 (SW3) a 6-hex color written as a String constant when the diff uses a hex( helper that takes an integer
   C4 (SW4) calling a function that exists only as top-level private/fileprivate in another file
   C5 (SW5) using a type named *<suffix> (configured suffixes) that nothing in the tree declares
+  C6 (SW6) await inside an XCTAssert* call (await is not allowed in that autoclosure)
+  C7 (SW7) a test uses a type declared in a Sources module that the test file does not import
 """
 import json, os, re, subprocess, sys, tempfile
 
@@ -95,6 +97,18 @@ def run(cfg, repo, commit, base):
     declared = set(re.findall(r"\b(?:func|protocol|class|struct|enum|typealias|actor)\s+([A-Za-z_]\w*)", decls))
     top_private = set(re.findall(r"^(?:private|fileprivate)\s+func\s+([A-Za-z_]\w*)", decls, re.M))
     top_open = set(re.findall(r"^(?:public\s+|internal\s+|@\w+\s+)*func\s+([A-Za-z_]\w*)", decls, re.M))
+    type_mods = {}
+    decl_out = subprocess.run(["git", "-C", repo, "grep", "-n", "-E",
+        r"(public |internal |open |private |fileprivate |package )*(struct|class|enum|protocol|actor|typealias) [A-Za-z_][A-Za-z0-9_]*",
+        commit, "--", "*.swift"], capture_output=True).stdout.decode("utf-8", "replace")
+    for gl in decl_out.splitlines():
+        parts = gl.split(":", 3)
+        if len(parts) < 4: continue
+        path, text = parts[1], parts[3]
+        mm = re.search(r"(?:^|/)Sources/([^/]+)/", path)
+        tm = re.search(r"\b(?:struct|class|enum|protocol|actor|typealias)\s+([A-Za-z_]\w*)", text)
+        if mm and tm:
+            type_mods.setdefault(tm.group(1), set()).add(mm.group(1))
     KW = set("if guard switch while for return catch try await some any init super self Self in where let var case func set get as is do else repeat defer".split())
     suf = "|".join(map(re.escape, cfg["type_suffixes"]))
     hexh = cfg["hex_helper"]
@@ -114,6 +128,17 @@ def run(cfg, repo, commit, base):
         if suf:
             for t in set(re.findall(r"\b([A-Z]\w*(?:" + suf + r"))\b", code)):
                 if t not in declared: fails.append(f"C5 {fname}: uses type {t} that nothing declares (missing commit?)")
+        if re.search(r"\bXCTAssert\w*\s*\(.*\bawait\b", code):
+            fails.append(f"C6 {fname}: await inside XCTAssert is not allowed in that autoclosure; await first, then assert. Line: {short}")
+        is_test = any(m in (fname or "") for m in cfg["test_path_markers"]) and (fname or "").endswith(".swift")
+        if is_test:
+            imports = set(re.findall(r"^(?:@testable\s+)?import\s+([A-Za-z_]\w*)", fsrc, re.M))
+            local = set(re.findall(r"\b(?:struct|class|enum|protocol|actor|typealias)\s+([A-Za-z_]\w*)", fsrc))
+            bare = re.sub(r'#+"#', '""', re.sub(r'#+".*?"+#', '""', re.sub(r"'(?:\\.|[^'\\])*'", "''", re.sub(r'"(?:\\.|[^"\\])*"', '""', code))))
+            for t in set(re.findall(r"(?<![.\w])([A-Z]\w{2,})\b", bare)) - local - KW:
+                mods = type_mods.get(t) or set()
+                if mods and imports.isdisjoint(mods):
+                    fails.append(f"C7 {fname}: uses type {t} from {', '.join(sorted(mods))} but does not import it. Line: {short}")
     return files, tests, fails, warns
 
 def report(files, tests, fails, warns, commit, base):
@@ -144,6 +169,10 @@ CASES = {  # name: (path, content, expected check id or None for PASS)
     "S1": ("Src/F.swift", 'let k = "ghp_' + "x" * 20 + '"\n', "S1"),
     "S1fix": ("Src/F.swift", 'let k = ProcessInfo.processInfo.environment["TOKEN"]\n', None),
     "W1": ("Src/G.swift", 'let t = "a badword here"\n', None),  # warn only, still PASS
+    "C6": ("App/Tests/AwaitTests.swift", "XCTAssertNil(await api.saved())\n", "C6"),
+    "C6fix": ("App/Tests/AwaitTests.swift", "let v = await api.saved()\nXCTAssertNil(v)\n", None),
+    "C7": ("App/Tests/ImportTests.swift", "func session() -> TicketSession { TicketSession() }\n", "C7"),
+    "C7fix": ("App/Tests/ImportTests.swift", "@testable import Models\nfunc session() -> TicketSession { TicketSession() }\n", None),
 }
 
 def self_test():
@@ -153,7 +182,9 @@ def self_test():
         g = lambda *a: subprocess.run(["git", "-C", d, *a], capture_output=True, check=True)
         g("init", "-q"); g("config", "user.email", ""); g("config", "user.name", "t")
         os.makedirs(os.path.join(d, "Src"), exist_ok=True)
+        os.makedirs(os.path.join(d, "Sources/Models"), exist_ok=True)
         open(os.path.join(d, "Src/Live.swift"), "w").write("struct LiveClient {\n func load() { rest.send() }\n}\nprivate func helper(_ x: Int) -> Int { x }\n")
+        open(os.path.join(d, "Sources/Models/Models.swift"), "w").write("public struct TicketSession {}\n")
         g("add", "-A"); g("commit", "-qm", "base")
         base = subprocess.run(["git", "-C", d, "rev-parse", "HEAD"], capture_output=True).stdout.decode().strip()
         os.makedirs(os.path.dirname(os.path.join(d, path)), exist_ok=True)

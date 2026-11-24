@@ -2,6 +2,11 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.19 (review build, on top of 0.10.18 19374d0; two updated LIVE library entries after their non-author review PASS)
+- Library entry update: `libraries/software/ci/check_patch.py` 2.2.1 (sha256 first 8 = c15756f0), a byte-exact copy of the LIVE entry, as listed in the store's LIBRARY_CHANGES 1.4.0 (sha256 first 8 = 3239c3c6). It replaces 2.1.0 (d38acbc4) and adds two Swift checks with self-test cases: C6 (await inside an XCTAssert* call, which that autoclosure does not allow) and C7 (a test uses a type declared in a Sources module that the test file does not import). Nothing else changed, and `check_patch.example.json` 2.1.0 stays as it is. Why: two new compile failures reached CI.
+- Library entry update: `libraries/software/ci/failure-library.md` 0.1.2 (sha256 first 8 = e180be17), a byte-exact copy of the LIVE entry, as listed in the store's LIBRARY_CHANGES 1.5.0 (sha256 first 8 = 68740284). It replaces 0.1.0 (65834499) and adds the generic rows SW6 and SW7 that go with checks C6 and C7.
+- scripts/SCRIPTS.txt: the check_patch.py line names version 2.2.1.
+
 ## 0.10.18 (review build, on top of 0.10.15 5cc653d; 0.10.16 2b2a554 and 0.10.17 217135e failed review with 1 finding each and are not reused, H35; two new LIVE library entries after their non-author review PASS)
 - New library entry: `libraries/software/ci/check_patch.py` 2.1.0 (sha256 first 8 = d38acbc4), a byte-exact copy of the LIVE entry, as listed in the store's LIBRARY_CHANGES 1.3.0 (sha256 first 8 = e7cc53ef). It is a generic pre-push check: each failure library row gets a check that FAILs on the broken commit and PASSes on the fix, plus a self-test case (`--self-test`). Every project detail comes from a JSON config. Why: failures should be caught before CI, not after.
 - New library entry: `libraries/software/ci/check_patch.example.json` 2.1.0 (sha256 first 8 = d884def2), the example config with placeholders only, listed in the same LIBRARY_CHANGES 1.3.0.

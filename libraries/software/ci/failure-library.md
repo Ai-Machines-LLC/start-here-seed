@@ -1,6 +1,6 @@
 # Failure library + build-to-check (generic)
-Library id: software/ci/failure-library | version 0.1.0 | rule + row format
-Library status: LIVE 0.1.0 (non-author review PASS)
+Library id: software/ci/failure-library | version 0.1.2 | rule + row format
+Library status: LIVE 0.1.2 (non-author review PASS)
 Link-free, project-free. A shared rule and row format any project that builds code can copy.
 Why (the Designer, 2026-11-23 7:51-7:57 PM ET): "I hope that you're really building a good library and a script to check these these bugs"
 and "it's important that this knowledge doesn't just stay with you right it needs to move into the GitHub through the librarian".
@@ -30,6 +30,8 @@ STARTER ROWS (Swift / iOS, from real failures; no project data)
 | SW3 | 2026-11-22 | - | cannot convert value of type 'String' to expected argument type 'UInt32' | colors written as "#AABBCC" strings where the color helper takes UInt32 | FAIL on 6-hex-digit string constants when the helper takes UInt32; write `let c: UInt32 = 0xAABBCC` |
 | SW4 | 2026-11-22 | - | cannot find '<helper>' in scope | called a helper that is `private` in another file | FAIL when the only top-level declaration of a called function is private/fileprivate in a different file |
 | SW5 | 2026-11-23 | - | cannot find type '<Name>API' in scope | a patch stack missing the commit that declares a protocol | FAIL on *API/*Client/*Store/*Service types no file declares at the head commit |
+| SW6 | 2026-11-23 | - | 'await' is not allowed in an autoclosure; call to actor-isolated instance method '<method>(<label>:)' in a synchronous main actor-isolated context | an async (actor) call was written inside XCTAssert*(...), e.g. XCTAssertNil(await <mock>.<method>(...)); XCTAssert arguments are autoclosures and cannot contain await | C6 FAIL on await inside an XCTAssert* call; fix: let v = await <mock>.<method>(...) then XCTAssertNil(v) |
+| SW7 | 2026-11-23 | - | cannot find type '<Name>' in scope | a test uses a type declared under Sources/<Module>/ but the test file never imports <Module> (it imports other modules of the same package only) | C7 FAIL when a changed test file uses a type whose declaring Sources module is not in its import / @testable import lines (string literals ignored, names of 3+ characters); fix: add import <Module> |
 | N1 | 2026-11-21 | - | test hangs or fails on a fake host | unit test calls the real network client | FAIL on tests that use the shared URL session or live client without a stub |
 
 CHECK (how to tell the rule is followed)
