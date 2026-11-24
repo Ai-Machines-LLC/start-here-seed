@@ -2,6 +2,10 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.29 (review build, on top of 0.10.28 70fdd2a9; a repeated correction from the Designer on running the release gate before review and before placing)
+- START_HERE.template.txt H19 REVIEW GATE: new RELEASE GATE CHECK. Where the How-Tos index (or a how-to it lists) names a pre-review gate script for a build type, the author runs it and puts its 'CHECKS OK <sha>' line in the master doc row before review; the reviewer runs it too and pastes that line into its verdict (a verdict without it is a FAIL; a reviewer that cannot run the gate says so, confirms the author's line names the reviewed sha, and the placer's rerun becomes required); the placer relabels to X.Y.0 by byte replace only and reruns the gate on the relabeled file before placing. CHECK: each build verdict carries the line or the note, and the placer logs its rerun.
+- START_HERE.template.txt L1: the page's own version is now 0.9.5. The page is still 59 lines (cap 60).
+
 ## 0.10.28 (review build, on top of 0.10.26 d6ea0daf; the Designer's corrections on reporting corrections, housekeeping and plain-digit versions; 0.10.27 failed review with 2 findings and is not reused, H35)
 - START_HERE.template.txt H1: the opener adds "and report error to librarian"; a TRANSITION note keeps an old-text opener from counting as a miss on a turn that read the page before this version. New REPORT CORRECTIONS clause: the "error" is being corrected by the Designer, not a mistake a bot catches itself; the corrected bot saves its one CORRECTION file (L23, still file-only, no message) and then tells the Designer in one short line that it reported it to the librarian.
 - START_HERE.template.txt H43 HOUSEKEEPING (new; H42 is not used in the seed): unused or stale items found in any work are listed and cleaned up in the same job; anything still referenced is kept; archive first (H7, H12); a removal with no archive needs the Designer's yes on the exact item (H7); the reviewer checks the cleanup list.
