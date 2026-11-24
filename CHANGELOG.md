@@ -2,6 +2,11 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.30 (review build, on top of 0.10.29 a29c97d4; the Designer's correction after a review passed without testing the empty case, and a reported build folder that was empty)
+- START_HERE.template.txt H19 REVIEW GATE: new EMPTY CASE CHECK. A review of status, permission or alarm logic also tests the empty or no-data case and shows that with no record no bit claims a part, a record or an action that needs one, and that each emptiness or part-request bit reads the designed value; a review that does not run and report this test is a FAIL. CHECK: the report names the test, the bits checked, and each bit's expected and seen value.
+- START_HERE.template.txt H29 HANDOFFS: new REPORTED PATH CHECK. Before reporting a file or build path as built, delivered or ready, the bot lists that location where it lives and confirms each named file is there with the stated size or sha; it never reports a path it has not listed. CHECK: every reported path comes with that listing, taken in the same turn.
+- START_HERE.template.txt L1: the page's own version is now 0.9.6. The page is still 59 lines (cap 60).
+
 ## 0.10.29 (review build, on top of 0.10.28 70fdd2a9; a repeated correction from the Designer on running the release gate before review and before placing)
 - START_HERE.template.txt H19 REVIEW GATE: new RELEASE GATE CHECK. Where the How-Tos index (or a how-to it lists) names a pre-review gate script for a build type, the author runs it and puts its 'CHECKS OK <sha>' line in the master doc row before review; the reviewer runs it too and pastes that line into its verdict (a verdict without it is a FAIL; a reviewer that cannot run the gate says so, confirms the author's line names the reviewed sha, and the placer's rerun becomes required); the placer relabels to X.Y.0 by byte replace only and reruns the gate on the relabeled file before placing. CHECK: each build verdict carries the line or the note, and the placer logs its rerun.
 - START_HERE.template.txt L1: the page's own version is now 0.9.5. The page is still 59 lines (cap 60).
