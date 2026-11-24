@@ -1,4 +1,4 @@
-USER_CONFIG (v0.8.0; schema for the seed; blank). One file per setup: everything that is about this user and nowhere else.
+USER_CONFIG (v0.9.0; schema for the seed; blank). One file per setup: everything that is about this user and nowhere else.
 Why: the Designer: the configuration file holds "the individual things about that user": all the bots, how they look when
 generated, the START HERE file locations, etc. The shared rules stay generic; only this file and the LOCAL page are the user's own.
 WHO WRITES IT: the bootstrap bot, from bootstrap/FIRST_BOT_QUESTIONS.txt (MANIFEST step 0). After setup only the Controller edits it
@@ -38,7 +38,7 @@ D. BADGE LOOK AT CREATION (NAMING.txt N6-N8; scripts/make_avatar.py reads these)
 
 E. ROLES
   CONTROLLER_BOT = {{CONTROLLER_BOT}}             [Q9]
-  LIBRARIAN_BOT = {{LIBRARIAN_BOT}}               [Q9; none allowed]
+  LIBRARIAN_BOT = {{LIBRARIAN_BOT}}               [Q9; never none: the bootstrap bot builds it]
   FEEDBACK_BOT = {{FEEDBACK_BOT}}                 [Q14; none allowed]
   FEEDBACK_TRACKER_PATH = {{FEEDBACK_TRACKER_PATH}}   [Q14; defaults MANIFEST step 9]
   FEEDBACK_CYCLES_PATH = {{FEEDBACK_CYCLES_PATH}}

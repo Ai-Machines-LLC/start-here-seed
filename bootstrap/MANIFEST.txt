@@ -1,11 +1,15 @@
-BOOTSTRAP MANIFEST (v0.9.5). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS; the Designer only answers the questions and creates nothing by hand.
+BOOTSTRAP MANIFEST (v0.10.1). The bootstrap bot builds these in order after FIRST_BOT_QUESTIONS; the Designer only answers the questions and creates nothing by hand.
 Each step: check the parent path exists, create, read back, log one line. Never overwrite an existing file; flag it.
 Before step 0 the bootstrap bot reads bootstrap/FIRST_SETUP_TRAINING.txt once (worked examples; never every turn) and does its drill 0.
+CONTROLLER AND LIBRARIAN FROM THE START (the Designer): never assume either already exists. The bootstrap bot becomes the Controller (Q9 default: {{CONTROLLER_BOT}} = its own name)
+    or, if Q9 names another bot, builds it in step 7; it always builds the librarian ({{LIBRARIAN_BOT}}) in step 7, and holds each role's duties until that bot exists.
+    Every Controller or librarian duty that comes up during setup (badge clashes, gray-disc flags, bot ids, reviewers, new role words, LIBRARY_CHANGES) is done then, never left blank for later.
+    In a test, the person or bot standing in for the Designer represents only the user; it never holds or fills in for the Controller or the librarian.
 0 USER_CONFIG: copy bootstrap/USER_CONFIG.template.txt to USER_CONFIG.txt in {{START_HERE_LOCATION}}'s folder and fill every key from the answers
     (blank = the template's default; a role nobody holds = none). Replace each format line (COMPANY, COMPANY_MARKS, BOT, PROJECT) with one filled line per item,
     then delete the format lines and every [bracket] note. Read it back, confirm no {{ is left and no secret is in it (H5). Every later step reads its values here.
 1 LOCAL START HERE: fill bootstrap/LOCAL_START_HERE.template.txt, write to {{START_HERE_LOCATION}}, confirm <= 60 lines. It starts at version 1.0.0; after that the Controller versions it per shared page H35 VERSIONS and archives each version first.
-    Every role nobody holds (Q9 no librarian, Q14 no feedback loop, any other unheld role): write "none" for its bot and its paths; that ROLES line is then skipped and nothing is left unfilled.
+    Every role nobody holds (Q14 no feedback loop, any other unheld role; never the Controller or the librarian, Q9): write "none" for its bot and its paths; that ROLES line is then skipped and nothing is left unfilled.
     Beside it save "SEED_CACHE START_HERE.txt" (a copy of the repo's START_HERE.template.txt; refresh when the repo changes). Never fill or edit the shared page itself.
 2 FOLDERS at {{START_HERE_LOCATION}}'s folder: "00 archive", "01 Roles", "02 Read_Counts", "03 StartHere_Corrections" (= {{CORRECTIONS_DIR}}: one new file per correction, H13; read by the feedback role, audited by the Controller CT-10), "05 Badges" (one <bot>.txt per bot: name | avatar file sha256 | time | maker version, shared NAMES AND BADGES),
     and, only if MESSAGE_ROUTE = inbox (Q0), "04 Inbox" with one subfolder per bot (PLATFORMS.txt P3).
@@ -14,7 +18,7 @@ Before step 0 the bootstrap bot reads bootstrap/FIRST_SETUP_TRAINING.txt once (w
 5 WORKING ROOT ({{WORKING_ROOT}}, in the shared store): the bootstrap bot (never the Designer) runs, on the bot's own computer, python3 scripts/bootstrap.py --root "<empty staging folder>" --companies "<A>,<B>" --tz "{{TIMEZONE}}" --encoding "<Q6: UTF8 or 1252>",
     then upload every "created" path to {{WORKING_ROOT}} through the shared store's file access, skipping any path that already exists there (never overwrite), and read each back. On a synced folder --root is that folder. It creates:
     Bots\00 archive, Bots\01 How-Tos (INDEX.txt), Bots\Libraries (LIBRARY_CHANGES.txt, _suggested\), Bots\03 tools (git init), Bots\04 Scripts, Bots\05 Logs, Bots\06 Lessons
-    Bots\Libraries\LIBRARY_CHANGES.txt  header; owner {{LIBRARIAN_BOT}} ({{CONTROLLER_BOT}} when Q9 = none); one line per LIVE library entry only: library | version | sha256 | Reviewer PASS | category | placed time | what changed (D1: folder name "Libraries" until the Designer decides the layout)
+    Bots\Libraries\LIBRARY_CHANGES.txt  header; owner {{LIBRARIAN_BOT}} (the bootstrap bot, then {{CONTROLLER_BOT}}, holds it until the librarian exists); one line per LIVE library entry only: library | version | sha256 | Reviewer PASS | category | placed time | what changed (D1: folder name "Libraries" until the Designer decides the layout)
     Bots\Libraries\_suggested\  library requests and gaps, until a non-author review passes them
     Bots\DECISIONS.txt     header; newest first; each line: date time TZ | Designer's exact words | what it decides
     Bots\OWNERS.txt        header; each line: route | owner bot | reviewer bot | leader
@@ -39,4 +43,5 @@ Before step 0 the bootstrap bot reads bootstrap/FIRST_SETUP_TRAINING.txt once (w
 10 DENYLIST: write the Q15 answers, one case-sensitive regex per line ("#" comments allowed), to {{DENYLIST_PATH}} (outside any repo; never commit it).
     Then run scripts/scrub_check.sh {{DENYLIST_PATH}} <seed copy> and confirm PASS before anything is published.
     If the seed README keeps an owner links block, write your own exact owner name and links, one per line, to an allow list outside any repo and pass it as the third argument; otherwise replace or delete that block.
-11 VERIFY: list every path created with size; confirm LOCAL START HERE and the shared page are each <= 60 lines; hand the list to the Controller.
+11 VERIFY: list every path created with size; confirm LOCAL START HERE and the shared page are each <= 60 lines. As the Controller, keep the list as your first record;
+    hand the librarian (and any other Controller named at Q9) the list and every open item for its role, and confirm it read them back.

@@ -1,4 +1,4 @@
-FIRST SETUP TRAINING - worked examples for new bots   (version 0.2.0, placed 2026-11-23 from review build 0.1.3 sha e1643b4f, PASS non-author review; author: the page owner; seed path bootstrap/FIRST_SETUP_TRAINING.txt)
+FIRST SETUP TRAINING - worked examples for new bots   (version 0.3.1, 2026-11-24, adds example 11; published with seed 0.10.23 after non-author review PASS and the page owner's written OK; drafted by the seed exporter; seed path bootstrap/FIRST_SETUP_TRAINING.txt)
 WHEN TO READ: only (a) when a new system is bootstrapped and (b) when a new bot is created; the creating bot hands this file to the new bot in its first message. Never every turn. Not a rule source: START HERE and the seed page win. Each example names the rule it trains by NAME; the number in brackets is where a full install's START HERE carries it. If your page has no such number, or a different one, go by the name and your own page's wording.
 HOW TO USE: read each example once, then do drill 0 before your first real task. Each example is SITUATION / WRONG / RIGHT / RULE.
 
@@ -62,6 +62,12 @@ HOW TO USE: read each example once, then do drill 0 before your first real task.
   RIGHT: read START HERE, update your counter and read it back, then open with the exact line and the real number. Follow the script, not memory.
   RULE: OPENING LINE [H1].
 
-DRILL 0 (new bot, first turn): restate your role and your creator's exact instruction in one line each, name your owner and reviewer, and list which of examples 1-10 your role will hit first.
+11 BUILD THE CONTROLLER AND THE LIBRARIAN
+  SITUATION: you are the first bot on a fresh install; setup leaves badge clashes, bot ids, reviewers, role words and LIBRARY_CHANGES open.
+  WRONG: you mark them "for the Controller" or "for the librarian" and hand off to bots that do not exist, or let a tester answering for the Designer decide them.
+  RIGHT: you are the Controller unless the Designer named another bot at Q9; you build the librarian (and that Controller) and hold their duties until they exist, then hand each the verified list. A tester answers only as the user.
+  RULE: CONTROLLER AND LIBRARIAN FROM THE START [MANIFEST, CONTROLLER CT-0]; HANDOFFS say verified vs assumed and what is open [H29].
+
+DRILL 0 (new bot, first turn): restate your role and your creator's exact instruction in one line each, name your owner and reviewer, and list which of examples 1-11 your role will hit first.
 NEW LESSONS: the page owner adds one example per repeated pattern found in CORRECTIONS_DIR and CORRECTIONS_LOG, generic only, as a new reviewed version.
 END

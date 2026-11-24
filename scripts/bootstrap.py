@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""bootstrap.py (v0.5.3 draft) - builds the generic bot-system folder tree and empty control files.
+"""bootstrap.py (v0.5.4 draft) - builds the generic bot-system folder tree and empty control files.
 Why: one script makes the layout identical on every new system and never overwrites existing work.
 Why Python and a staging folder: no bot depends on one machine. A bot with only file access to the store runs this on
 its own computer into an empty staging folder, then uploads every "created" path to WORKING_ROOT in the shared
@@ -12,6 +12,7 @@ v0.5.1: the move/edit lock log is a folder, Bots/MOVE_LOCK/, one file per writer
 shared MOVE_LOCK.txt that bots overwrite; bootstrap creates the folder and its README and copies move_lock.py.
 v0.5.2: CHANGE_LOG.csv header column is "version" (H35 word; score_rebuild S6 expects it), not "revision".
 v0.5.3: How-Tos INDEX.txt header follows the live system layout, one line per how-to "folder | open it when" (not "file | what it covers | owner").
+v0.5.4: the LIBRARY_CHANGES header says the bootstrap bot, then the Controller, holds it until the librarian exists (never assume a librarian exists).
 """
 import argparse, os, shutil, sys
 
@@ -49,7 +50,7 @@ def main():
         new_dir(os.path.join(bots, d))
     J = lambda *p: os.path.join(bots, *p)
     new_dir(J("Libraries", "_suggested"))
-    new_file(J("Libraries", "LIBRARY_CHANGES.txt"), "LIBRARY_CHANGES (owner: the librarian, or the Controller when there is none). Only LIVE entries: non-author review PASS, X.Y.0, sha. Never STAGED, PENDING or LINK-TBD. Leaders work from this list.\n"
+    new_file(J("Libraries", "LIBRARY_CHANGES.txt"), "LIBRARY_CHANGES (owner: the librarian; until it exists, the bootstrap bot, then the Controller, holds it). Only LIVE entries: non-author review PASS, X.Y.0, sha. Never STAGED, PENDING or LINK-TBD. Leaders work from this list.\n"
              f"FORMAT: library | version | sha256 | Reviewer PASS | category | placed {a.tz} | what changed")
     new_file(J("01 How-Tos", "INDEX.txt"), "HOW-TOS INDEX (the ONE how-to library; owner of structure: the Controller)\n"
              "One line per how-to: folder | open it when. Open only the line that matches your work. Each folder has its own short INDEX.txt.\n"

@@ -1,4 +1,4 @@
-=== LIBRARIAN SECTION (v0.6.1; owner {{CONTROLLER_BOT}}; holder {{LIBRARIAN_BOT}}) ===
+=== LIBRARIAN SECTION (v0.7.0; owner {{CONTROLLER_BOT}}; holder {{LIBRARIAN_BOT}}) ===
 GATE: If you do not hold the LIBRARIAN role, close this file now. (Role file, outside the 60-line START HERE cap.)
 LB-1 ROLE: keep the shared masters and libraries clean (why: shared docs drift and bloat unless one bot owns cleanup full time).
 LB-2 SCOPE: START HERE, DECISIONS, OWNERS, CORRECTIONS_LOG, every How-Tos INDEX and how-to (incl. styling standards), and Libraries docs/READMEs.
@@ -9,4 +9,4 @@ LB-6 PROPOSE ONLY: START HERE, DECISIONS, OWNERS, tools, Scripts and Roles belon
 LB-7 START HERE CAP: help keep it at 60 lines (H13): propose compressions and merges of duplicate lines.
 LB-8 REPORT: after each pass send the Controller what you found, fixed, and what needs a decision; the Controller directs the next pass.
 LB-9 FIREWALL (H26): stay out of customer project folders and masters unless the Designer adds you; libraries and how-tos stay generic with no customer data.
-LB-10 LIBRARY_CHANGES: you own Libraries\LIBRARY_CHANGES.txt (the Controller does when there is no librarian). Start it under MOVE_LOCK the same day the leader places the first LIVE entry; add one line per LIVE entry (X.Y.0, non-author review PASS, sha), never STAGED, PENDING or LINK-TBD (why: leaders update projects only from this list).
+LB-10 LIBRARY_CHANGES: you own Libraries\LIBRARY_CHANGES.txt (until you exist, the bot that bootstraps the system holds it, then the Controller; never assume a librarian already exists, CONTROLLER CT-0). Start it under MOVE_LOCK the same day the leader places the first LIVE entry; add one line per LIVE entry (X.Y.0, non-author review PASS, sha), never STAGED, PENDING or LINK-TBD (why: leaders update projects only from this list).

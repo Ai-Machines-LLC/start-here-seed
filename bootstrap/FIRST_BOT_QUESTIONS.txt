@@ -1,4 +1,4 @@
-FIRST-BOT QUESTIONS (v0.8.0; the setup questions). The bootstrap bot asks these in order, ONE at a time. Each answer goes into
+FIRST-BOT QUESTIONS (v0.9.0; the setup questions). The bootstrap bot asks these in order, ONE at a time. Each answer goes into
 USER_CONFIG.txt under the key(s) after "->" (schema: bootstrap/USER_CONFIG.template.txt) and into DECISIONS.txt with the Designer's exact words and time.
 Skip a question only when an earlier answer settles it. Blank answer = the template's default.
 SUPPORT: never asked during setup. The Controller asks once later, local only, per bootstrap/SUPPORT_STATUS.template.txt.
@@ -11,7 +11,7 @@ Q5  Where will your LOCAL START HERE live, so every bot can read it with no PC t
 Q6  Which file encoding do your shared text docs use? (default UTF-8)  -> {{ENCODING_RULE}}
 Q7  What are your first projects? For each: company, one-line goal, and who leads it.  -> USER_CONFIG G (PROJECT rows); later project folders + Master docs
 Q8  Which bots exist now, and which should I create? For each: name (<CODE>-<Project>-<Role>, bootstrap/NAMING.txt), company, role (leader, worker, reviewer), its leader and its reviewer.  -> USER_CONFIG F (BOT rows: live or planned), {{LEADER_LIST}}; later OWNERS.txt and counters (MANIFEST step 7)
-Q9  Which bot is the Controller (owns START HERE, DECISIONS, OWNERS, tools), and should there be a librarian (no = none; then the Controller keeps Libraries\LIBRARY_CHANGES.txt)?  -> {{CONTROLLER_BOT}}, {{LIBRARIAN_BOT}}
+Q9  No Controller or librarian exists yet: I build both during setup and hold their duties until each exists. Which bot should be the Controller (owns START HERE, DECISIONS, OWNERS, tools; default: I become it) and what should the librarian be called (owns How-Tos, Libraries and Libraries\LIBRARY_CHANGES.txt; default: <cross code>-Librarian)? I build any bot named here in MANIFEST step 7 (never none).  -> {{CONTROLLER_BOT}}, {{LIBRARIAN_BOT}}
 Q10 What must never be deleted or edited without your direct order (finance, legal, IP, signed deliverables, live data)?  -> {{PROTECTED_AREAS}}
 Q11 Do any apps own files the bots must never write (time clocks, accounting exports)?  -> {{APP_OWNED_FILES}}
 Q12 What time should the daily workflow report arrive, and are recurring scheduled jobs allowed to run? (they may cost usage; no scheduler on the platform = the Controller runs them at each turn, PLATFORMS.txt P4)  -> {{DAILY_REPORT_TIME}}, CYCLE_STATUS
@@ -22,4 +22,7 @@ Q16 Which seed repo do your bots read, and through which account or integration 
 Q17 PENDING APPROVAL (skip until the Designer approves proposals/CORRECTIONS_INTAKE.txt): send scrubbed, generic corrections to the seed team's private intake? Default no.  -> UPSTREAM_CORRECTIONS
 No question for {{CORRECTIONS_DIR}}: it defaults to "03 StartHere_Corrections" beside the LOCAL page (MANIFEST step 2); change it only if the Designer asks.
 After the last question: write USER_CONFIG.txt (MANIFEST step 0), read it back to the Designer as one short summary, fix what they correct,
-then build MANIFEST steps 1-11, report what exists (verified) vs what's missing, and hand off to the Controller.
+then build MANIFEST steps 1-11 and report what exists (verified) vs what's missing. Never assume a Controller or a librarian already exists: you are the Controller unless Q9 named another bot, you build the librarian
+(and any other Controller named at Q9) in MANIFEST step 7, and you hold each role's duties until that bot exists; then hand it the verified list and every open item.
+Never leave a Controller or librarian duty blank or "for the Controller".
+TEST RUNS: a person or bot answering these questions for the Designer in a test represents only the user; it never holds or fills in for the Controller or the librarian.

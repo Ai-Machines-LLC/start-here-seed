@@ -1,4 +1,4 @@
-USER_CONFIG EXAMPLE (v0.8.0). MADE-UP DATA ONLY: every person, company, path and bot below is invented to show the format.
+USER_CONFIG EXAMPLE (v0.9.0). MADE-UP DATA ONLY: every person, company, path and bot below is invented to show the format.
 Copy bootstrap/USER_CONFIG.template.txt, never this file. Key meanings and rules: see the template.
 
 A. SETUP
@@ -34,7 +34,7 @@ D. BADGE LOOK AT CREATION
 
 E. ROLES
   CONTROLLER_BOT = GEN-Controller
-  LIBRARIAN_BOT = none
+  LIBRARIAN_BOT = GEN-Librarian
   FEEDBACK_BOT = GEN-Feedback
   FEEDBACK_TRACKER_PATH = Bots\05 Logs\feedback_tracker.csv
   FEEDBACK_CYCLES_PATH = Bots\05 Logs\feedback_cycles.csv
@@ -45,6 +45,7 @@ E. ROLES
 F. BOT ROSTER
   BOT = GEN-Controller | GEN | - | Controller | CTRL | - | GEN-Feedback | Controller | live
   BOT = GEN-Feedback | GEN | - | Feedback | FDBK | GEN-Controller | GEN-Controller | Feedback | live
+  BOT = GEN-Librarian | GEN | - | Librarian | LIB | GEN-Controller | GEN-Controller | Librarian | live
   BOT = MLS-Website-Lead | MLS | Website | Lead | WEB + star | GEN-Controller | MLS-Website-Reviewer | Website Lead | live
   BOT = MLS-Website-Builder | MLS | Website | Builder | BLD | MLS-Website-Lead | MLS-Website-Reviewer | Website Builder | planned
   BOT = MLS-Website-Reviewer | MLS | Website | Reviewer | REV | MLS-Website-Lead | MLS-Website-Builder | Website Reviewer | planned

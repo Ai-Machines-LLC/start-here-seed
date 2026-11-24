@@ -1,4 +1,4 @@
-BOT NAMING AND AVATAR RULE (v0.5.0 draft). Applies to every new bot and every rename. Renames need the Designer's yes.
+BOT NAMING AND AVATAR RULE (v0.5.1 draft). Applies to every new bot and every rename. Renames need the Designer's yes.
 Why: a name that says company, project and job lets any bot route work from the name alone, and the avatar shows the same thing at a glance.
 N1 FORMAT: <CODE>-<Project>-<Role>   e.g. ABC-Website-Builder, ABC-Line 2-Tray Handler PLC, GEN-Controller
 N2 CODE: 2-4 capital letters A-Z, unique per company, set by the Designer (Q3) and listed in COMPANY_MARKS in the LOCAL START HERE.
@@ -17,4 +17,4 @@ N6 BADGE (1-4 capitals on the avatar pill): leaders use their project's short fo
 N7 COUNTER NAME: the bot name without "<CODE>-", hyphens replaced by spaces (ABC-Website-Builder = "Website Builder").
 N8 AVATAR AT CREATION: whoever creates the bot runs scripts/make_avatar.py the same turn with the company's COMPANY_MARKS line
    (its own logo, logo background, ring color), the N6 badge, and --leader for leaders. The new bot sets the file as its own profile picture,
-   then confirms by viewing it. No logo yet? Use a plain disc in the company colors and flag it to the Controller.
+   then confirms by viewing it. No logo yet? Use a plain disc in the company colors; the Controller records the gray-disc flag (during setup that is the bootstrap bot itself, roles/CONTROLLER.template.txt CT-0).

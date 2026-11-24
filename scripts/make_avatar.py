@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# make_avatar.py (v0.6.0 draft) - draws one bot badge avatar (512x512 round PNG).
+# make_avatar.py (v0.6.1 draft) - draws one bot badge avatar (512x512 round PNG).
 # Why: every bot gets its avatar at creation, so the whole team looks consistent with no hand work (MANIFEST step 7).
 # Nothing company-specific lives here: the logo file and colors come from the COMPANY_MARKS line in the LOCAL START HERE.
 # Usage: python3 make_avatar.py [--logo <logo.png>] --bg R,G,B --ring R,G,B --badge TEXT [--leader] --out <file.png>
-#   No --logo: a plain disc in the company colors (NAMING.txt N8; flag it to the Controller).
+#   No --logo: a plain disc in the company colors (NAMING.txt N8; the Controller records the flag, during setup the bootstrap bot itself, CONTROLLER CT-0).
 #   --badge: 1-4 characters from bootstrap/NAMING.txt (N6). --leader adds the gold star in a dark disc.
 #   --font: a .ttf file or a font name the system can find; default tries the names DejaVuSans-Bold.ttf and arialbd.ttf,
 #   then Pillow's built-in font. No font folder is written in this script (v0.6.0: no exact paths).

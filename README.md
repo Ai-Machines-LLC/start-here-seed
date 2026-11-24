@@ -44,7 +44,9 @@ A missing counter file means: start at 0 and create it, except the bootstrap bot
 
 ## Step 5 - Verify and hand off
 List every created path with its size, confirm the LOCAL START HERE is 60 lines or fewer, and report to the Designer in two lines:
-what exists (verified by reading it back) and what is missing. Then hand off to the Controller bot.
+what exists (verified by reading it back) and what is missing. Never assume a Controller or a librarian already exists: you are the Controller unless the Designer named another bot at Q9,
+and you built the librarian (and any other Controller) in MANIFEST step 7, so hand each the list and its open items now. Until a role's bot exists, you hold its duties; never leave one blank for later.
+In a test, whoever answers for the Designer represents only the user and never fills in for the Controller or the librarian.
 
 ## How to give this to a new person's bots
 1. The Designer gives the new person read access to this repository (they never get write access).
