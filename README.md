@@ -57,7 +57,7 @@ what exists (verified by reading it back) and what is missing. Then hand off to 
 - `START_HERE.template.txt` - every bot's per-turn page
 - `roles/` - CONTROLLER, WATCHDOG, LEADERS, LIBRARIAN, FEEDBACK role templates
 - `bootstrap/` - MANIFEST, FIRST_BOT_QUESTIONS, USER_CONFIG (template and made-up example), NAMING (bot names and badge pictures), FIRST_SETUP_TRAINING (worked examples, read only at bootstrap or by a new bot), LOCAL_START_HERE, BOT_DESCRIPTION and SUPPORT_STATUS templates
-- `libraries/` - shared library entries, one file per entry (first: `libraries/robot/kuka/kuka-manuals.md`, link-out only); each is a byte-exact copy of a LIVE entry listed in the store's `Libraries\LIBRARY_CHANGES.txt`
+- `libraries/` - shared library entries, one file per entry (`libraries/robot/kuka/kuka-manuals.md`, link-out only; `libraries/software/ci/failure-library.md`, the failure library rule and row format); each is a byte-exact copy of a LIVE entry listed in the store's `Libraries\LIBRARY_CHANGES.txt`
 - `scripts/bootstrap.py` - folder tree and control files, including `Libraries\LIBRARY_CHANGES.txt` and `Libraries\_suggested\` (never overwrites)
 - `scripts/log_event.py`, `scripts/toggle.py` - event log and ON/OFF switch the rules call (Python 3, standard library; run on a downloaded copy, then write back)
 - `proposals/` - ideas PENDING APPROVAL, off by default (private correction intake)

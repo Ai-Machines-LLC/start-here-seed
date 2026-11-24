@@ -2,6 +2,10 @@
 Fix notes for each seed version (X.Y.Z): what changed and why. Corrections closed by a revision are listed by their
 intake status (FIXED <version>), without any sender's details. Newest first.
 
+## 0.10.15 (review build, on top of 0.10.14 9100a9a; a new LIVE library entry after its non-author review PASS)
+- New library entry: `libraries/software/ci/failure-library.md` 0.1.0 (sha256 first 8 = 65834499), a byte-exact copy of the LIVE entry, as listed in the store's LIBRARY_CHANGES 1.2.0 (sha256 first 8 = 6e97aa27). It holds a generic rule (every build failure that reaches CI gets a row and a check that FAILs on the old commit and PASSes on the fix), the row format and 6 Swift starter rows, with no project data. Why: the Designer wants failure knowledge to reach the shared seed, not stay with one bot.
+- README: the `libraries/` line names both entries.
+
 ## 0.10.14 (review build, on top of 0.10.13 1baee95; the START HERE team's script after its non-author review PASS, handed over by the team's builder on the lead's go)
 - scripts/sheet_coverage.py 0.1.1: flags any START HERE rule or CHECK with no answer-sheet item, an edited rule (CHANGED), a stale row or an undefined item (exit 1), so a new rule can't go untested; ERROR_CODES v0.1.4 adds its probes.
 - scripts/SCRIPTS.txt: new sheet_coverage.py line.
