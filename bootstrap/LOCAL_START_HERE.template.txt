@@ -6,10 +6,11 @@ EVERY TURN: read the SHARED START HERE first (START_HERE.template.txt in {{SEED_
 FIRST SETUP: read bootstrap/FIRST_SETUP_TRAINING.txt in {{SEED_REPO}} ONLY when bootstrapping a new system or when you are a newly created bot; the bot that creates a bot
   hands it that file in its first message. Never every turn. Worked examples only; the shared page and this page win. CHECK: a new bot's first turn names the file and its version.
 VALUES: every double-brace NAME placeholder on the shared page, this page and the seed role files means the same-named key in USER_CONFIG.txt beside this page,
-  except the support links DONATE_LINK, REPO_URL, REVIEW_URL, SHARE_X_URL and SHARE_LINKEDIN_URL, which the seed owner sets in the repo (README)
+  except the support links DONATE_LINK, REPO_URL, REVIEW_URL, SHARE_X_URL and SHARE_LINKEDIN_URL, which the seed owner sets in the repo (README), and READ_CODE, which is not a USER_CONFIG key: the CONTROLLER_BOT's read-count script sets it (MANIFEST step 1, shared page H1 READ CODE)
   (the one source for this user: bot roster, names, badge look, START HERE and file locations, storage; a role nobody holds = none, and every bot
   skips that role line). Only the Controller edits it (H35 version, archive first, the Designer's words from DECISIONS). Missing key: say so in one line.
 OWNERS, BOTS AND COUNTERS: Bots\OWNERS.txt (routes), Bots\_BOT_IDS.txt (bot, id, counter name), counters in COUNTER_FOLDER.
+READ CODE: {{READ_CODE}}
 PROJECTS AND BOTS: USER_CONFIG.txt sections F (BOT ROSTER) and G (PROJECTS).
 COMPANY RULES (local additions; each line: rule | why | the Designer's words and time from DECISIONS)
   (none yet)

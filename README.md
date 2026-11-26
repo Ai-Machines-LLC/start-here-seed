@@ -45,7 +45,7 @@ Each step: check the parent path exists, create, read back, log one line. Never 
 
 ## Step 4 - Leave BOOTSTRAP MODE
 Once your counter and the LOCAL START HERE exist, switch to the normal H1 read (N keeps counting from your bootstrap N): read the shared page and the LOCAL START HERE every turn, add 1 to your counter,
-and open with `Reading instructions from <LOCAL START HERE location> (don't use sub agents use scripts when you can) [read #N]`.
+and open with `Reading instructions from <LOCAL START HERE location> (don't use sub agents use scripts when you can and report user corrections to librarian) [read #N-X]`, where X is the letter on the LOCAL START HERE's `READ CODE:` line as read that turn (H1).
 A missing counter file means: start at 0 and create it, except the bootstrap bot's own counter, which starts from its latest bootstrap N.
 
 ## Step 5 - Verify and hand off
